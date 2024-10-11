@@ -2,26 +2,311 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --text-color: 0, 0%, 23%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210, 72%, 89%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --text-color: 0, 0%, 60%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  .text-shadow-smooth {
+    text-shadow: 1px 1px 5px rgba(94, 94, 94, 0.5);
+  }
+  .dark .text-shadow-smooth {
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  }
+  .text-shadow-primary {
+    text-shadow: 0px 0px 8px hsl(var(--primary));
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* ====================== Swiper =================== */
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  width: initial !important;
+  height: max-content !important;
+  top: 6rem !important;
+  left: initial !important;
+  right: 4rem !important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  display: flex !important;
+  column-gap: 0.25rem !important;
+  align-items: center !important;
+}
+
+.hero .swiper-pagination-fraction,
+.hero .swiper-pagination-custom,
+.hero .swiper-horizontal > .swiper-pagination-bullets,
+.hero
+  .swiper-pagination-bullets.swiper-pagination-horizontal
+  .hero
+  .swiper-pagination-total {
+  color: white !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: "" !important;
+}
+
+.swiper-navigation .swiper-button-prev,
+.swiper-navigation .swiper-button-next {
+  font-size: 2rem !important;
+  color: white !important;
+  width: initial !important;
+  height: initial !important;
+  position: initial !important;
+  outline: none !important;
+}
+
+.swiper-navigation {
+  position: absolute !important;
+  height: max-content !important;
+  bottom: 4rem !important;
+  right: 1.5rem !important;
+  display: flex !important;
+  column-gap: 2.5rem !important;
+}
+
+/* ====================== About Us =================== */
+
+.abs-img-1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  background-image: url("/assets/images/img-pattern.svg");
+  background-repeat: repeat;
+}
+
+.abs-img-2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/images/badge-2-bg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: rotate360 15s linear infinite;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
+
+/* ================= Scroll Up ==================== */
+.scrollup {
+  width: 25px;
+  height: 25px;
+  position: fixed;
+  right: 1rem;
+  bottom: -20%;
+  z-index: 100;
+  border-radius: 15px;
+  transition: 0.4s;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+@media screen and (min-width: 567px) {
+  .scrollup {
+    width: 35px;
+    height: 35px;
+    right: 3rem;
+    bottom: -20%;
+    border: 1px solid hsl(var(--primary));
+  }
+}
+
+/* Show scroll */
+.show-scroll {
+  bottom: 5rem;
+}
+
+/*=================== Contact Us SVG=============== */
+.svg-contact {
+  height: 23rem;
+  margin-right: 4rem;
+}
+
+#envelope {
+  animation: float 2s ease-in-out infinite;
+}
+
+#star1,
+#star2,
+#star3,
+#star4,
+#star5,
+#star6 {
+  animation: blink 1s ease-in-out infinite;
+}
+#star2 {
+  animation-delay: 100ms;
+}
+#star3 {
+  animation-delay: 500ms;
+}
+#star4 {
+  animation-delay: 700ms;
+}
+#star5 {
+  animation-delay: 300ms;
+}
+#star6 {
+  animation-delay: 200ms;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.form-contact {
+  min-width: 25rem;
+
+  .title {
+    font-family: "Pacifico", cursive;
+    color: #212529;
+    font-size: 2.5rem;
+  }
+
+  .form-control {
+    background-color: #f2f6f8;
+    border-radius: 2rem;
+    border: none;
+    box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
+
+    &.thick {
+      height: 3.3rem;
+      padding: 0.5rem 3.5rem;
+    }
+
+    &:focus {
+      background-color: #f2f6f8;
+      border: none;
+      box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
+    }
+  }
+
+  .message .form-control {
+    padding: 0.5rem 1.8rem;
+  }
+
+  ::placeholder {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #838788;
+    position: relative;
+    left: 0;
+  }
+
+  input,
+  textarea {
+    font-family: "Quicksand", sans-serif;
+    color: #212529;
+    font-size: 1.1rem;
+  }
+
+  .icon {
+    color: #57565c;
+    height: 1.3rem;
+    position: absolute;
+    left: 1.5rem;
+    top: 1.1rem;
+  }
+}
+
+/* ================= Point ================== */
