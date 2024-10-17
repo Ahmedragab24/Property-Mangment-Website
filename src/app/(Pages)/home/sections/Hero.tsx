@@ -25,7 +25,12 @@ import { SearchProprty2 } from "../components/SearchProprtys2";
 import { SearchProprty3 } from "../components/SearchProprtys3";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/store/hooks";
 import dynamic from "next/dynamic";
+import {
+  setColorNavLink,
+  setIsBackgroundImg,
+} from "@/store/features/heroNav/heroNavSlice";
 
 const MotionFade = dynamic(() => import("@/components/animations/MotionFade"), {
   ssr: false,
@@ -39,13 +44,18 @@ const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
 
 export default function Hero() {
   const [showProperty, setShowProperty] = useState(false);
+  const dispatch = useAppDispatch();
+  dispatch(setIsBackgroundImg(true));
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setShowProperty(true);
+        dispatch(setColorNavLink(false));
       } else {
         setShowProperty(false);
+
+        dispatch(setColorNavLink(true));
       }
     };
 
@@ -108,7 +118,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
-            className="absolute top-0 left-0 w-full h-full object-cover object-center z-[-1]"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
           <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
@@ -152,7 +162,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
-            className="absolute top-0 left-0 w-full h-full object-cover object-center  z-[-1]"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
           <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
@@ -196,7 +206,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
-            className="absolute top-0 left-0 w-full h-full object-cover object-center  z-[-1]"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
           <div className="absolute top-0 left-0 w-full h-full bg-black/5  z-[-1]"></div>
@@ -240,7 +250,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
-            className="absolute top-0 left-0 w-full h-full object-cover object-center  z-[-1]"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
           <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>

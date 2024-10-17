@@ -41,7 +41,7 @@ const Owner = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (scrollY.get() > 2650 && scrollY.get() < 4500) {
+      if (scrollY.get() > 2650 && scrollY.get() < 4600) {
         setIsFixed(true);
       } else {
         setIsFixed(false);

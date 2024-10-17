@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, Search } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -46,7 +46,7 @@ interface Iprops {
   className?: string;
 }
 
-export function SearchProperty({ className }: Iprops) {
+export function SelectLocation({ className }: Iprops) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -57,9 +57,8 @@ export function SearchProperty({ className }: Iprops) {
           variant="secondary"
           role="combobox"
           aria-expanded={open}
-          className={`w-[200px] justify-between ${className}`}
+          className={`w-full justify-between  ${className}`}
         >
-          <Search className="mr-2 h-4 w-4 text-textColor" />
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
             : "Enter Your Location"}

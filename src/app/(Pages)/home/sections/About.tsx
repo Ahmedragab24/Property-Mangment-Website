@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Redo, Undo } from "lucide-react";
+import { Redo } from "lucide-react";
 
 const MotionLeft = dynamic(() => import("@/components/animations/MotionLeft"), {
   ssr: false,
@@ -29,9 +29,10 @@ const AboutSection = () => {
       y = y - y * 2;
 
       for (let i = 0, len = parallaxItems.length; i < len; i++) {
-        x = x * Number(parallaxItems[i].dataset.parallaxSpeed);
-        y = y * Number(parallaxItems[i].dataset.parallaxSpeed);
-        parallaxItems[i].style.transform = `translate3d(${x}px, ${y}px, 0px)`;
+        const item = parallaxItems[i] as HTMLElement;
+        x = x * Number(item.dataset.parallaxSpeed);
+        y = y * Number(item.dataset.parallaxSpeed);
+        item.style.transform = `translate3d(${x}px, ${y}px, 0px)`;
       }
     });
   }, []);

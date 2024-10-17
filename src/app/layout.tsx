@@ -7,6 +7,7 @@ import ScrollUp from "@/components/layout/ScrollUp";
 import Footer from "@/components/layout/Footer";
 import circle from "@/assets/images/transparent circle.png";
 import Image from "next/image";
+import ProviderRedux from "./layoutRedux";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -38,33 +39,35 @@ export default function RootLayout({
         />
       </head>
       <body className={` antialiased font-montse`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          <div>
-            <Image
-              src={circle}
-              alt="circle"
-              width={500}
-              height={500}
-              className="fixed -top-10 -left-48 blur-3xl -z-10"
-            />
-            <Image
-              src={circle}
-              alt="circle"
-              width={500}
-              height={500}
-              className="fixed -bottom-36 -right-48 blur-3xl -z-10"
-            />
-            {children}
-          </div>
-          <ScrollUp />
-          <Footer />
-        </ThemeProvider>
+        <ProviderRedux>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <div>
+              <Image
+                src={circle}
+                alt="circle"
+                width={500}
+                height={500}
+                className="fixed -top-10 -left-48 blur-3xl -z-10"
+              />
+              <Image
+                src={circle}
+                alt="circle"
+                width={500}
+                height={500}
+                className="fixed -bottom-36 -right-48 blur-3xl -z-10"
+              />
+              {children}
+            </div>
+            <ScrollUp />
+            <Footer />
+          </ThemeProvider>
+        </ProviderRedux>
       </body>
     </html>
   );

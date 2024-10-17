@@ -2,35 +2,27 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { ModeToggle } from "../ui/modeToggle";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
+import { useAppSelector } from "@/store/hooks";
+import { CircleUserRound } from "lucide-react";
 
 const Navbar = () => {
-  const [DropdownMenu, setDropdownMenu] = useState(false);
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
   const [scrolling, setScrolling] = useState(false);
-  const handlerDropdownMenu = () => {
-    setDropdownMenu((prev) => (prev = !prev));
-  };
   const handlerOpenMenuMobile = () => {
     setOpenMenuMobile((prev) => (prev = !prev));
-    if (window.onclick) {
-      setDropdownMenu(false);
-    }
   };
+  const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +43,11 @@ const Navbar = () => {
   return (
     <nav
       className={`w-full fixed z-50 duration-300 ${
-        scrolling ? "bg-background shadow-lg" : "bg-transparent"
+        isBackgroundImg
+          ? scrolling
+            ? "bg-background shadow-lg"
+            : "bg-transparent"
+          : "bg-background shadow-lg"
       }`}
       suppressHydrationWarning
     >
@@ -89,21 +85,21 @@ const Navbar = () => {
                       <NavigationMenuContent>
                         <Link href="/docs" legacyBehavior passHref>
                           <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
+                            className={`${navigationMenuTriggerStyle()} `}
                           >
                             Documentation
                           </NavigationMenuLink>
                         </Link>
                         <Link href="/docs" legacyBehavior passHref>
                           <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
+                            className={`${navigationMenuTriggerStyle()}`}
                           >
                             adadsa
                           </NavigationMenuLink>
                         </Link>
                         <Link href="/docs" legacyBehavior passHref>
                           <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
+                            className={`${navigationMenuTriggerStyle()}`}
                           >
                             adadadsaddad
                           </NavigationMenuLink>
@@ -137,28 +133,48 @@ const Navbar = () => {
             )}
           </div>
 
-          <a href="#" className="text-xl font-bold text-foreground">
+          <Link
+            href="/"
+            className={`text-xl font-bold text-foreground duration-500 ${
+              isBackgroundImg && value ? "text-white" : "text-foreground"
+            }`}
+          >
             Real Estate
-          </a>
+          </Link>
         </div>
 
         {/* Navbar Center (For larger screens) */}
         <div className="hidden lg:flex items-center space-x-4">
           <NavigationMenu>
             <NavigationMenuList>
-              <NavigationMenuItem>
+              <NavigationMenuItem
+                className={`${
+                  isBackgroundImg && value ? "text-white" : "text-foreground"
+                }`}
+              >
                 <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <Link href="/docs" legacyBehavior passHref>
+                  <Link href="/property" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      Documentation
+                      property
+                    </NavigationMenuLink>
+                  </Link>
+                  <Link href="/landlords" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Landlords
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem
+                className={`${
+                  isBackgroundImg && value ? "text-white" : "text-foreground"
+                }`}
+              >
                 <NavigationMenuTrigger>Item Tow</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <Link href="/docs" legacyBehavior passHref>
@@ -170,7 +186,11 @@ const Navbar = () => {
                   </Link>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem
+                className={`${
+                  isBackgroundImg && value ? "text-white" : "text-foreground"
+                }`}
+              >
                 <Link href="/docs" legacyBehavior passHref>
                   <NavigationMenuLink
                     className={`${navigationMenuTriggerStyle()}`}
@@ -185,10 +205,22 @@ const Navbar = () => {
 
         {/* Navbar End */}
         <div className="flex items-center gap-3">
-          <ModeToggle />
-          <Button variant={`${scrolling ? "default" : "ghost"}`}>
-            Sign in
-          </Button>
+          <ModeToggle
+            className={`${
+              isBackgroundImg && value ? "text-white" : "text-foreground"
+            }`}
+          />
+          <Link href={"/login"}>
+            <Button
+              variant={`${scrolling ? "default" : "ghost"}`}
+              className={`duration-500 ${
+                isBackgroundImg && value ? "text-white" : "text-foreground"
+              }`}
+            >
+              <CircleUserRound className="w-4 h-4 mr-1" />
+              Sign in
+            </Button>
+          </Link>
         </div>
       </div>
     </nav>
