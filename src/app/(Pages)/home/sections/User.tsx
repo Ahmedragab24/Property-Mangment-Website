@@ -63,12 +63,12 @@ const User = () => {
                 Fed Up with Late-Night Calls?
               </h1>
               <p className="home__description max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
-                Managing a property can be overwhelming, especially when you're
-                dealing with late-night calls, constant complaints, and endless
-                reviews. Instead of letting these stressors take over your life,
-                streamline your property management and regain peace of mind.
-                Let professionals handle the hassle while you focus on what
-                matters most.
+                Managing a property can be overwhelming, especially when
+                you&apos;re dealing with late-night calls, constant complaints,
+                and endless reviews. Instead of letting these stressors take
+                over your life, streamline your property management and regain
+                peace of mind. Let professionals handle the hassle while you
+                focus on what matters most.
               </p>
               <div className="flex flex-row justify-start items-center gap-x-4">
                 <Button className="h-14" size={"lg"}>

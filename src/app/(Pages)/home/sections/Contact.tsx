@@ -16,7 +16,7 @@ const MotionRight = dynamic(
 
 const Contact = () => {
   // Handler
-  const handlerSubmit = (e: any) => {
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
@@ -826,7 +826,15 @@ const Contact = () => {
 
             {/* <!-- Submit btn --> */}
             <div className="text-center">
-              <Button type="submit" onClick={handlerSubmit}>
+              <Button
+                type="submit"
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  e.preventDefault();
+                  handlerSubmit(
+                    e as unknown as React.FormEvent<HTMLFormElement>
+                  );
+                }}
+              >
                 Send message
               </Button>
             </div>
