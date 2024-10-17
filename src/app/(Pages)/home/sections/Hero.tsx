@@ -64,7 +64,7 @@ export default function Hero() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <section className={`hero ${showProperty ? "mb-0" : "mb-20"}`}>

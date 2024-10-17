@@ -60,7 +60,7 @@ const Landlords = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className="relative py-16">
@@ -85,7 +85,7 @@ const Landlords = () => {
                   <p className="text-sm text-gray-400">
                     Curious about what your property could earn? With just a few
                     clicks, find out the potential revenue your rental could
-                    generate with Hububb.
+                    generate with Property.
                   </p>
                 </div>
 
@@ -351,7 +351,7 @@ const Landlords = () => {
                     <div className="p-4">
                       <ul className="list-disc text-sm p-8">
                         <li>
-                          Increase your property's visibility and bookings
+                          Increase your property&apos;s visibility and bookings
                           through smart listing optimization.
                         </li>
                         <li>
@@ -694,7 +694,7 @@ const Landlords = () => {
                     <div className="p-4">
                       <ul className="list-disc text-sm p-8">
                         <li>
-                          Increase your property's visibility and bookings
+                          Increase your property&apos;s visibility and bookings
                           through smart listing optimization.
                         </li>
                         <li>

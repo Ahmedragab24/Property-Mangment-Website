@@ -6,6 +6,8 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "ES6",
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
