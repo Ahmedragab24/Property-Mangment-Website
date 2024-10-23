@@ -1,6 +1,6 @@
 export default function SupportSection() {
   return (
-    <section className="bg-gradient-to-r from-black to-purple-900 text-white py-16">
+    <section className="bg-gradient-to-r from-black to-primary text-white py-16">
       <div className="container mx-auto text-center">
         <h2 className="text-4xl font-bold mb-4">Support Center</h2>
         <p className="text-lg mb-8">

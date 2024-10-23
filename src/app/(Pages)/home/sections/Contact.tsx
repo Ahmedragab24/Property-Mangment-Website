@@ -21,11 +21,11 @@ const Contact = () => {
   };
 
   return (
-    <section className="bg-secondary" id="contact">
-      <div className="flex justify-center items-center gap-x-16 py-28">
+    <section className="bg-secondary overflow-hidden" id="contact">
+      <div className="flex flex-col lg:flex-row justify-center items-center mx-auto gap-x-32 gap-y-16 py-28">
         <MotionLeft>
           <svg
-            className="svg-contact"
+            className="w-full lg:w-[500px] mx-auto"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 790 563"
             fill="none"
@@ -785,8 +785,10 @@ const Contact = () => {
         </MotionLeft>
 
         <MotionRight>
-          <form className="form-about form-contact">
-            <h2 className="text-3xl text-center mb-4">Talk to Us</h2>
+          <form className="form-contact">
+            <h2 className="section-title text-3xl text-center mb-4">
+              Talk to Us
+            </h2>
 
             {/* <!-- Name --> */}
             <div className="form-group relative">
@@ -796,20 +798,20 @@ const Contact = () => {
               <input
                 type="text"
                 id="formName"
-                className="w-fit md:w-full py-2 px-10 rounded-md mb-4 bg-background !text-foreground focus:outline-none focus:ring focus:ring-primary border border-primary"
+                className="form-control py-2 px-10 rounded-md mb-4 bg-background !text-foreground focus:outline-none focus:ring focus:ring-primary border border-primary"
                 placeholder="Name"
               />
             </div>
 
             {/* <!-- E-mail --> */}
             <div className="form-group position-relative">
-              <label htmlFor="formEmail" className="d-block">
+              <label htmlFor="formEmail" className="block">
                 <i className="icon" data-feather="mail"></i>
               </label>
               <input
                 type="email"
                 id="formEmail"
-                className="w-fit md:w-full py-2 px-10 rounded-md mb-4 bg-background !text-foreground focus:outline-none focus:ring focus:ring-primary border border-primary"
+                className="form-control py-2 px-10 rounded-md mb-4 bg-background !text-foreground focus:outline-none focus:ring focus:ring-primary border border-primary"
                 placeholder="E-mail"
               />
             </div>
@@ -818,7 +820,7 @@ const Contact = () => {
             <div className="form-group message">
               <textarea
                 id="formMessage"
-                className="w-fit md:w-full py-2 px-10 rounded-md mb-2 bg-background !text-foreground focus:outline-none focus:ring focus:ring-primary border border-primary"
+                className="form-control form-control-lg  py-2 px-10 rounded-md mb-2 bg-background !text-foreground focus:outline-none focus:ring focus:ring-primary border border-primary"
                 rows={7}
                 placeholder="Message"
               ></textarea>

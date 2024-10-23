@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Phone } from "lucide-react";
 
 import ImageAbout1 from "@/assets/images/about1.png";
 import ImageAbout2 from "@/assets/images/about2.png";
@@ -27,7 +27,7 @@ const MotionRight = dynamic(
 
 const User = () => {
   return (
-    <section className="" id="about">
+    <section className="user" id="user">
       <Swiper
         modules={[Navigation, Pagination]}
         speed={800}
@@ -40,12 +40,12 @@ const User = () => {
       >
         {/* HOME SLIDER 1 */}
         <SwiperSlide>
-          <div className="w-full grid justify-center items-center gap-4 md:py-32 md:px-8 md:grid-cols-2 lg:pt-36 lg:gap-12">
+          <div className="w-full grid justify-center items-center gap-4 md:py-32 md:px-8 md:grid-cols-2 lg:pt-36 lg:gap-12 mb-14 md:mb-2">
             <MotionLeft className="flex flex-col items-center justify-center">
               <Image
                 src={ImageAbout1}
                 alt="Home Image 1"
-                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] md:w-[500px] lg:translate-y-[-3rem] "
+                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] w-fit md:w-[500px] lg:translate-y-[-3rem] "
                 width={500}
                 height={500}
               />
@@ -55,14 +55,14 @@ const User = () => {
               </div>
             </MotionLeft>
 
-            <MotionRight className="flex flex-col justify-center items-center md:items-start gap-1">
+            <MotionRight className="flex flex-col justify-center items-center text-center lg:text-left md:items-start gap-1">
               <h3 className="text-xl text-shadow-primary uppercase mb-4">
                 # For Landlords
               </h3>
-              <h1 className="home__title max-w-[80%] text-3xl md:text-4xl font-black mb-4 lg:mb-6 leading-[109%]">
+              <h1 className="text-2xl md:text-4xl max-w-[80%] font-black mb-4 lg:mb-6 leading-[109%]">
                 Fed Up with Late-Night Calls?
               </h1>
-              <p className="home__description max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
+              <p className="text-sm text-textColor max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
                 Managing a property can be overwhelming, especially when
                 you&apos;re dealing with late-night calls, constant complaints,
                 and endless reviews. Instead of letting these stressors take
@@ -70,12 +70,12 @@ const User = () => {
                 peace of mind. Let professionals handle the hassle while you
                 focus on what matters most.
               </p>
-              <div className="flex flex-row justify-start items-center gap-x-4">
-                <Button className="h-14" size={"lg"}>
-                  Book Now
+              <div className="flex flex-col  md:flex-row justify-start items-center gap-4">
+                <Button className="lg:h-14" size={"lg"}>
+                  Add Listing Now
                 </Button>
                 <Button variant={"link"} className="button--link button--flex ">
-                  Track Record
+                  <Phone className="me-1" size={"16"} /> Speak Us Now
                   <i className="bx bx-right-arrow-alt button__icon"></i>
                 </Button>
               </div>
@@ -90,7 +90,7 @@ const User = () => {
               <Image
                 src={ImageAbout2}
                 alt="Home Image 1"
-                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] md:w-[500px] lg:translate-y-[-3rem] "
+                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] w-fit md:w-[500px] lg:translate-y-[-3rem] "
                 width={500}
                 height={500}
               />
@@ -100,26 +100,26 @@ const User = () => {
               </div>
             </MotionLeft>
 
-            <MotionRight className="flex flex-col justify-center items-center md:items-start gap-1">
+            <MotionRight className="flex flex-col justify-center items-center text-center lg:text-left md:items-start gap-1">
               <h3 className="text-xl text-shadow-primary uppercase mb-4">
                 # For Landlords
               </h3>
-              <h1 className="home__title max-w-[80%] text-3xl md:text-4xl font-black mb-4 lg:mb-6 leading-[109%]">
+              <h1 className="text-2xl md:text-4xl max-w-[80%] font-black mb-4 lg:mb-6 leading-[109%]">
                 Unlock Income from Your Unsold Property
               </h1>
-              <p className="home__description max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
+              <p className="text-sm text-textColor max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
                 Struggling to sell your property? Instead of letting it sit
                 idle, transform it into a steady income source. Renting out your
                 property can provide you with consistent cash flow while you
                 wait for the right buyer. Don’t let your investment go to
                 waste—turn a challenge into an opportunity today.
               </p>
-              <div className="flex flex-row justify-start items-center gap-x-4">
-                <Button className="h-14" size={"lg"}>
-                  Book Now
+              <div className="flex flex-col  md:flex-row justify-start items-center gap-4">
+                <Button className="lg:h-14" size={"lg"}>
+                  Add Listing Now
                 </Button>
                 <Button variant={"link"} className="button--link button--flex ">
-                  Track Record
+                  <Phone className="me-1" size={"16"} /> Speak Us Now
                   <i className="bx bx-right-arrow-alt button__icon"></i>
                 </Button>
               </div>
@@ -134,7 +134,7 @@ const User = () => {
               <Image
                 src={ImageAbout3}
                 alt="Home Image 1"
-                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] md:w-[500px] lg:translate-y-[-3rem] "
+                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] w-fit md:w-[500px] lg:translate-y-[-3rem] "
                 width={500}
                 height={500}
               />
@@ -144,26 +144,26 @@ const User = () => {
               </div>
             </MotionLeft>
 
-            <MotionRight className="flex flex-col justify-center items-center md:items-start gap-1">
+            <MotionRight className="flex flex-col justify-center items-center text-center lg:text-left md:items-start gap-1">
               <h3 className="text-xl text-shadow-primary uppercase mb-4">
                 # For Landlords
               </h3>
-              <h1 className="home__title max-w-[80%] text-3xl md:text-4xl font-black mb-4 lg:mb-6 leading-[109%]">
+              <h1 className="text-2xl md:text-4xl max-w-[80%] font-black mb-4 lg:mb-6 leading-[109%]">
                 Simplify Your Property Insurance
               </h1>
-              <p className="home__description max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
+              <p className="text-sm text-textColor max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
                 Navigating property insurance can be confusing and
                 time-consuming. From understanding complex policies to managing
                 claims, the process can feel overwhelming. Streamline your
                 insurance experience with Hububb—get clear, straightforward
                 coverage that protects your investment without the hassle.
               </p>
-              <div className="flex flex-row justify-start items-center gap-x-4">
-                <Button className="h-14" size={"lg"}>
-                  Book Now
+              <div className="flex flex-col  md:flex-row justify-start items-center gap-4">
+                <Button className="lg:h-14" size={"lg"}>
+                  Add Listing Now
                 </Button>
                 <Button variant={"link"} className="button--link button--flex ">
-                  Track Record
+                  <Phone className="me-1" size={"16"} /> Speak Us Now
                   <i className="bx bx-right-arrow-alt button__icon"></i>
                 </Button>
               </div>

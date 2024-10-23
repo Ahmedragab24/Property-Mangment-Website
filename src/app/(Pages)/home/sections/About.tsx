@@ -78,25 +78,25 @@ const AboutSection = () => {
             height={570}
             alt="about banner"
             loading="lazy"
-            className="w-[280px]  lg:w-[350px] 2xl:w-[500px] shadow-xl"
+            className="w-[280px] lg:w-[350px] 2xl:w-[500px] shadow-xl"
             data-parallax-item
             data-parallax-speed="1"
           />
 
-          <div className="absolute bottom-[-4rem] left-[-4rem]">
+          <div className="absolute bottom-[-4rem] left-[-2rem] lg:left-[-4rem]">
             <Image
               src={ImageAboutAbs}
               width={385}
               height={385}
               alt="about"
               loading="lazy"
-              className="w-[180px] lg:w-fit  border-[.55rem] border-secondary"
+              className="w-[220px] lg:w-fit  border-[.55rem] border-secondary"
               data-parallax-item
               data-parallax-speed="1.75"
             />
           </div>
 
-          <div className="absolute top-[-3rem] right-[-3rem] w-32">
+          <div className="absolute top-[-2rem] right-[-2rem] lg:top-[-3rem] lg:right-[-3rem] w-24 lg:w-32">
             <Image src={ImageBadge} width={163} height={174} alt="" />
           </div>
         </figure>

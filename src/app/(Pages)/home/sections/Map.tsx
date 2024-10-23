@@ -18,17 +18,23 @@ const Map = () => {
             alt="map"
             width={1500}
             height={700}
-            className="w-full lg:w-[75%] h-[400px] mx-auto"
+            className="w-full lg:w-[75%] h-auto md:h-[400px] mx-auto object-contain"
           />
         </MotionDown>
 
-        <Point className="top-10 left-1/2" city="Egypt" />
-        <Point className="top-[28%] left-[47%]" city="Egypt" />
-        <Point className="top-[24%] left-[51%]" city="Riyadh" />
-        <Point className="top-[29%] left-[65%]" city="Egypt" />
-        <Point className="top-[35%] left-[59%]" city="Egypt" />
-        <Point className="top-[18%] left-[23%]" city="USA" />
-        <Point className="top-[55%] left-[28%]" city="Janeiro" />
+        <Point className="top-32 sm:top-20 md:top-10 left-1/2" city="Egypt" />
+        <Point
+          className="top-[39%] left-[45%] sm:top-[35%] sm:left-[49%] md:top-[32%] md:left-[47%]"
+          city="Egypt"
+        />
+        <Point
+          className="top-[38%] left-[50%] sm:left-[52%] md:top-[30%] md:left-[51%]"
+          city="Riyadh"
+        />
+        <Point className="top-[29%] left-[60%]" city="Egypt" />
+        {/* <Point className="top-[30%] left-[60%]" city="Egypt" /> */}
+        {/* <Point className="top-[18%] left-[30%]" city="USA" /> */}
+        {/* <Point className="top-[55%] left-[32%]" city="Janeiro" /> */}
       </div>
     </section>
   );

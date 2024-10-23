@@ -1,7 +1,7 @@
 "use client";
 
 import { setIsBackgroundImg } from "@/store/features/heroNav/heroNavSlice";
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { Button } from "@/components/ui/button";
 import { SearchProperty } from "../home/components/SearchProprtys";
@@ -19,30 +19,16 @@ import {
   Save,
   SlidersHorizontal,
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Page = () => {
   const dispatch = useAppDispatch();
   dispatch(setIsBackgroundImg(false));
-  const [expanded, setExpanded] = useState<string | false>(false);
-
-  const handleChange = (panel: string) => () => {
-    setExpanded(expanded === panel ? false : panel);
-  };
-
-  const contentRefs = {
-    panel1: useRef<HTMLDivElement>(null),
-    panel2: useRef<HTMLDivElement>(null),
-    panel3: useRef<HTMLDivElement>(null),
-    panel4: useRef<HTMLDivElement>(null),
-    panel5: useRef<HTMLDivElement>(null),
-    panel6: useRef<HTMLDivElement>(null),
-    panel7: useRef<HTMLDivElement>(null),
-  };
-
-  const getContentHeight = (panel: keyof typeof contentRefs) => {
-    const ref = contentRefs[panel].current;
-    return ref ? ref.scrollHeight : "0px";
-  };
 
   return (
     <section>
@@ -436,320 +422,160 @@ const Page = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6">
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel1" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel1")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-1"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">General settings</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel1" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel1}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel1" ? getContentHeight("panel1") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-                    feugiat. Aliquam eget maximus est, id dignissim quam.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">Tailored Searches</div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-textColor space-y-2">
+                    Our advanced search functionality allows guests to filter
+                    properties based on their specific needs and preferences.
+                    Whether you're looking for short-term holiday lets or
+                    luxurious short-term apartment rentals, our platform makes
+                    it easy to find your ideal home away from home. Customize
+                    your search by location, amenities, property type, and more,
+                    ensuring every stay meets your expectations.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel2" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel2")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-2"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">Users</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel2" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel2}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel2" ? getContentHeight("panel2") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Donec placerat, lectus sed mattis semper, neque lectus
-                    feugiat lectus, varius pulvinar diam eros in elit.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">Seamless Travel Experience</div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm  text-textColor space-y-2">
+                    From the moment you book to the time you check out, every
+                    step is streamlined for your convenience. Our
+                    easy-to-navigate interface ensures that booking your stay is
+                    just as relaxing as the vacation itself. Plus, with our
+                    effortless check-in integration, including options like
+                    keyless entry and digital registration, you can start your
+                    vacation smoothly without any delays.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel3" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel3")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-3"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">Users</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel3" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel3}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel3" ? getContentHeight("panel3") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Donec placerat, lectus sed mattis semper, neque lectus
-                    feugiat lectus, varius pulvinar diam eros in elit.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">
+                    Exclusive Offers and Insights
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-textColor space-y-2">
+                    As a Hububb subscriber, you'll receive first-hand access to
+                    exclusive deals, promotions, and insights that enhance your
+                    travel experience. Take advantage of special rates on
+                    short-term house rentals in prime locations and get tips on
+                    how to make the most of your stay, from finding hidden gems
+                    in the city to understanding local customs.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel4" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel4")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-4"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">Users</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel4" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel4}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel4" ? getContentHeight("panel4") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Donec placerat, lectus sed mattis semper, neque lectus
-                    feugiat lectus, varius pulvinar diam eros in elit.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">Personalized Guest Support</div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-textColor space-y-2">
+                    Our dedicated support team is always ready to assist you
+                    during your stay. Whether you need help with your booking,
+                    have questions about a property, or require local
+                    recommendations, we're here to ensure your trip goes
+                    smoothly. Our personalized service makes all the difference
+                    in creating a memorable travel experience.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel5" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel5")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-5"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">Users</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel5" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel5}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel5" ? getContentHeight("panel5") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Donec placerat, lectus sed mattis semper, neque lectus
-                    feugiat lectus, varius pulvinar diam eros in elit.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">
+                    Interactive Travel Guides and Resources
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-textColor space-y-2">
+                    Hububb provides more than just rentals; we offer an
+                    immersive travel experience. Access interactive travel
+                    guides, blogs, and resources that help you explore like a
+                    local. Discover the best eateries, must-visit attractions,
+                    and insider tips for navigating cities like London and
+                    Dubai.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel6" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel6")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-6"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">Users</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel6" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel6}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel6" ? getContentHeight("panel6") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Donec placerat, lectus sed mattis semper, neque lectus
-                    feugiat lectus, varius pulvinar diam eros in elit.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">Community-Driven Insights</div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-textColor space-y-2">
+                    Join the vibrant Hububb community on platforms like Discord
+                    to connect with fellow travellers. Share experiences,
+                    exchange travel tips, and get inspired by the adventures of
+                    others. Our community is a great resource for new travellers
+                    and seasoned adventurers alike, enhancing the social aspect
+                    of travel.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <div
-              className={`border border-textColor rounded-md h-fit duration-500 hover:border-primary hover:bg-secondary ${
-                expanded === "panel7" ? "bg-secondary" : "bg-transparent"
-              }`}
-            >
-              <div
-                className="flex justify-between items-center p-4 text-xl font-medium cursor-pointer"
-                onClick={handleChange("panel7")}
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                value="item-7"
+                className="bg-secondary px-8 duration-500 hover:border-primary"
               >
-                <span className="w-1/3 text-xl">Users</span>
-                <span
-                  className={`transform transition-transform ${
-                    expanded === "panel7" ? "rotate-180" : ""
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M6 9l6 6 6-6"></path>
-                  </svg>
-                </span>
-              </div>
-              <div
-                ref={contentRefs.panel7}
-                className={`overflow-hidden transition-all duration-300 ease-in-out`}
-                style={{
-                  maxHeight:
-                    expanded === "panel7" ? getContentHeight("panel7") : "0px",
-                }}
-              >
-                <div className="p-4">
-                  <p>
-                    Donec placerat, lectus sed mattis semper, neque lectus
-                    feugiat lectus, varius pulvinar diam eros in elit.
+                <AccordionTrigger className="text-md ">
+                  <div className="flex gap-x-3">
+                    Mobile App for On-the-Go Access
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="text-sm text-textColor space-y-2">
+                    With the Hububb mobile app, manage your trips effortlessly
+                    from anywhere in the world. Book properties, modify
+                    reservations, and communicate with property owners directly
+                    from your mobile device. The app also notifies you of
+                    upcoming stays, special offers, and updates on your travel
+                    itinerary.
                   </p>
-                </div>
-              </div>
-            </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </div>

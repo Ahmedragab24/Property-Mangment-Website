@@ -30,16 +30,6 @@ const Features = () => {
   return (
     <section className="overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
-        <MotionUp className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
-          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2">
-            Pitchfork Kickstarter Taxidermy
-          </h1>
-          <p className="lg:w-1/2 w-full leading-relaxed text-textColor">
-            Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical
-            gentrify, subway tile poke farm-to-table.
-          </p>
-        </MotionUp>
-
         <div className="grid md:grid-cols-2 xl:grid-cols-3 items-center ">
           <MotionLeft className="py-4 px-3 ">
             <div className="bg-secondary border border-primary p-6 rounded-lg duration-300 group hover:bg-primary/70">

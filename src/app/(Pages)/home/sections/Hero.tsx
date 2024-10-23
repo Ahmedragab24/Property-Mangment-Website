@@ -42,7 +42,7 @@ const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
   ssr: false,
 });
 
-export default function Hero() {
+const Hero = () => {
   const [showProperty, setShowProperty] = useState(false);
   const dispatch = useAppDispatch();
   dispatch(setIsBackgroundImg(true));
@@ -67,7 +67,7 @@ export default function Hero() {
   }, [dispatch]);
 
   return (
-    <section className={`hero ${showProperty ? "mb-0" : "mb-20"}`}>
+    <section className={`hero${showProperty ? "mb-0" : "mb-20"}`}>
       <Swiper
         className="relative z-10 h-screen"
         modules={[EffectFade, Parallax, Navigation, Pagination]}
@@ -86,7 +86,7 @@ export default function Hero() {
               className="text-white text-xl lg:text-2xl mb-2 text-shadow-primary"
               data-swiper-parallax="500"
             >
-              Architecture
+              Quiet place
             </h3>
             <h1
               className="text-white text-3xl lg:text-6xl mb-10 font-bold text-shadow"
@@ -118,6 +118,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
+            priority
             className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
@@ -162,6 +163,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
+            priority
             className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
@@ -206,6 +208,7 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
+            priority
             className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
@@ -250,13 +253,14 @@ export default function Hero() {
             alt="Home"
             width={1400}
             height={650}
+            priority
             className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
             data-swiper-parallax="-300"
           />
           <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
         </SwiperSlide>
 
-        <MotionDown className="container w-1/6 absolute z-10 left-6 bottom-16 grid  gap-y-6">
+        <MotionDown className="container w-14 lg:w-1/6 absolute z-10 lg:left-8 bottom-16 grid  gap-y-6">
           <Link href={"#"} className="text-white text-2xl">
             <Facebook className="duration-300 hover:text-primary hover:scale-110" />
           </Link>
@@ -283,53 +287,18 @@ export default function Hero() {
           showProperty ? "flex" : "hidden"
         }`}
       >
-        <h2 className="text-2xl font-bold">Find Your Property</h2>
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+        <h2 className="text-xl lg:text-2xl font-bold">Find Your Property</h2>
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
           <SearchProperty />
           <SearchProprty2 />
           <SearchProprty3 />
-          <Button variant={"secondary"}>
+          <Button variant={"secondary"} className="w-[200px]">
             Search <Search size={18} className="ml-1" />
           </Button>
         </div>
       </MotionFade>
     </section>
   );
-}
+};
 
-{
-  /* <video
-className="absolute top-0 w-full h-screen object-fill bg-contain brightness-50"
-autoPlay
-muted
-loop
-playsInline
->
-<source
-  src="https://res.cloudinary.com/dk4yvlwr0/video/upload/v1728012351/Red_and_Blue_Modern_YouTube_Intro_Video_p5ffgb.mp4"
-  type="video/mp4"
-/>
-</video>
-
-<div className="container relative h-screen flex justify-center">
-<div className="w-1/2 lg:w-2/5 h-fit bg-background/50 absolute bottom-[3rem]  p-10 text-center rounded-2xl shadow-2xl">
-  <div className="relative px-16 inline-block p-4 border-2 border-foreground font-bold text-4xl uppercase rounded-2xl">
-    <span className="absolute top-3 left-3 w-1 h-1 bg-foreground rounded-full"></span>
-    <span className="absolute top-3 right-3 w-1 h-1 bg-foreground rounded-full"></span>
-    <span className="absolute bottom-3 left-3 w-1 h-1 bg-foreground rounded-full"></span>
-    <span className="absolute bottom-3 right-3 w-1 h-1 bg-foreground rounded-full"></span>
-    <div className="relative">Open Rent</div>
-    <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-t-2 border-l-2 border-foreground w-10"></span>
-    <span className="absolute top-0 right-1/2 transform translate-x-1/2 -translate-y-1/2 border-t-2 border-r-2 border-foreground w-10"></span>
-    <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 border-b-2 border-l-2 border-foreground w-10"></span>
-    <span className="absolute bottom-0 right-1/2 transform translate-x-1/2 translate-y-1/2 border-b-2 border-r-2 border-foreground w-10"></span>
-  </div>
-  <p className="m-4 text-2xl">3rd floor luxury office tower</p>
-  <div className="flex justify-center gap-3">
-    <Button variant={"outline"}>Agent</Button>
-    <Button variant={"outline"}>Agent</Button>
-    <Button variant={"outline"}>Agent</Button>
-  </div>
-</div>
-</div> */
-}
+export default Hero;

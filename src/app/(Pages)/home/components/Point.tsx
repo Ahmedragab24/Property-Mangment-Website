@@ -14,7 +14,7 @@ const Point = ({ className, city }: Iprops) => {
   return (
     <div className={`absolute cursor-pointer duration-500 group ${className}`}>
       <MotionLeft>
-        <div className="loader w-8 h-8 rotate-45">
+        <div className="loader w-6 h-6 lg:w-8 lg:h-8 rotate-45">
           <div
             className="before:content-[''] before:absolute before:inset-0 before:rounded-[50%_50%_0_50%] before:bg-transparent before:bg-[radial-gradient(circle_11.2px_at_center,transparent_94%,#3b82f6)]
         group-hover:before:bg-[radial-gradient(circle_11.2px_at_center,transparent_94%,#1d4ed8)]"

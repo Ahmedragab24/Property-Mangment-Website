@@ -15,6 +15,12 @@ import {
 import Link from "next/link";
 import { useAppSelector } from "@/store/hooks";
 import { CircleUserRound } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Navbar = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
@@ -61,7 +67,13 @@ const Navbar = () => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className={`h-6 w-6 duration-500 ${
+                  isBackgroundImg
+                    ? scrolling
+                      ? "text-foreground"
+                      : "text-white"
+                    : "text-foreground"
+                } ${openMenuMobile && "!text-primary"}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -77,58 +89,65 @@ const Navbar = () => {
 
             {/* Dropdown Menu */}
             {openMenuMobile && (
-              <div className="absolute mt-2 bg-background w-max rounded-md shadow-lg z-10">
-                <NavigationMenu>
-                  <NavigationMenuList className="flex flex-col px-6 py-4 ">
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <Link href="/docs" legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={`${navigationMenuTriggerStyle()} `}
+              <div className="absolute top-12 mt-2 bg-background rounded-md shadow-lg z-10">
+                <div className="flex flex-col items-center py-2 px-4">
+                  <Link href={"/"}>
+                    <Button
+                      variant={"ghost"}
+                      size={"lg"}
+                      className="text-sm"
+                      onClick={() => setOpenMenuMobile(false)}
+                    >
+                      About Us
+                    </Button>
+                  </Link>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1" className="border-none w-36">
+                      <AccordionTrigger className="flex justify-center gap-x-2">
+                        About Us
+                      </AccordionTrigger>
+                      <AccordionContent className="flex flex-col justify-center items-center">
+                        <Link href={"/landlord"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
                           >
-                            Documentation
-                          </NavigationMenuLink>
+                            Landlords
+                          </Button>
                         </Link>
-                        <Link href="/docs" legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={`${navigationMenuTriggerStyle()}`}
+                        <Link href={"/property"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
                           >
-                            adadsa
-                          </NavigationMenuLink>
+                            property
+                          </Button>
                         </Link>
-                        <Link href="/docs" legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={`${navigationMenuTriggerStyle()}`}
-                          >
-                            adadadsaddad
-                          </NavigationMenuLink>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1" className="border-none w-36">
+                      <AccordionTrigger className="flex justify-center gap-x-2">
+                        About Us
+                      </AccordionTrigger>
+                      <AccordionContent className="flex flex-col justify-center items-center">
+                        <Link href={"/landlord"}>
+                          <Button variant={"ghost"} size={"sm"}>
+                            Landlords
+                          </Button>
                         </Link>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>Item Tow</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <Link href="/docs" legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
-                          >
-                            Documentation
-                          </NavigationMenuLink>
+                        <Link href={"/property"}>
+                          <Button variant={"ghost"} size={"sm"}>
+                            property
+                          </Button>
                         </Link>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <Link href="/docs" legacyBehavior passHref>
-                        <NavigationMenuLink
-                          className={navigationMenuTriggerStyle()}
-                        >
-                          Documentation
-                        </NavigationMenuLink>
-                      </Link>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
               </div>
             )}
           </div>
@@ -177,6 +196,13 @@ const Navbar = () => {
               >
                 <NavigationMenuTrigger>Item Tow</NavigationMenuTrigger>
                 <NavigationMenuContent>
+                  <Link href="#about" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      About Us
+                    </NavigationMenuLink>
+                  </Link>
                   <Link href="/docs" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
@@ -191,11 +217,11 @@ const Navbar = () => {
                   isBackgroundImg && value ? "text-white" : "text-foreground"
                 }`}
               >
-                <Link href="/docs" legacyBehavior passHref>
+                <Link href="/" legacyBehavior passHref>
                   <NavigationMenuLink
                     className={`${navigationMenuTriggerStyle()}`}
                   >
-                    Item One
+                    Add a Listing
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
