@@ -2,8 +2,10 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
@@ -11,13 +13,16 @@ import { Input } from "../ui/input";
 
 interface IProps {
   className?: string;
+  variant?: "outline" | "secondary" | "ghost";
 }
 
-const AddListingModel = ({ className }: IProps) => {
+const AddListingModel = ({ className, variant }: IProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className={className}>Add a Listing</Button>
+        <Button variant={variant} className={className}>
+          Add a Listing
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] p-10">
         <DialogHeader>
@@ -33,15 +38,20 @@ const AddListingModel = ({ className }: IProps) => {
             </Button>
           </div>
         </DialogHeader>
+
         <div className="flex justify-between">
           <div className="w-[50%]">
             <span>Step 1.</span>
-            <h2>Tell Us About Yourself: Let’s Get Started</h2>
-            <p>
-              We’d love to connect with you! Provide your contact information so
-              we can offer the best proposal for your property and get the most
-              out of your listing.
-            </p>
+            <DialogTitle>
+              <h2>Tell Us About Yourself: Let’s Get Started</h2>
+            </DialogTitle>
+            <DialogDescription>
+              <p>
+                We’d love to connect with you! Provide your contact information
+                so we can offer the best proposal for your property and get the
+                most out of your listing.
+              </p>
+            </DialogDescription>
           </div>
           <div className="flex flex-col gap-y-2 w-[30%]">
             <Input
@@ -70,6 +80,7 @@ const AddListingModel = ({ className }: IProps) => {
             />
           </div>
         </div>
+
         <DialogFooter>
           <Button type="submit">Save changes</Button>
         </DialogFooter>

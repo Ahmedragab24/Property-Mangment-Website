@@ -7,19 +7,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Facebook,
-  Instagram,
-  MessageCircleMore,
-  MoveRight,
-  Search,
-} from "lucide-react";
-import HomeImg1 from "/src/assets/images/home-1.jpg";
-import HomeImg2 from "/src/assets/images/home-2.jpg";
-import HomeImg3 from "/src/assets/images/home-3.jpg";
-import HomeImg4 from "/src/assets/images/home-4.jpg";
+import { ChevronLeft, ChevronRight, MoveRight, Search } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { SearchProperty } from "../components/SearchProprtys";
 import { SearchProprty2 } from "../components/SearchProprtys2";
 import { SearchProprty3 } from "../components/SearchProprtys3";
@@ -31,6 +20,7 @@ import {
   setColorNavLink,
   setIsBackgroundImg,
 } from "@/store/features/heroNav/heroNavSlice";
+import { HeroSlider, HeroSocialLinks } from "@/constants";
 
 const MotionFade = dynamic(() => import("@/components/animations/MotionFade"), {
   ssr: false,
@@ -45,9 +35,9 @@ const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
 const Hero = () => {
   const [showProperty, setShowProperty] = useState(false);
   const dispatch = useAppDispatch();
-  dispatch(setIsBackgroundImg(true));
 
   useEffect(() => {
+    dispatch(setIsBackgroundImg(true));
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setShowProperty(true);
@@ -80,196 +70,67 @@ const Hero = () => {
         }}
         pagination={{ clickable: true, type: "fraction" }}
       >
-        <SwiperSlide className="relative pt-[13rem] w-full h-screen z-50">
-          <MotionLeft className="container text-center lg:text-left">
-            <h3
-              className="text-white text-xl lg:text-2xl mb-2 text-shadow-primary"
-              data-swiper-parallax="500"
-            >
-              Quiet place
-            </h3>
-            <h1
-              className="text-white text-3xl lg:text-6xl mb-10 font-bold text-shadow"
-              data-swiper-parallax="400"
-            >
-              Relaxing Steep <br /> Lake House
-            </h1>
-
-            <Link
-              href={"#"}
-              className="group duration-300"
-              data-swiper-parallax="300"
-            >
-              <Button
-                variant={"link"}
-                className="text-white font-semibold text-shadow"
+        {HeroSlider.map(({ subTitle, title, link, image }, index) => (
+          <SwiperSlide
+            key={index}
+            className="relative pt-[13rem] w-full h-screen z-50"
+          >
+            <MotionLeft className="container text-center lg:text-left">
+              <h3
+                className="text-white text-xl lg:text-2xl mb-2 text-shadow-primary"
+                data-swiper-parallax="500"
               >
-                See Project
-                <MoveRight
-                  size={18}
-                  className="duration-300 ml-2  group-hover:translate-x-2"
-                />
-              </Button>
-            </Link>
-          </MotionLeft>
-
-          <Image
-            src={HomeImg1}
-            alt="Home"
-            width={1400}
-            height={650}
-            priority
-            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
-            data-swiper-parallax="-300"
-          />
-          <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
-        </SwiperSlide>
-
-        <SwiperSlide className="relative pt-[13rem] w-full h-screen z-50">
-          <MotionLeft className="container text-center lg:text-left">
-            <h3
-              className="text-white text-xl lg:text-2xl mb-2 text-shadow-primary"
-              data-swiper-parallax="500"
-            >
-              Architecture
-            </h3>
-            <h1
-              className="text-white text-3xl lg:text-6xl mb-10 font-bold text-shadow"
-              data-swiper-parallax="400"
-            >
-              Luxury House <br /> In The Forest
-            </h1>
-
-            <Link
-              href={"#"}
-              className="group duration-300"
-              data-swiper-parallax="300"
-            >
-              <Button
-                variant={"link"}
-                className="text-white font-semibold text-shadow"
+                {subTitle}
+              </h3>
+              <h1
+                className="xl:max-w-[450px] text-white text-3xl lg:text-6xl mb-10 font-bold text-shadow"
+                data-swiper-parallax="400"
               >
-                See Project
-                <MoveRight
-                  size={18}
-                  className="duration-300 ml-2  group-hover:translate-x-2"
-                />
-              </Button>
-            </Link>
-          </MotionLeft>
+                {title}
+              </h1>
 
-          <Image
-            src={HomeImg2}
-            alt="Home"
-            width={1400}
-            height={650}
-            priority
-            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
-            data-swiper-parallax="-300"
-          />
-          <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
-        </SwiperSlide>
-
-        <SwiperSlide className="relative pt-[13rem] w-full h-screen z-50">
-          <MotionLeft className="container text-center lg:text-left">
-            <h3
-              className="text-white text-xl lg:text-2xl mb-2 text-shadow-primary"
-              data-swiper-parallax="500"
-            >
-              Architecture
-            </h3>
-            <h1
-              className="text-white text-3xl lg:text-6xl mb-10 font-bold text-shadow"
-              data-swiper-parallax="400"
-            >
-              Modern House <br /> On The Rock
-            </h1>
-
-            <Link
-              href={"#"}
-              className="group duration-300"
-              data-swiper-parallax="300"
-            >
-              <Button
-                variant={"link"}
-                className="text-white font-semibold text-shadow"
+              <Link
+                href={"/property"}
+                className="group duration-300"
+                data-swiper-parallax="300"
               >
-                See Project
-                <MoveRight
-                  size={18}
-                  className="duration-300 ml-2  group-hover:translate-x-2"
-                />
-              </Button>
-            </Link>
-          </MotionLeft>
+                <Button
+                  variant={"link"}
+                  className="text-white font-semibold text-shadow"
+                >
+                  {link}
+                  <MoveRight
+                    size={18}
+                    className="duration-300 ml-2  group-hover:translate-x-2"
+                  />
+                </Button>
+              </Link>
+            </MotionLeft>
 
-          <Image
-            src={HomeImg3}
-            alt="Home"
-            width={1400}
-            height={650}
-            priority
-            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
-            data-swiper-parallax="-300"
-          />
-          <div className="absolute top-0 left-0 w-full h-full bg-black/5  z-[-1]"></div>
-        </SwiperSlide>
-
-        <SwiperSlide className="relative pt-[13rem] w-full h-screen z-50">
-          <MotionLeft className="container text-center lg:text-left">
-            <h3
-              className="text-white text-xl lg:text-2xl mb-2 text-shadow-primary"
-              data-swiper-parallax="500"
-            >
-              Architecture
-            </h3>
-            <h1
-              className="text-white text-3xl lg:text-6xl mb-10 font-bold text-shadow"
-              data-swiper-parallax="400"
-            >
-              Luxury <br /> Curved House
-            </h1>
-
-            <Link
-              href={"#"}
-              className="group duration-300"
-              data-swiper-parallax="300"
-            >
-              <Button
-                variant={"link"}
-                className="text-white font-semibold text-shadow"
-              >
-                See Project
-                <MoveRight
-                  size={18}
-                  className="duration-300 ml-2  group-hover:translate-x-2"
-                />
-              </Button>
-            </Link>
-          </MotionLeft>
-
-          <Image
-            src={HomeImg4}
-            alt="Home"
-            width={1400}
-            height={650}
-            priority
-            className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
-            data-swiper-parallax="-300"
-          />
-          <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
-        </SwiperSlide>
+            <Image
+              src={image}
+              alt="Home"
+              width={1400}
+              height={650}
+              priority
+              className="absolute top-0 left-0 w-full h-full object-cover object-center lg:object-fill z-[-1]"
+              data-swiper-parallax="-300"
+            />
+            <div className="absolute top-0 left-0 w-full h-full bg-black/5 z-[-1]"></div>
+          </SwiperSlide>
+        ))}
 
         <MotionDown className="container w-14 lg:w-1/6 absolute z-10 lg:left-8 bottom-16 grid  gap-y-6">
-          <Link href={"#"} className="text-white text-2xl">
-            <Facebook className="duration-300 hover:text-primary hover:scale-110" />
-          </Link>
-          <Link href={"#"} className="text-white text-2xl">
-            <Instagram className="duration-300 hover:text-primary hover:scale-110" />
-          </Link>
-          <Link href={"#"} className="text-white text-2xl">
-            <MessageCircleMore className="duration-300 hover:text-primary hover:scale-110" />
-          </Link>
+          {HeroSocialLinks.map(({ icon, link }, index) => {
+            const Icon = LucideIcons[icon] as React.ElementType;
+            return (
+              <Link key={index} href={link} target="_blank" className="text-white text-2xl">
+                {Icon && (
+                  <Icon className="duration-300 hover:text-primary hover:scale-110" />
+                )}
+              </Link>
+            );
+          })}
         </MotionDown>
 
         <div className="swiper-navigation container justify-end">
@@ -283,12 +144,12 @@ const Hero = () => {
       </Swiper>
 
       <MotionFade
-        className={`relative top-[-3rem] mx-auto w-fit py-4 px-4 lg:py-6 lg:px-8 rounded-xl bg-background shadow-primary/30 shadow-2xl  flex-col items-center gap-y-4  z-10 ${
+        className={`relative top-[-3rem] mx-auto w-[80%] lg:w-fit py-4 px-4 lg:py-6 lg:px-14 rounded-xl bg-background shadow-primary/30 shadow-2xl  flex-col items-center gap-y-4  z-10 ${
           showProperty ? "flex" : "hidden"
         }`}
       >
         <h2 className="text-xl lg:text-2xl font-bold">Find Your Property</h2>
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
+        <div className="flex flex-row flex-wrap justify-center items-center gap-4">
           <SearchProperty />
           <SearchProprty2 />
           <SearchProprty3 />

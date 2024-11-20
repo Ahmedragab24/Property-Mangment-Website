@@ -21,6 +21,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import AddListingModel from "../model/AddListingModel";
+import RegistrationModel from "../model/RegistrationModel";
+import UserDropdown from "../Auth/user";
 
 const Navbar = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
@@ -29,6 +32,8 @@ const Navbar = () => {
     setOpenMenuMobile((prev) => (prev = !prev));
   };
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
+  const user = localStorage.getItem("user");
+  const userData = user ? JSON.parse(user) : null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -212,18 +217,13 @@ const Navbar = () => {
                   </Link>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              <NavigationMenuItem
-                className={`${
-                  isBackgroundImg && value ? "text-white" : "text-foreground"
-                }`}
-              >
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    className={`${navigationMenuTriggerStyle()}`}
-                  >
-                    Add a Listing
-                  </NavigationMenuLink>
-                </Link>
+              <NavigationMenuItem>
+                <AddListingModel
+                  variant="ghost"
+                  className={`!text-shadow-smooth ${
+                    isBackgroundImg && value ? "text-white" : "text-foreground"
+                  }`}
+                />
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -236,17 +236,21 @@ const Navbar = () => {
               isBackgroundImg && value ? "text-white" : "text-foreground"
             }`}
           />
-          <Link href={"/login"}>
-            <Button
-              variant={`${scrolling ? "default" : "ghost"}`}
-              className={`duration-500 ${
-                isBackgroundImg && value ? "text-white" : "text-foreground"
-              }`}
-            >
-              <CircleUserRound className="w-4 h-4 mr-1" />
-              Sign in
-            </Button>
-          </Link>
+          {userData ? (
+            <UserDropdown />
+          ) : (
+            <RegistrationModel>
+              <Button
+                variant={`${scrolling ? "default" : "ghost"}`}
+                className={`duration-500 ${
+                  isBackgroundImg && value ? "text-white" : "text-foreground"
+                }`}
+              >
+                <CircleUserRound className="w-4 h-4 mr-1" />
+                Sign in
+              </Button>
+            </RegistrationModel>
+          )}
         </div>
       </div>
     </nav>

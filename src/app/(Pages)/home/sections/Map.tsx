@@ -12,7 +12,7 @@ const Map = () => {
   return (
     <section className="relative overflow-hidden">
       <div className="container">
-        <MotionDown>
+        <MotionDown> 
           <Image
             src={map}
             alt="map"
@@ -32,9 +32,8 @@ const Map = () => {
           city="Riyadh"
         />
         <Point className="top-[29%] left-[60%]" city="Egypt" />
-        {/* <Point className="top-[30%] left-[60%]" city="Egypt" /> */}
-        {/* <Point className="top-[18%] left-[30%]" city="USA" /> */}
-        {/* <Point className="top-[55%] left-[32%]" city="Janeiro" /> */}
+        <Point className="top-[18%] left-[30%]" city="USA" />
+        <Point className="top-[55%] left-[32%]" city="Janeiro" />
       </div>
     </section>
   );

@@ -36,8 +36,7 @@ const User = () => {
           prevEl: ".swiper-button-prev",
         }}
         pagination={{ clickable: true, type: "fraction" }}
-        className="container"
-      >
+        className="container">
         {/* HOME SLIDER 1 */}
         <SwiperSlide>
           <div className="w-full grid justify-center items-center gap-4 md:py-32 md:px-8 md:grid-cols-2 lg:pt-36 lg:gap-12 mb-14 md:mb-2">
@@ -45,7 +44,7 @@ const User = () => {
               <Image
                 src={ImageAbout1}
                 alt="Home Image 1"
-                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] w-fit md:w-[500px] lg:translate-y-[-3rem] "
+                className="w-[75%] h-[300px] justify-self-center md:h-[450px] md:w-[500px] lg:translate-y-[-3rem] "
                 width={500}
                 height={500}
               />
@@ -90,7 +89,7 @@ const User = () => {
               <Image
                 src={ImageAbout2}
                 alt="Home Image 1"
-                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] w-fit md:w-[500px] lg:translate-y-[-3rem] "
+                className="w-[75%] h-[300px] justify-self-center md:h-[450px] md:w-[500px] lg:translate-y-[-3rem]"
                 width={500}
                 height={500}
               />
@@ -134,7 +133,7 @@ const User = () => {
               <Image
                 src={ImageAbout3}
                 alt="Home Image 1"
-                className="h-[250px] justify-self-center sm:h-[200px] md:h-[450px] w-fit md:w-[500px] lg:translate-y-[-3rem] "
+                className="w-[75%] h-[300px] justify-self-center md:h-[450px] md:w-[500px] lg:translate-y-[-3rem]"
                 width={500}
                 height={500}
               />

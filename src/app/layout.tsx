@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import circle from "@/assets/images/transparent circle.png";
 import Image from "next/image";
 import ProviderRedux from "./layoutRedux";
+import { Toaster } from "@/components/ui/toaster";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -61,6 +62,7 @@ export default function RootLayout({
             </div>
             <ScrollUp />
             <Footer />
+            <Toaster />
           </ThemeProvider>
         </ProviderRedux>
       </body>

@@ -1,10 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import heroNavReducer from "./features/heroNav/heroNavSlice";
+import { apiSlice } from "./apis/apis";
 
 export const store = configureStore({
   reducer: {
     heroNav: heroNavReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

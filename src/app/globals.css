@@ -35,7 +35,7 @@
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --text-color: 0, 0%, 70%;
+    --text-color: 0, 0%, 60%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
@@ -378,4 +378,15 @@ body {
 
 .partners .swiper-pagination-bullet-active {
   background-color: hsl(var(--primary));
+}
+
+/* =================== LightBox ===================== */
+.yarl__container {
+  background-color: transparent !important;
+}
+
+.yarl__slide_image {
+  border-radius: 2rem;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
