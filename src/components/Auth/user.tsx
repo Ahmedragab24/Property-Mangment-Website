@@ -18,7 +18,7 @@ import {
 
 export default function UserDropdown() {
   const user = localStorage.getItem("user");
-  const userData = user ? JSON.parse(user) : null;
+  const userData = user ? JSON.parse(user) : undefined;
 
   //   Handling
   const handlerLogOut = () => {

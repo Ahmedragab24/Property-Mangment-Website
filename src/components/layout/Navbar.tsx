@@ -32,8 +32,9 @@ const Navbar = () => {
     setOpenMenuMobile((prev) => (prev = !prev));
   };
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
+
   const user = localStorage.getItem("user");
-  const userData = user ? JSON.parse(user) : null;
+  const userData = user ? JSON.parse(user) : undefined;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,16 +61,14 @@ const Navbar = () => {
             : "bg-transparent"
           : "bg-background shadow-lg"
       }`}
-      suppressHydrationWarning
-    >
+      suppressHydrationWarning>
       <div className="container  flex items-center justify-between h-16">
         {/* Navbar Start */}
         <div className="flex items-center space-x-2">
           <div className="lg:hidden ">
             <a
               className="p-2 rounded cursor-pointer"
-              onClick={handlerOpenMenuMobile}
-            >
+              onClick={handlerOpenMenuMobile}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`h-6 w-6 duration-500 ${
@@ -81,8 +80,7 @@ const Navbar = () => {
                 } ${openMenuMobile && "!text-primary"}`}
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
+                stroke="currentColor">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -101,8 +99,7 @@ const Navbar = () => {
                       variant={"ghost"}
                       size={"lg"}
                       className="text-sm"
-                      onClick={() => setOpenMenuMobile(false)}
-                    >
+                      onClick={() => setOpenMenuMobile(false)}>
                       About Us
                     </Button>
                   </Link>
@@ -116,8 +113,7 @@ const Navbar = () => {
                           <Button
                             variant={"ghost"}
                             size={"sm"}
-                            onClick={() => setOpenMenuMobile(false)}
-                          >
+                            onClick={() => setOpenMenuMobile(false)}>
                             Landlords
                           </Button>
                         </Link>
@@ -125,8 +121,7 @@ const Navbar = () => {
                           <Button
                             variant={"ghost"}
                             size={"sm"}
-                            onClick={() => setOpenMenuMobile(false)}
-                          >
+                            onClick={() => setOpenMenuMobile(false)}>
                             property
                           </Button>
                         </Link>
@@ -161,8 +156,7 @@ const Navbar = () => {
             href="/"
             className={`text-xl font-bold text-foreground duration-500 ${
               isBackgroundImg && value ? "text-white" : "text-foreground"
-            }`}
-          >
+            }`}>
             Real Estate
           </Link>
         </div>
@@ -174,21 +168,18 @@ const Navbar = () => {
               <NavigationMenuItem
                 className={`${
                   isBackgroundImg && value ? "text-white" : "text-foreground"
-                }`}
-              >
+                }`}>
                 <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <Link href="/property" legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
+                      className={navigationMenuTriggerStyle()}>
                       property
                     </NavigationMenuLink>
                   </Link>
                   <Link href="/landlords" legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
+                      className={navigationMenuTriggerStyle()}>
                       Landlords
                     </NavigationMenuLink>
                   </Link>
@@ -197,21 +188,18 @@ const Navbar = () => {
               <NavigationMenuItem
                 className={`${
                   isBackgroundImg && value ? "text-white" : "text-foreground"
-                }`}
-              >
+                }`}>
                 <NavigationMenuTrigger>Item Tow</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <Link href="#about" legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
+                      className={navigationMenuTriggerStyle()}>
                       About Us
                     </NavigationMenuLink>
                   </Link>
                   <Link href="/docs" legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
+                      className={navigationMenuTriggerStyle()}>
                       Documentation
                     </NavigationMenuLink>
                   </Link>
@@ -244,8 +232,7 @@ const Navbar = () => {
                 variant={`${scrolling ? "default" : "ghost"}`}
                 className={`duration-500 ${
                   isBackgroundImg && value ? "text-white" : "text-foreground"
-                }`}
-              >
+                }`}>
                 <CircleUserRound className="w-4 h-4 mr-1" />
                 Sign in
               </Button>
