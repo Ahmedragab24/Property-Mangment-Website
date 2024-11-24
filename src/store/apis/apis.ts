@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["User", "properties", "property"],
+  tagTypes: ["User", "properties", "property", "filtering"],
   refetchOnFocus: true,
   refetchOnReconnect: true,
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:1337/api" }),
@@ -42,6 +42,25 @@ export const apiSlice = createApi({
       }),
       providesTags: ["property"],
     }),
+
+    ////////////////////// Filtering By Room //////////////////////
+    filterPropertiesByRoom: builder.query({
+      query: (room) => ({
+        url: `/properties?filters[room][$eq]=${room}&populate=image`,
+      }),
+      providesTags: ["filtering"],
+    }),
+
+    ////////////////////// Filtering By City //////////////////////
+    filterPropertiesByCityAndGuests: builder.query({
+      query: (args) => {
+        const { city, guests } = args;
+        return {
+          url: `/properties?filters[city][$contains]=${city}&filters[NumPerson][$eq]=${guests}&populate=image`,
+        };
+      },
+      providesTags: ["filtering"],
+    }),
   }),
 });
 
@@ -50,4 +69,6 @@ export const {
   useLoginUserMutation,
   useGetPropertiesQuery,
   useGetOnePropertyQuery,
+  useFilterPropertiesByRoomQuery,
+  useFilterPropertiesByCityAndGuestsQuery,
 } = apiSlice;

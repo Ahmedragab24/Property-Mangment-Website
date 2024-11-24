@@ -15,7 +15,7 @@ const MotionUp = dynamic(() => import("@/components/animations/MotionUp"), {
 });
 
 interface IProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 type TypeModle = "login" | "register";
@@ -78,23 +78,21 @@ const RegistrationModel = ({ children }: IProps) => {
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="p-14 sm:max-w-[60%] xl:py-16 xl:px-20">
           <MotionUp className="h-auto xl:h-[450px] bg-secondary rounded-xl shadow-xl relative xl:ml-24 duration-500">
-            <DialogTitle>
-              <div className="flex xl:justify-end gap-4 px-6 pt-4">
-                <Button
-                  variant={`${checkLogin ? "default" : "secondary"}`}
-                  size={"lg"}
-                  onClick={changeToLoginModle}
-                >
-                  Login
-                </Button>
-                <Button
-                  variant={`${checkRegister ? "default" : "secondary"}`}
-                  size={"lg"}
-                  onClick={changeToRegisterModle}
-                >
-                  Register
-                </Button>
-              </div>
+            <DialogTitle className="flex xl:justify-end gap-4 px-6 pt-4">
+              <Button
+                variant={`${checkLogin ? "default" : "secondary"}`}
+                size={"lg"}
+                onClick={changeToLoginModle}
+              >
+                Login
+              </Button>
+              <Button
+                variant={`${checkRegister ? "default" : "secondary"}`}
+                size={"lg"}
+                onClick={changeToRegisterModle}
+              >
+                Register
+              </Button>
             </DialogTitle>
 
             <DialogDescription>

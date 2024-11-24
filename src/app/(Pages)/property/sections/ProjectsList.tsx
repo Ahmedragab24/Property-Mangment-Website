@@ -1,37 +1,82 @@
 "use client";
 
-import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
   ArrowRight,
   Bath,
   Bed,
-  DoorClosed,
   House,
+  Loader,
   MapPinHouse,
   OctagonAlert,
-  Save,
   SlidersHorizontal,
 } from "lucide-react";
-import { SearchProperty } from "../../home/components/SearchProprtys";
-import { DatePicker } from "../components/DatePicker";
-import SelectGests from "../components/SelectGests";
-import { useGetPropertiesQuery } from "@/store/apis/apis";
+import {
+  useFilterPropertiesByCityAndGuestsQuery,
+  useFilterPropertiesByRoomQuery,
+  useGetPropertiesQuery,
+} from "@/store/apis/apis";
 import { IError, IProperty } from "@/interfaces";
 import Link from "next/link";
 import ProjectsSkeleton from "@/components/skeleton/ProjectsSkeleton";
+import FilteringRoom from "../components/FilteringRoom";
+import { RootState } from "@/store/store";
+import { useAppSelector } from "@/store/hooks";
+import { useEffect, useState } from "react";
+import { SearchProperty } from "../../home/components/SearchProprtys";
+import { DatePicker } from "../components/DatePicker";
+import SelectGests from "../components/SelectGests";
+import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
+
+type Filtering = "initial" | "room" | "GroupFilter";
 
 const ProjectsList = () => {
   const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery(
-    "",
-    { pollingInterval: 5000 }
+    ""
+    // { pollingInterval: 5000 }
   );
+  const { room, city, guests } = useAppSelector(
+    (state: RootState) => state.filteringProperties
+  );
+  const { data: filteringDataByRoom } = useFilterPropertiesByRoomQuery(room);
+  const { data: filteringDataByCityAndGuests } =
+    useFilterPropertiesByCityAndGuestsQuery({ city, guests });
+  const [filteringDataState, setFilteringDataState] =
+    useState<Filtering>("initial");
+  const [changeData, setChangeData] = useState<IProperty[]>([]);
 
-  // Rendering Data
+  useEffect(() => {
+    if (filteringDataState === "initial") {
+      setChangeData(data?.data || []);
+    } else if (filteringDataState === "room") {
+      setChangeData(filteringDataByRoom?.data || []);
+    } else if (filteringDataState === "GroupFilter") {
+      setChangeData(filteringDataByCityAndGuests?.data || []);
+    }
+  }, [
+    data?.data,
+    filteringDataByRoom?.data,
+    filteringDataByCityAndGuests?.data,
+    filteringDataState,
+  ]);
+
+  //////// Handling /////////
+
+  // Filter Button Room
+  const filterBtnRoom = () => {
+    setFilteringDataState("room");
+  };
+
+  // Filter Group Button Check now
+  const filterBtnCheckNow = () => {
+    setFilteringDataState("GroupFilter");
+  };
+
+  //  Rendering Data
   const RenderingData = () =>
-    data?.data.map(
-      ({
+    changeData.map((property: IProperty) => {
+      const {
         documentId,
         title,
         locationName,
@@ -40,7 +85,9 @@ const ProjectsList = () => {
         date,
         room,
         bathroom,
-      }: IProperty) => (
+      } = property;
+
+      return (
         <div key={documentId} className="h-fit">
           <div className="h-auto md:h-[320px] lg:h-[430px] rounded-lg group duration-500 bg-secondary hover:text-foreground hover:shadow-xl">
             <div className="relative overflow-hidden rounded-lg">
@@ -67,19 +114,14 @@ const ProjectsList = () => {
               </div>
             </div>
             <div className="p-6">
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <div>
                   <h2 className="tracking-widest !text-foreground text-md font-bold mb-1">
                     {title}
                   </h2>
                 </div>
 
-                <div>
-                  <span className="text-textColor inline-flex items-center leading-none text-sm  cursor-pointer duration-500 hover:text-primary">
-                    Save
-                    <Save size={15} className="ms-1" />
-                  </span>
-                </div>
+                <FavoriteButton property={property} IsTitle={false} />
               </div>
               <p className="leading-relaxed text-sm mb-3 line-clamp-1">
                 {locationName}
@@ -102,8 +144,8 @@ const ProjectsList = () => {
             </div>
           </div>
         </div>
-      )
-    );
+      );
+    });
 
   // Refresh Data
   const HandlerRefreshData = () => {
@@ -116,24 +158,31 @@ const ProjectsList = () => {
       <div className="mb-14">
         <div className="flex justify-center lg:justify-between mb-2 lg:mb-0">
           <div className="flex gap-1 md:gap-2 mb-1">
-            <Button variant={"ghost"}>
-              <DoorClosed size={18} className="lg:me-2" />
-              <span className="hidden md:block">Room</span>
+            <Button
+              className={`${
+                filteringDataState == "initial"
+                  ? "bg-secondary"
+                  : "bg-transparent"
+              } text-foreground hover:bg-secondary`}
+              onClick={() => setFilteringDataState("initial")}
+            >
+              <MapPinHouse size={18} className="lg:me-2" />
+              <span className="hidden md:block">Any</span>
             </Button>
+            <FilteringRoom
+              filterBtn={filterBtnRoom}
+              type={filteringDataState}
+            />
             <Button variant={"ghost"}>
               <House size={18} className="lg:me-2" />
               <span className="hidden md:block">Entire Home</span>
             </Button>
-            <Button variant={"ghost"}>
-              <MapPinHouse size={18} className="lg:me-2" />
-              <span className="hidden md:block">Any</span>
-            </Button>
           </div>
           <div>
-            <Button variant={"ghost"}>
+            <div className="cursor-pointer bg-transparent hover:bg-transparent text-foreground flex">
               <SlidersHorizontal size={18} className="lg:me-2" />
               <span className="hidden md:block">Filter</span>
-            </Button>
+            </div>
           </div>
         </div>
 
@@ -142,7 +191,16 @@ const ProjectsList = () => {
           <DatePicker placeHolder="Check in" className="w-fit px-6 lg:px-14" />
           <DatePicker placeHolder="Check Out" className="w-fit px-6 lg:px-14" />
           <SelectGests />
-          <Button>Check now</Button>
+          <Button onClick={filterBtnCheckNow}>
+            {isLoading ? (
+              <div className="flex items-center gap-x-2">
+                <Loader className="animate-spin" />
+                Loading...
+              </div>
+            ) : (
+              "Check now"
+            )}
+          </Button>
         </div>
       </div>
 
@@ -176,9 +234,18 @@ const ProjectsList = () => {
 
         {/* Success */}
         {isSuccess && !isLoading && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
-            {RenderingData()}
-          </div>
+          <>
+            {!changeData.length ? (
+              <div className="flex justify-center items-center gap-x-2">
+                <OctagonAlert />
+                <h1 className="text-md lg:text-xl">Not Data Found</h1>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
+                {RenderingData()}
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>

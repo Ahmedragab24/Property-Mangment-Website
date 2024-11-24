@@ -85,10 +85,14 @@ body {
 }
 
 /* ====================== Swiper =================== */
-.swiper-pagination-fraction,
-.swiper-pagination-custom,
-.swiper-horizontal > .swiper-pagination-bullets,
-.swiper-pagination-bullets.swiper-pagination-horizontal,
+.hero .swiper-pagination-fraction,
+.user .swiper-pagination-fraction,
+.hero .swiper-pagination-custom,
+.user .swiper-pagination-custom,
+.hero .swiper-horizontal > .swiper-pagination-bullets,
+.user .swiper-horizontal > .swiper-pagination-bullets,
+.hero .swiper-pagination-bullets.swiper-pagination-horizontal,
+.user .swiper-pagination-bullets.swiper-pagination-horizontal,
 .hero .swiper-pagination-fraction,
 .user .swiper-pagination-fraction,
 .hero .swiper-pagination-custom,
@@ -110,10 +114,10 @@ body {
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-.swiper-pagination-fraction,
-.swiper-pagination-custom,
-.swiper-horizontal > .swiper-pagination-bullets,
-.swiper-pagination-bullets.swiper-pagination-horizontal {
+.hero .swiper-pagination-fraction,
+.hero .swiper-pagination-custom,
+.hero .swiper-horizontal > .swiper-pagination-bullets,
+.hero .swiper-pagination-bullets.swiper-pagination-horizontal {
   color: white !important;
 }
 @media screen and (min-width: 767px) {
@@ -167,7 +171,8 @@ body {
 }
 
 @media screen and (min-width: 767px) {
-  .swiper-navigation {
+  .hero .swiper-navigation,
+  .user .swiper-navigation {
     right: 2.5rem !important;
   }
 }
@@ -359,8 +364,9 @@ body {
   background-color: #3b82f6b3;
 }
 
-/* =============== Pagination From Landlords Page ===================== */
-.partners .swiper-pagination {
+/* =============== Swiper  Landlords Page & SimilarProperties ===================== */
+.partners .swiper-pagination,
+.SimilarProperties .swiper-pagination {
   position: relative !important;
   bottom: -1rem !important;
   left: 0 !important;
@@ -370,14 +376,33 @@ body {
   z-index: 10 !important;
 }
 
-.partners .swiper-pagination-bullet {
-  background-color: hsl(var(--primary) / 40);
-  width: 12px;
-  height: 12px;
+.partners .swiper-pagination-bullet,
+.SimilarProperties .swiper-pagination-bullet {
+  background-color: hsl(var(--primary) / 40) !important;
+  width: 12px !important;
+  height: 12px !important;
 }
 
-.partners .swiper-pagination-bullet-active {
-  background-color: hsl(var(--primary));
+.partners .swiper-pagination-bullet-active,
+.SimilarProperties .swiper-pagination-bullet-active {
+  background-color: hsl(var(--primary)) !important;
+}
+
+.SimilarProperties .swiper-navigation {
+  bottom: 0rem !important;
+  right: -8rem !important;
+}
+
+@media screen and (min-width: 767px) {
+  .SimilarProperties .swiper-navigation {
+    bottom: 3rem !important;
+    right: -1.25rem !important;
+  }
+}
+
+.SimilarProperties .swiper-navigation .swiper-button-prev,
+.SimilarProperties .swiper-navigation .swiper-button-next {
+  color: hsl(var(--foreground)) !important;
 }
 
 /* =================== LightBox ===================== */

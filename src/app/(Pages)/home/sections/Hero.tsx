@@ -57,7 +57,7 @@ const Hero = () => {
   }, [dispatch]);
 
   return (
-    <section className={`hero${showProperty ? "mb-0" : "mb-20"}`}>
+    <section className={`hero ${showProperty ? "mb-0" : "mb-20"}`}>
       <Swiper
         className="relative z-10 h-screen"
         modules={[EffectFade, Parallax, Navigation, Pagination]}
@@ -124,7 +124,12 @@ const Hero = () => {
           {HeroSocialLinks.map(({ icon, link }, index) => {
             const Icon = LucideIcons[icon] as React.ElementType;
             return (
-              <Link key={index} href={link} target="_blank" className="text-white text-2xl">
+              <Link
+                key={index}
+                href={link}
+                target="_blank"
+                className="text-white text-2xl"
+              >
                 {Icon && (
                   <Icon className="duration-300 hover:text-primary hover:scale-110" />
                 )}
@@ -153,9 +158,11 @@ const Hero = () => {
           <SearchProperty />
           <SearchProprty2 />
           <SearchProprty3 />
-          <Button variant={"secondary"} className="w-[200px]">
-            Search <Search size={18} className="ml-1" />
-          </Button>
+          <Link href={"/property"}>
+            <Button variant={"secondary"} className="w-[200px]">
+              Search <Search size={18} className="ml-1" />
+            </Button>
+          </Link>
         </div>
       </MotionFade>
     </section>

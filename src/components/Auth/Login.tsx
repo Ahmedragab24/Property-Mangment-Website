@@ -10,7 +10,6 @@ import { useLoginUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
 import { LoaderCircle } from "lucide-react";
 import { IError, IUser, LoginForm } from "@/interfaces";
-import { useRouter } from "next/navigation";
 
 interface Iprops {
   changeToRegisterModle: () => void;
@@ -23,7 +22,6 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
 
   // Handler
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +44,7 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
         description: "User registered successfully!",
       });
       setTimeout(() => {
-        router.refresh();
+        window.location.reload();
       }, 2000);
     } catch (err) {
       setErrorMessage(
@@ -64,7 +62,7 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
   return (
     <div className="flex justify-start items-center">
       <div className="w-full xl:w-1/2 p-6 mt-2">
-        <h2 className="text-3xl text-shadow-primary">Login now</h2>
+        <h2 className="text-foreground text-3xl text-shadow-primary">Login now</h2>
         {!isSuccess && error && (
           <p className="text-red-800 text-xl">{errorMessage}</p>
         )}

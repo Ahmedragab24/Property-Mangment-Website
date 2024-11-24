@@ -27,6 +27,21 @@ export interface IError {
   };
 }
 
+type city = [
+  | "cairo"
+  | "london"
+  | "new york"
+  | "paris"
+  | "tokyo"
+  | "dubai"
+  | "rome"
+  | "sydney"
+  | "moscow"
+  | "singapore"
+  | "berlin"
+  | "beijing"
+];
+
 export interface IProperty {
   id: string;
   documentId?: string;
@@ -39,6 +54,8 @@ export interface IProperty {
   room: number;
   kitchen?: number;
   bathroom: number;
+  NumPerson: number;
+  city: city;
   info: string[];
   image: {
     url: string;

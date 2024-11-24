@@ -18,29 +18,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-const frameworks = [
-  {
-    value: "egypt",
-    label: "Egypt",
-  },
-  {
-    value: "united states",
-    label: "United States",
-  },
-  {
-    value: "germany",
-    label: "Germany",
-  },
-  {
-    value: "brazil",
-    label: "Brazil",
-  },
-  {
-    value: "saudi arabia",
-    label: "Saudi Arabia",
-  },
-];
+import { cities } from "@/constants";
+import { useAppDispatch } from "@/store/hooks";
+import { setFilteringCity } from "@/store/features/FilteringProperties/filtering";
 
 interface Iprops {
   className?: string;
@@ -49,6 +29,7 @@ interface Iprops {
 export function SearchProperty({ className }: Iprops) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const dispatch = useAppDispatch();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -61,7 +42,7 @@ export function SearchProperty({ className }: Iprops) {
         >
           <Search className="mr-2 h-4 w-4 text-textColor" />
           {value
-            ? frameworks.find((framework) => framework.value === value)?.label
+            ? cities.find((cities) => cities.value === value)?.label
             : "Enter Your Location"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -72,22 +53,23 @@ export function SearchProperty({ className }: Iprops) {
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {cities.map((cities) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={cities.value}
+                  value={cities.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    dispatch(setFilteringCity(currentValue));
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === cities.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {framework.label}
+                  {cities.label}
                 </CommandItem>
               ))}
             </CommandGroup>

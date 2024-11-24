@@ -10,7 +10,7 @@ import { LoaderCircle } from "lucide-react";
 import { IError, RegisterForm } from "@/interfaces";
 
 interface Iprops {
-  changeToLoginModle: () => void;
+  changeToLoginModle?: () => void;
 }
 
 const Register = ({ changeToLoginModle }: Iprops) => {
@@ -41,7 +41,7 @@ const Register = ({ changeToLoginModle }: Iprops) => {
         description: "User registered successfully!",
       });
       setTimeout(() => {
-        changeToLoginModle();
+        changeToLoginModle?.();
       }, 2000);
     } catch (err) {
       setErrorMessage((err as IError)?.data?.error?.message);
@@ -71,7 +71,9 @@ const Register = ({ changeToLoginModle }: Iprops) => {
         />
       </motion.div>
       <div className="w-full xl:w-1/2 p-6">
-        <h2 className="text-3xl text-shadow-primary">Register now</h2>
+        <h2 className="text-foreground text-3xl text-shadow-primary">
+          Register now
+        </h2>
         {error && <p className="text-red-800 text-xl mt-4">{errorMessage}</p>}
         <form className="mt-6 space-y-4">
           <Input
@@ -109,7 +111,7 @@ const Register = ({ changeToLoginModle }: Iprops) => {
             <Button
               variant={"link"}
               className="text-sm text-textColor"
-              onClick={() => changeToLoginModle()}
+              onClick={() => changeToLoginModle?.()}
             >
               Login Now
             </Button>

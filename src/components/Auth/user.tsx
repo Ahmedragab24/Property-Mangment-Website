@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { CreditCard, LogOut, Settings, User } from "lucide-react";
-
+import { useEffect, useState } from "react";
+import { FolderHeart, LogOut, Settings, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,14 +15,23 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IUser } from "@/interfaces";
+import avatarImage from "@/assets/images/avatarUser.webp";
+import Link from "next/link";
 
-export default function UserDropdown() {
-  const user = localStorage.getItem("user");
-  const userData = user ? JSON.parse(user) : undefined;
+const UserDropdown = () => {
+  const [userData, setUserData] = useState<IUser | null>();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      setUserData(user ? JSON.parse(user) : null);
+    }
+  }, []);
 
   //   Handling
   const handlerLogOut = () => {
-    localStorage.remove("user");
+    localStorage.removeItem("user");
     window.location.reload();
   };
 
@@ -31,35 +40,48 @@ export default function UserDropdown() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt={userData.user.username} />
-            <AvatarFallback>JD</AvatarFallback>
+            {userData ? (
+              <>
+                <AvatarImage
+                  src={avatarImage.src}
+                  alt={userData.user.username}
+                />
+                <AvatarFallback>{userData.user.username}</AvatarFallback>
+              </>
+            ) : (
+              <AvatarFallback>Loading...</AvatarFallback>
+            )}
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {userData.user.username}
-            </p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {userData.user.email}
-            </p>
-          </div>
+          {userData && (
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">
+                {userData.user.username}
+              </p>
+              <p className="text-xs leading-none text-muted-foreground">
+                {userData.user.email}
+              </p>
+            </div>
+          )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+          <Link href={"/FavoritesPage"}>
+            <DropdownMenuItem className="cursor-pointer">
+              <FolderHeart className="mr-2 h-4 w-4" />
+              <span>Favorites</span>
+              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
+          <DropdownMenuItem className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
@@ -74,4 +96,6 @@ export default function UserDropdown() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export default UserDropdown;
