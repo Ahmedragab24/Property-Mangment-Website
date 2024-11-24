@@ -21,6 +21,7 @@ import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import SimilarProperties from "./components/SimilarProperties";
 import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
+import HandlerNavColor from "@/components/layout/HandlerNavColor";
 
 const Property = () => {
   const { id } = useParams();
@@ -85,6 +86,7 @@ const Property = () => {
 
   return (
     <section className="py-28">
+      <HandlerNavColor BackgroundImg={false} />
       <div className="container">
         {/* Loading */}
         {isLoading && (
@@ -119,7 +121,7 @@ const Property = () => {
               <div className="xl:flex-1">
                 <div className="max-h-[500px] rounded-xl group overflow-hidden shadow-xl duration-500 relative">
                   <Image
-                    src={`http://localhost:1337/${url}`}
+                    src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
                     alt={description}
                     width={width}
                     height={height}

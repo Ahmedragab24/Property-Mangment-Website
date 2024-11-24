@@ -5,12 +5,12 @@ export const apiSlice = createApi({
   tagTypes: ["User", "properties", "property", "filtering"],
   refetchOnFocus: true,
   refetchOnReconnect: true,
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:1337/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL_API }),
   endpoints: (builder) => ({
     ////////////////////// Register User ////////////////////////
     registerUser: builder.mutation({
       query: (userData) => ({
-        url: "/auth/local/register",
+        url: "/api/auth/local/register",
         method: "POST",
         body: userData,
       }),
@@ -20,7 +20,7 @@ export const apiSlice = createApi({
     /////////////////////// Login User ////////////////////////
     loginUser: builder.mutation({
       query: (userData) => ({
-        url: "/auth/local",
+        url: "/api/auth/local",
         method: "POST",
         body: userData,
       }),
@@ -30,7 +30,7 @@ export const apiSlice = createApi({
     /////////////////////// Get Properties ////////////////////////
     getProperties: builder.query({
       query: () => ({
-        url: "/properties?populate=image",
+        url: "/api/properties?populate=image",
       }),
       providesTags: ["properties"],
     }),
@@ -38,7 +38,7 @@ export const apiSlice = createApi({
     /////////////////////// Get One Property ////////////////////////
     getOneProperty: builder.query({
       query: (id) => ({
-        url: `/properties/${id}?populate=image&populate=imageGroup`,
+        url: `/api/properties/${id}?populate=image&populate=imageGroup`,
       }),
       providesTags: ["property"],
     }),
@@ -46,7 +46,7 @@ export const apiSlice = createApi({
     ////////////////////// Filtering By Room //////////////////////
     filterPropertiesByRoom: builder.query({
       query: (room) => ({
-        url: `/properties?filters[room][$eq]=${room}&populate=image`,
+        url: `/api/properties?filters[room][$eq]=${room}&populate=image`,
       }),
       providesTags: ["filtering"],
     }),
@@ -56,7 +56,7 @@ export const apiSlice = createApi({
       query: (args) => {
         const { city, guests } = args;
         return {
-          url: `/properties?filters[city][$contains]=${city}&filters[NumPerson][$eq]=${guests}&populate=image`,
+          url: `/api/properties?filters[city][$contains]=${city}&filters[NumPerson][$eq]=${guests}&populate=image`,
         };
       },
       providesTags: ["filtering"],

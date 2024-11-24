@@ -24,7 +24,7 @@ const MyLightbox: React.FC<ILightboxProps> = ({ imageGroup }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slides = imageGroup.map((img) => ({
-    src: `http://localhost:1337/${img.formats.large.url}`,
+    src: `${process.env.NEXT_PUBLIC_BASE_URL_API}${img.formats.large.url}`,
     alt: img.name,
     width: img.formats.large.width,
     height: img.formats.large.height,
@@ -44,7 +44,7 @@ const MyLightbox: React.FC<ILightboxProps> = ({ imageGroup }) => {
             key={item.id}
           >
             <Image
-              src={`http://localhost:1337/${item.formats.large.url}`}
+              src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${item.formats.large.url}`}
               alt={item.name}
               width={item.formats.large.width}
               height={item.formats.large.height}

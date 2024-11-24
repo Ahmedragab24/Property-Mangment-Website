@@ -83,7 +83,7 @@ const SimilarProperties = () => {
                           width={750}
                           height={400}
                           className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                          src={`http://localhost:1337/${url}`}
+                          src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
                           alt="blog"
                           loading="lazy"
                         />
