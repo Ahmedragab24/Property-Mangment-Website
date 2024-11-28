@@ -4,9 +4,9 @@ const Video = () => {
   return (
     <section className="mt-16">
       <div className="bg-secondary shadow-lg rounded-lg overflow-hidden">
-        <div className="flex items-center justify-evenly gap-x-4">
-          <div className="px-10">
-            <h3 className="text-primary text-4xl mb-4">
+        <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-evenly gap-4">
+          <div className="px-10 py-6 lg:py-0">
+            <h3 className="text-primary text-xl lg:text-4xl mb-4">
               We Transfrom Your <br /> Property
             </h3>
             <p className="text-sm text-textColor leading-6">
@@ -19,7 +19,7 @@ const Video = () => {
           </div>
 
           <video
-            className="w-1/2 h-[450px] object-fill bg-contain brightness-75"
+            className="w-full lg:w-1/2 h-auto lg:h-[450px] object-fill bg-contain brightness-75"
             controls
             autoPlay
             muted

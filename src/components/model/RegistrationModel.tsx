@@ -6,10 +6,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import dynamic from "next/dynamic";
 import Login from "../Auth/Login";
 import Register from "../Auth/Register";
 import { Button } from "../ui/button";
+
 const MotionUp = dynamic(() => import("@/components/animations/MotionUp"), {
   ssr: false,
 });
@@ -43,42 +45,15 @@ const RegistrationModel = ({ children }: IProps) => {
       <Dialog>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="p-14 sm:max-w-[60%] xl:py-16 xl:px-20">
-          <MotionUp className="h-auto xl:h-[450px] bg-secondary rounded-xl shadow-xl relative xl:mr-24 duration-500">
-            <DialogTitle>
-              <div className="flex xl:justify-start gap-4 px-6 pt-4">
-                <Button
-                  variant={`${checkLogin ? "default" : "secondary"}`}
-                  size={"lg"}
-                  onClick={changeToLoginModle}
-                >
-                  Login
-                </Button>
-                <Button
-                  variant={`${checkRegister ? "default" : "secondary"}`}
-                  size={"lg"}
-                  onClick={changeToRegisterModle}
-                >
-                  Register
-                </Button>
-              </div>
-            </DialogTitle>
+          <DialogTitle>
+            <VisuallyHidden>Modal Title</VisuallyHidden>
+          </DialogTitle>
 
-            <DialogDescription>
-              <Login changeToRegisterModle={changeToRegisterModle} />
-            </DialogDescription>
-          </MotionUp>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-  // Registrations
-  else if (typeModel === "register") {
-    return (
-      <Dialog>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        <DialogContent className="p-14 sm:max-w-[60%] xl:py-16 xl:px-20">
-          <MotionUp className="h-auto xl:h-[450px] bg-secondary rounded-xl shadow-xl relative xl:ml-24 duration-500">
-            <DialogTitle className="flex xl:justify-end gap-4 px-6 pt-4">
+          <DialogDescription>
+            <VisuallyHidden>Modal description</VisuallyHidden>
+          </DialogDescription>
+          <MotionUp className="h-auto xl:h-[450px] bg-secondary rounded-xl shadow-xl relative xl:mr-24 duration-500">
+            <div className="flex xl:justify-start gap-4 px-6 pt-4">
               <Button
                 variant={`${checkLogin ? "default" : "secondary"}`}
                 size={"lg"}
@@ -93,11 +68,49 @@ const RegistrationModel = ({ children }: IProps) => {
               >
                 Register
               </Button>
-            </DialogTitle>
+            </div>
 
-            <DialogDescription>
-              <Register changeToLoginModle={changeToLoginModle} />
-            </DialogDescription>
+            <Login changeToRegisterModle={changeToRegisterModle} />
+          </MotionUp>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+  // Registrations
+  else if (typeModel === "register") {
+    return (
+      <Dialog>
+        {children ? (
+          <DialogTrigger asChild>{children}</DialogTrigger>
+        ) : (
+          <DialogTrigger>open</DialogTrigger>
+        )}
+        <DialogContent className="p-14 sm:max-w-[60%] xl:py-16 xl:px-20">
+          <DialogTitle>
+            <VisuallyHidden>Modal Title</VisuallyHidden>
+          </DialogTitle>
+          <DialogDescription>
+            <VisuallyHidden>Modal description</VisuallyHidden>
+          </DialogDescription>
+          <MotionUp className="h-auto xl:h-[450px] bg-secondary rounded-xl shadow-xl relative xl:ml-24 duration-500">
+            <div className="flex xl:justify-end gap-4 px-6 pt-4">
+              <Button
+                variant={`${checkLogin ? "default" : "secondary"}`}
+                size={"lg"}
+                onClick={changeToLoginModle}
+              >
+                Login
+              </Button>
+              <Button
+                variant={`${checkRegister ? "default" : "secondary"}`}
+                size={"lg"}
+                onClick={changeToRegisterModle}
+              >
+                Register
+              </Button>
+            </div>
+
+            <Register changeToLoginModle={changeToLoginModle} />
           </MotionUp>
         </DialogContent>
       </Dialog>

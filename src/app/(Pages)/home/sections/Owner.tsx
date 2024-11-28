@@ -9,9 +9,9 @@ import {
   MotionValue,
 } from "framer-motion";
 import Image from "next/image";
-import ImageOwner1 from "@/assets/images/proprety owner1.jpg";
-import ImageOwner2 from "@/assets/images/proprety owner2.jpg";
-import ImageOwner3 from "@/assets/images/proprety owner3.jpg";
+import ImageOwner1 from "/src/public/images/proprety owner1.jpg";
+import ImageOwner2 from "/src/public/images/proprety owner2.jpg";
+import ImageOwner3 from "/src/public/images/proprety owner3.jpg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -52,14 +52,14 @@ const Owner = () => {
       }
     };
 
-    const unsubscribeScroll = scrollY.onChange(handleScroll);
+    const unsubscribeScroll = scrollY.on("change", handleScroll);
     return () => {
       unsubscribeScroll();
     };
   }, [scrollY]);
 
   return (
-    <section className="relative py-16 bg-secondary overflow-hidden">
+    <section className="relative py-16 bg-secondary overflow-hidden" id="owner">
       <div className="container">
         <div className="mb-20">
           <div className="flex flex-col items-center text-center gap-y-4">
@@ -74,6 +74,7 @@ const Owner = () => {
             </h2>
             <Button>Add a Listing</Button>
           </div>
+
           <motion.div
             className={`hidden lg:block w-full h-[4px] bg-primary mx-auto ${
               isFixed
@@ -86,7 +87,7 @@ const Owner = () => {
 
         <article className="mb-20">
           <div
-            className="flex flex-col md:flex-row justify-between items-center gap-4"
+            className="relative flex flex-col md:flex-row justify-between items-center gap-4"
             ref={ref1}
           >
             <motion.div
@@ -142,7 +143,7 @@ const Owner = () => {
 
         <article className="mb-20">
           <div
-            className="flex flex-col md:flex-row justify-between items-center gap-4"
+            className="relative flex flex-col md:flex-row justify-between items-center gap-4"
             ref={ref2}
           >
             <div className="w-full lg:w-[45%]">
@@ -196,7 +197,7 @@ const Owner = () => {
 
         <article className="mb-20">
           <div
-            className="flex flex-col md:flex-row justify-between items-center gap-4"
+            className="relative flex flex-col md:flex-row justify-between items-center gap-4"
             ref={ref3}
           >
             <motion.div

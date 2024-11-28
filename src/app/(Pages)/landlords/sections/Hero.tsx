@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import imgLandlords from "@/assets/images/landlords.jpg";
+import imgLandlords from "/src/public/images/landlords.jpg";
 import { Button } from "@/components/ui/button";
 import { SelectLocation } from "../components/SelectLocation";
 import SelectGests from "../components/SelectGests";
@@ -21,10 +21,10 @@ const Hero = () => {
           priority
           className="absolute top-0 left-0 w-full h-screen "
         />
-        <div className="relative mt-14 lg:ms-28 w-[40%] h-fit bg-slate-700/90 rounded-md shadow-md z-10">
+        <div className="relative mt-14 lg:ms-28 md:w-[60%] xl:w-[40%] bg-slate-700/90 rounded-md shadow-md z-10">
           <div className="flex flex-col gap-y-4 p-8">
             <div>
-              <h1 className="text-4xl font-bold text-shadow-smooth mb-2">
+              <h1 className="text-white text-xl lg:text-4xl font-bold text-shadow-primary mb-2">
                 Discover Your Property&apos;s Earning Potential
               </h1>
               <p className="text-sm text-gray-400">
@@ -36,17 +36,23 @@ const Hero = () => {
 
             <form className="flex flex-col gap-y-4">
               <div className="grid w-full items-center gap-1.5">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-white">
+                  Email
+                </Label>
                 <SelectLocation />
               </div>
 
               <div className="flex gap-x-4">
                 <div className="grid w-full items-center gap-1.5">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-white">
+                    Email
+                  </Label>
                   <SelectGests />
                 </div>
                 <div className="grid w-full items-center gap-1.5">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-white">
+                    Email
+                  </Label>
                   <Input
                     type="email"
                     id="email"
@@ -57,14 +63,14 @@ const Hero = () => {
               </div>
             </form>
 
-            <div className="flex flex-col gap-y-4">
+            <div className="text-white flex flex-col gap-y-4">
               <div className="flex justify-between items-center gap-x-4">
-                <h3 className="text-2xl font-bold text-shadow-smooth">
+                <h3 className="text-md lg:text-2xl font-bold text-shadow-smooth">
                   Your property <br />
                   could be earning
                 </h3>
                 <MoveRight className="w-8 h-8" />
-                <h3 className="text-3xl font-bold text-shadow-smooth">
+                <h3 className="text-xl lg:text-2xl font-bold text-shadow-smooth">
                   £7,000
                 </h3>
               </div>

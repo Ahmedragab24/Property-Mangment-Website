@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Point from "../components/Point";
-import map from "@/assets/images/map.png";
+import map from "/src/public/images/map.png";
 import dynamic from "next/dynamic";
 
 const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
@@ -12,7 +12,7 @@ const Map = () => {
   return (
     <section className="relative overflow-hidden">
       <div className="container">
-        <MotionDown> 
+        <MotionDown>
           <Image
             src={map}
             alt="map"

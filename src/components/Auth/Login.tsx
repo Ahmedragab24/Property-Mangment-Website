@@ -4,12 +4,15 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import LoginImg from "@/assets/images/home-1.jpg";
+import LoginImg from "/src/public/images/home-1.jpg";
 import { motion } from "framer-motion";
 import { useLoginUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
 import { LoaderCircle } from "lucide-react";
 import { IError, IUser, LoginForm } from "@/interfaces";
+import { useAppDispatch } from "@/store/hooks";
+import { addToUserData } from "@/store/features/UserData/userData";
+import { useRouter } from "next/navigation";
 
 interface Iprops {
   changeToRegisterModle: () => void;
@@ -22,8 +25,10 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useAppDispatch();
+  const Router = useRouter();
 
-  // Handler
+  // Handler to manage input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserData((prevData) => ({
@@ -36,15 +41,19 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
     event.preventDefault();
     try {
       const response: IUser = await loginUser(userData).unwrap();
-      localStorage.setItem("user", JSON.stringify(response));
+      // Store user in cookies
+      if (typeof window !== "undefined") {
+        dispatch(addToUserData(response));
+      }
 
       toast({
         variant: "success",
-        title: "Registration Successful",
-        description: "User registered successfully!",
+        title: "Login Successful",
+        description: "User logged in successfully!",
       });
+
       setTimeout(() => {
-        window.location.reload();
+        Router.refresh();
       }, 2000);
     } catch (err) {
       setErrorMessage(
@@ -62,7 +71,9 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
   return (
     <div className="flex justify-start items-center">
       <div className="w-full xl:w-1/2 p-6 mt-2">
-        <h2 className="text-foreground text-3xl text-shadow-primary">Login now</h2>
+        <h2 className="text-foreground text-3xl text-shadow-primary">
+          Login now
+        </h2>
         {!isSuccess && error && (
           <p className="text-red-800 text-xl">{errorMessage}</p>
         )}

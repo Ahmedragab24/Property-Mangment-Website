@@ -1,13 +1,16 @@
-import HomeImg1 from "/src/assets/images/home-1.jpg";
-import HomeImg2 from "/src/assets/images/home-2.jpg";
-import HomeImg3 from "/src/assets/images/home-3.jpg";
-import HomeImg4 from "/src/assets/images/home-4.jpg";
-import partnerImage1 from "@/assets/images/partners1.jpg";
-import partnerImage2 from "@/assets/images/partners2.jpg";
-import partnerImage3 from "@/assets/images/partners3.jpg";
-import partnerImage4 from "@/assets/images/partners4.jpg";
-import partnerImage5 from "@/assets/images/partners5.jpg";
-import partnerImage6 from "@/assets/images/partners6.jpg";
+import HomeImg1 from "/src/public/images/home-1.jpg";
+import HomeImg2 from "/src/public/images/home-2.jpg";
+import HomeImg3 from "/src/public/images/home-3.jpg";
+import HomeImg4 from "/src/public/images/home-4.jpg";
+import partnerImage1 from "/src/public/images/partners1.jpg";
+import partnerImage2 from "/src/public/images/partners2.jpg";
+import partnerImage3 from "/src/public/images/partners3.jpg";
+import partnerImage4 from "/src/public/images/partners4.jpg";
+import partnerImage5 from "/src/public/images/partners5.jpg";
+import partnerImage6 from "/src/public/images/partners6.jpg";
+import ImageAbout1 from "/src/public/images/about1.png";
+import ImageAbout2 from "/src/public/images/about2.png";
+import ImageAbout3 from "/src/public/images/about3.png";
 import { accordion, SocialLinks } from "@/interfaces";
 
 // ===================== Home PAGE ============================
@@ -57,22 +60,97 @@ export const HeroSocialLinks: SocialLinks[] = [
   },
 ];
 
+export const UserSection = [
+  {
+    supTitle1: "The Labu “Reiza”",
+    supTitle2: "The Living Pumpkin",
+    title: "Fed Up with Late-Night Calls?",
+    description:
+      "Managing a property can be overwhelming, especially when you&apos;re dealing with late-night calls, constant complaints, and endless reviews. Instead of letting these stressors take over your life, streamline your property management and regain peace of mind. Let professionals handle the hassle while you focus on what matters most.",
+    image: ImageAbout1,
+  },
+  {
+    supTitle1: "The Labu “Reiza”",
+    supTitle2: "The Living Pumpkin",
+    title: "Unlock Income from Your Unsold Property",
+    description:
+      "Struggling to sell your property? Instead of letting it sit idle, transform it into a steady income source. Renting out your property can provide you with consistent cash flow while you wait for the right buyer. Don’t let your investment go to waste—turn a challenge into an opportunity today.",
+    image: ImageAbout2,
+  },
+  {
+    supTitle1: "The Labu “Reiza”",
+    supTitle2: "The Living Pumpkin",
+    title: "Simplify Your Property Insurance",
+    description:
+      "Navigating property insurance can be confusing and time-consuming. From understanding complex policies to managing claims, the process can feel overwhelming. Streamline your insurance experience with Hububb—get clear, straightforward coverage that protects your investment without the hassle.",
+    image: ImageAbout3,
+  },
+];
+
+export const FeaturesItems = [
+  {
+    motion: "MotionLeft",
+    icon: "TabletSmartphone",
+    title: "Multi-Platform Listing",
+    description: "Simultaneously lists properties on multiple booking sites,",
+    subDescription:
+      "Exposure to 100m+ potential guests at the click of a button.",
+  },
+  {
+    motion: "MotionUp",
+    icon: "DollarSign",
+    title: "Smart Pricing Tools",
+    description: "Maximize rental income with our dynamic pricing tools,",
+    subDescription:
+      "adjusting rates based on real-time market data for optimal earnings.",
+  },
+  {
+    motion: "MotionRight",
+    icon: "Layers",
+    title: "Property Management",
+    description: "Ensures properties are well-maintained,",
+    subDescription:
+      "managing bookings, earnings, maintenance, and updates across multiple properties and locations.",
+  },
+  {
+    motion: "MotionLeft",
+    icon: "LogIn",
+    title: "Effortless Check-in Integration",
+    description:
+      "Simplify guest check-ins with our advanced digital solutions, offering keyless entry and remote property management.",
+  },
+  {
+    motion: "MotionDown",
+    icon: "UsersRound",
+    title: "Community Engagement",
+    description:
+      "Access to experienced property managers and hosts, sharing insights to enhance guest satisfaction and operational efficiency.",
+  },
+  {
+    motion: "MotionRight",
+    icon: "MessageCircleMore",
+    title: "Automated Guest Communication",
+    description:
+      "Automate guest interactions with built-in tools for confirmatuins and instructions, freeing up time to scale your rental business.",
+  },
+];
+
 // ===================== landlords =========================
 export const StatusCompany = [
   {
-    num: "10+",
+    num: 10,
     title: "Partners",
   },
   {
-    num: "500+",
+    num: 500,
     title: "Properties",
   },
   {
-    num: "10+",
+    num: 10,
     title: "Locations",
   },
   {
-    num: "150+",
+    num: 150,
     title: "Happy faces",
   },
 ];

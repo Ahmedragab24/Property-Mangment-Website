@@ -3,12 +3,14 @@ import heroNavReducer from "./features/heroNav/heroNavSlice";
 import { apiSlice } from "./apis/apis";
 import favoritesReducer from "./features/FavoritesProperties/favoritesProperties";
 import filteringReducer from "./features/FilteringProperties/filtering";
+import UserDataReducer from "./features/UserData/userData";
 
 export const store = configureStore({
   reducer: {
     heroNav: heroNavReducer,
     favorites: favoritesReducer,
     filteringProperties: filteringReducer,
+    UserData: UserDataReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
 

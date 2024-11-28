@@ -4,25 +4,17 @@ import HandlerNavColor from "@/components/layout/HandlerNavColor";
 import RegistrationModel from "@/components/model/RegistrationModel";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { IProperty, IUser } from "@/interfaces";
+import { IProperty } from "@/interfaces";
 import { removeFromFavorites } from "@/store/features/FavoritesProperties/favoritesProperties";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ArrowRight, Bath, Bed, ShieldBan, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const FavoritePage = () => {
   const favorites = useAppSelector((state) => state.favorites.favorites);
-  const [userData, setUserData] = useState<IUser | null>();
+  const userData = useAppSelector((state) => state.UserData.user?.user);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      setUserData(user ? JSON.parse(user) : null);
-    }
-  }, []);
 
   // Remove Property
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import Image from "next/image";
-import RegisterImg from "@/assets/images/home-2.jpg";
+import RegisterImg from "/src/public/images/home-2.jpg";
 import { motion } from "framer-motion";
 import { useRegisterUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";

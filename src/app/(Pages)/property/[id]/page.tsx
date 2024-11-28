@@ -5,13 +5,13 @@ import MyLightbox from "@/components/lightbox/LightBox";
 import ProjectsSkeleton from "@/components/skeleton/ProjectsSkeleton";
 import { IError, IProperty } from "@/interfaces";
 import { useGetOnePropertyQuery } from "@/store/apis/apis";
-
 import {
   Bath,
   Bed,
   CircleCheckBig,
   Loader,
   MapPinHouse,
+  MoveDown,
   MoveLeft,
   MoveRight,
   OctagonAlert,
@@ -22,13 +22,50 @@ import { Button } from "@/components/ui/button";
 import SimilarProperties from "./components/SimilarProperties";
 import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
 import HandlerNavColor from "@/components/layout/HandlerNavColor";
+import BookingProperty from "@/components/model/BookingProperty";
+import { DatePicker } from "../components/DatePicker";
 
 const Property = () => {
   const { id } = useParams();
   const { isLoading, isError, isSuccess, error, data } =
     useGetOnePropertyQuery(id);
-
+  const [MapURl, setMapUrl] = useState("");
   const [isBtnFixed, setIsBtnFixed] = useState(true);
+  const [DateDays, setDateDays] = useState<{
+    CheckIN: Date | null;
+    CheckOut: Date | null;
+  }>({
+    CheckIN: null,
+    CheckOut: null,
+  });
+  const [daysCount, setDaysCount] = useState(0);
+  const [Price, setPrice] = useState(0);
+
+  useEffect(() => {
+    if (DateDays.CheckIN && DateDays.CheckOut) {
+      const checkInDate = new Date(DateDays.CheckIN);
+      const checkOutDate = new Date(DateDays.CheckOut);
+
+      const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
+      const calculatedDays = timeDiff / (1000 * 60 * 60 * 24);
+
+      setDaysCount(calculatedDays > 0 ? calculatedDays : 0);
+
+      setPrice(data?.data?.price * daysCount);
+    }
+  }, [DateDays, daysCount, data?.data?.price]);
+
+  useEffect(() => {
+    const regex = /src="([^"]+)"/;
+    const matchLocation = data?.data?.locationGoogleMap?.match(regex);
+
+    if (matchLocation) {
+      const mapUrl = matchLocation[1];
+      setMapUrl(mapUrl);
+    } else {
+      console.log("No src found");
+    }
+  }, [data?.data?.locationGoogleMap]);
 
   useEffect(() => {
     const BtnFixed = () => {
@@ -203,17 +240,16 @@ const Property = () => {
             <div className="flex flex-col xl:flex-row justify-between gap-4 mb-16">
               <div className="xl:w-[66%]">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9927.741586541366!2d-0.06981626976895453!3d51.53274474727955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761cbcc62c36bd%3A0x9a79aa26640edeec!2zQXJkZW4gRXN0YXRlLCDZhNmG2K_ZhiBOMSA2UkfYjCDYp9mE2YXZhdmE2YPYqSDYp9mE2YXYqtit2K_YqQ!5e0!3m2!1sar!2seg!4v1730970072806!5m2!1sar!2seg"
+                  src={MapURl}
                   width="600"
                   height="450"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Google Maps Location"
                   className="w-full h-[250px] lg:h-[500px] rounded-xl"
                 ></iframe>
               </div>
 
               <div className="xl:w-[33%] flex flex-col justify-between gap-2 rounded-xl px-2 py-4 bg-secondary shadow-lg">
-                <div className="flex justify-between items-center gap-x-10 gap-y-2 px-4 py-8 bg-background rounded-2xl shadow-md">
+                <div className="flex justify-between items-center text-sm lg:text-md gap-x-10 gap-y-2 px-4 py-4 lg:px-4 lg:py-8 bg-background rounded-2xl shadow-md">
                   <div>
                     <h2>Savills Knightsbridge Estate Agents</h2>
                     <p className="text-sm text-textColor">
@@ -226,7 +262,7 @@ const Property = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center gap-x-10 gap-y-2 px-4 py-8 bg-background rounded-2xl shadow-md">
+                <div className="flex justify-between items-center text-sm lg:text-md gap-x-10 gap-y-2 px-4 py-4 lg:px-4 lg:py-8 bg-background rounded-2xl shadow-md">
                   <div>
                     <h2>Savills Knightsbridge Estate Agents</h2>
                     <p className="text-sm text-textColor">
@@ -239,7 +275,7 @@ const Property = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center gap-x-10 gap-y-2 px-4 py-8 bg-background rounded-2xl shadow-md">
+                <div className="flex justify-between items-center text-sm lg:text-md gap-x-10 gap-y-2 px-4 py-4 lg:px-4 lg:py-8 bg-background rounded-2xl shadow-md">
                   <div>
                     <h2>Savills Knightsbridge Estate Agents</h2>
                     <p className="text-sm text-textColor">
@@ -252,7 +288,7 @@ const Property = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center gap-x-10 gap-y-2 px-4 py-8 bg-background rounded-2xl shadow-md">
+                <div className="flex justify-between items-center text-sm lg:text-md gap-x-10 gap-y-2 px-4 py-4 lg:px-4 lg:py-8 bg-background rounded-2xl shadow-md">
                   <div>
                     <h2>Savills Knightsbridge Estate Agents</h2>
                     <p className="text-sm text-textColor">
@@ -267,42 +303,73 @@ const Property = () => {
               </div>
             </div>
 
-            <div className="flex justify-center items-center gap-x-4 mb-16">
-              {!isBtnFixed && (
-                <div className="flex justify-center items-center gap-x-2">
-                  <h2 className="lg:text-xl">Click here to book</h2>
-                  <MoveRight />
-                </div>
-              )}
-
-              <div className="relative">
-                <div
-                  className={`${
-                    isBtnFixed
-                      ? "fixed bottom-0 left-[50%] translate-x-[-50%] bg-secondary rounded-t-full z-10"
-                      : "flex justify-center rounded-xl"
-                  }`}
-                >
-                  <div className="bg-secondary lg:py-4 lg:px-8 rounded-full">
-                    <Button className="rounded-full" variant={"outline"}>
-                      Book now
-                    </Button>
+            <div className="mb-16">
+              <div className="flex justify-center items-center gap-x-4 mb-8">
+                {!isBtnFixed && (
+                  <div className="flex justify-center items-center gap-x-2">
+                    <h2 className="lg:text-xl">Click here to book</h2>
+                    <MoveRight />
                   </div>
+                )}
+
+                <div className="relative">
+                  <div
+                    className={`${
+                      isBtnFixed
+                        ? "fixed bottom-0 left-[50%] translate-x-[-50%] bg-secondary rounded-t-full z-10"
+                        : "flex justify-center rounded-xl"
+                    }`}
+                  >
+                    <div className="bg-secondary lg:py-4 lg:px-8 rounded-full shadow-lg">
+                      <BookingProperty
+                        propertyID={property.documentId || ""}
+                        price={price}
+                      >
+                        <div className="rounded-full cursor-pointer border border-primary bg-transparent shadow-sm hover:bg-accent duration-300 hover:text-accent-foreground p-2">
+                          Book now
+                        </div>
+                      </BookingProperty>
+                    </div>
+                  </div>
+
+                  {isBtnFixed && (
+                    <div className="fixed bottom-[-20px] w-[200px] left-[50%] translate-x-[-50%] h-10 overflow-hidden">
+                      <div className="bg-secondary w-full h-full rounded-t-full"></div>
+                    </div>
+                  )}
                 </div>
 
-                {isBtnFixed && (
-                  <div className="fixed bottom-[-20px] w-[200px] left-[50%] translate-x-[-50%] h-10 overflow-hidden">
-                    <div className="bg-secondary w-full h-full rounded-t-full"></div>
+                {!isBtnFixed && (
+                  <div className="flex justify-center items-center gap-x-2">
+                    <MoveLeft />
+                    <h2 className="lg:text-xl">Click here to inquire</h2>
                   </div>
                 )}
               </div>
 
-              {!isBtnFixed && (
-                <div className="flex justify-center items-center gap-x-2">
-                  <MoveLeft />
-                  <h2 className="lg:text-xl">Click here to inquire</h2>
+              <div className="flex flex-col justify-center items-center gap-y-4">
+                <h1 className="text-md lg:text-xl text-textColor">
+                  Select the number of days to know the price
+                </h1>
+                <MoveDown />
+                <div className="flex justify-center items-center gap-x-4">
+                  <DatePicker
+                    placeHolder="Check IN"
+                    onChange={(value) =>
+                      setDateDays((prev) => ({ ...prev, CheckIN: value }))
+                    }
+                  />
+                  <div className="px-6 py-2 bg-secondary text-3xl text-primary border border-primary rounded-full shadow-lg">
+                    ${Price.toFixed(2)}
+                  </div>
+                  <DatePicker
+                    placeHolder="Check Out"
+                    onChange={(value) =>
+                      setDateDays((prev) => ({ ...prev, CheckOut: value }))
+                    }
+                  />
                 </div>
-              )}
+              </div>
             </div>
 
             <SimilarProperties />

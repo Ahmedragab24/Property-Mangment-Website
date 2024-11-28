@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import RegistrationModel from "../model/RegistrationModel";
 import { CheckCheck, Heart } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
@@ -6,7 +6,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "@/store/features/FavoritesProperties/favoritesProperties";
-import { IProperty, IUser } from "@/interfaces";
+import { IProperty } from "@/interfaces";
 import { toast } from "@/hooks/use-toast";
 
 interface IProps {
@@ -17,15 +17,8 @@ interface IProps {
 const FavoriteButton = ({ property, IsTitle }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const [userData, setUserData] = useState<IUser | null>(null);
+  const userData = useAppSelector((state) => state.UserData.user?.user);
   const favorites = useAppSelector((state) => state.favorites.favorites);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      setUserData(user ? JSON.parse(user) : null);
-    }
-  }, []);
 
   // Favorite Button
   const isFavoriteSome = favorites.some(
@@ -60,15 +53,17 @@ const FavoriteButton = ({ property, IsTitle }: IProps) => {
         <RegistrationModel>
           <div
             className={`flex justify-center items-center gap-2 mt-3 cursor-pointer ${
-              isFavoriteSome ? "text-red-500" : "text-gray-500"
+              isFavoriteSome ? userData && "text-red-500" : "text-gray-500"
             }`}
             onClick={handlerFavoriteBtn}
           >
-            {isFavoriteSome && IsTitle && <CheckCheck />}
+            {userData && isFavoriteSome && IsTitle && <CheckCheck />}
 
             {IsTitle && (
               <h2>
-                {isFavoriteSome ? "Added to favorites" : "Add to favorites"}
+                {isFavoriteSome
+                  ? userData && "Added to favorites"
+                  : "Add to favorites"}
               </h2>
             )}
 
@@ -78,14 +73,16 @@ const FavoriteButton = ({ property, IsTitle }: IProps) => {
       ) : (
         <div
           className={`flex justify-center items-center gap-2 mt-3 cursor-pointer ${
-            isFavoriteSome ? "text-red-500" : "text-gray-500"
+            isFavoriteSome ? userData && "text-red-500" : "text-gray-500"
           }`}
           onClick={handlerFavoriteBtn}
         >
-          {isFavoriteSome && IsTitle && <CheckCheck />}
+          {userData && isFavoriteSome && IsTitle && <CheckCheck />}
           {IsTitle && (
             <h2>
-              {isFavoriteSome ? "Added to favorites" : "Add to favorites"}
+              {isFavoriteSome
+                ? userData && "Added to favorites"
+                : "Add to favorites"}
             </h2>
           )}
           <Heart />

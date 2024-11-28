@@ -1,7 +1,4 @@
-"use client";
-
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { FolderHeart, LogOut, Settings, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,24 +12,18 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IUser } from "@/interfaces";
-import avatarImage from "@/assets/images/avatarUser.webp";
+import avatarImage from "/src/public/images/avatarUser.webp";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { removeUserData } from "@/store/features/UserData/userData";
 
 const UserDropdown = () => {
-  const [userData, setUserData] = useState<IUser | null>();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      setUserData(user ? JSON.parse(user) : null);
-    }
-  }, []);
+  const userData = useAppSelector((state) => state.UserData.user?.user);
+  const dispatch = useAppDispatch();
 
   //   Handling
   const handlerLogOut = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
+    dispatch(removeUserData());
   };
 
   return (
@@ -40,32 +31,24 @@ const UserDropdown = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            {userData ? (
-              <>
-                <AvatarImage
-                  src={avatarImage.src}
-                  alt={userData.user.username}
-                />
-                <AvatarFallback>{userData.user.username}</AvatarFallback>
-              </>
-            ) : (
-              <AvatarFallback>Loading...</AvatarFallback>
-            )}
+            <AvatarImage
+              src={avatarImage.src}
+              alt={userData?.username || "User"}
+            />
+            <AvatarFallback>{userData?.username || "User "}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          {userData && (
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {userData.user.username}
-              </p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {userData.user.email}
-              </p>
-            </div>
-          )}
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">
+              {userData?.username || "User Name"}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {userData?.email || "User"}
+            </p>
+          </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

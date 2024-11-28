@@ -10,7 +10,6 @@ export interface LoginForm {
 }
 
 export interface IUser {
-  jwt: string;
   user: {
     id: number;
     username: string;
@@ -47,9 +46,9 @@ export interface IProperty {
   documentId?: string;
   title: string;
   description: string;
-  price: string;
+  price: number;
   locationName: string;
-  location: string;
+  locationGoogleMap: string;
   date: "2024-11-05";
   room: number;
   kitchen?: number;
@@ -134,4 +133,16 @@ export interface accordion {
   title: string;
   list: { description: string }[];
   icon: IconName;
+}
+
+export interface BookingData {
+  data: {
+    userName: string;
+    email: string;
+    phoneNumber: string;
+    property: string | undefined;
+    checkIn: Date | null;
+    checkOut: Date | null;
+    price: number;
+  };
 }

@@ -13,7 +13,9 @@ interface NavColor {
 const HandlerNavColor = ({ BackgroundImg }: NavColor) => {
   const dispatch = useAppDispatch();
 
-  dispatch(setIsBackgroundImg(BackgroundImg));
+  useEffect(() => {
+    dispatch(setIsBackgroundImg(BackgroundImg));
+  }, [BackgroundImg, dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,7 +32,6 @@ const HandlerNavColor = ({ BackgroundImg }: NavColor) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [dispatch]);
-
 
   return null;
 };

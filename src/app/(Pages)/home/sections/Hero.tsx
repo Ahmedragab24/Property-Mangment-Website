@@ -57,7 +57,7 @@ const Hero = () => {
   }, [dispatch]);
 
   return (
-    <section className={`hero ${showProperty ? "mb-0" : "mb-20"}`}>
+    <section className={`hero relative ${showProperty ? "mb-0" : "mb-20"}`}>
       <Swiper
         className="relative z-10 h-screen"
         modules={[EffectFade, Parallax, Navigation, Pagination]}

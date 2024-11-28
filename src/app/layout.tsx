@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
-// import localFont from "next/font/local";
-import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import ScrollUp from "@/components/layout/ScrollUp";
 import Footer from "@/components/layout/Footer";
-import circle from "@/assets/images/transparent circle.png";
+import circle from "/src/public/images/transparent circle.png";
 import Image from "next/image";
 import ProviderRedux from "./layoutRedux";
 import { Toaster } from "@/components/ui/toaster";
-
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Real State",
@@ -33,8 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head></head>
-      <body className={` antialiased font-montse`}>
+      <body className="antialiased font-montse">
         <ProviderRedux>
           <ThemeProvider
             attribute="class"
@@ -49,6 +36,7 @@ export default function RootLayout({
                 alt="circle"
                 width={500}
                 height={500}
+                priority
                 className="fixed -top-10 -left-48 blur-3xl -z-10"
               />
               <Image
@@ -56,6 +44,7 @@ export default function RootLayout({
                 alt="circle"
                 width={500}
                 height={500}
+                priority
                 className="fixed -bottom-36 -right-48 blur-3xl -z-10"
               />
               {children}

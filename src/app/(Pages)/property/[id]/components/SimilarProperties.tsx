@@ -21,10 +21,10 @@ import ProjectsSkeleton from "@/components/skeleton/ProjectsSkeleton";
 import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
 
 const SimilarProperties = () => {
-  const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery(
-    "",
-    { pollingInterval: 5000 }
-  );
+  const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery({
+    page: 1,
+    pageSize: 10,
+  });
 
   return (
     <div className="SimilarProperties">

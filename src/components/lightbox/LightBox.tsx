@@ -39,18 +39,22 @@ const MyLightbox: React.FC<ILightboxProps> = ({ imageGroup }) => {
     <>
       {imageGroup.slice(0, 6).map((item, index) => (
         <div key={item.id} onClick={() => handleOpen(index)}>
-          <div
-            className="rounded-xl group overflow-hidden duration-500 hover:shadow-xl"
-            key={item.id}
-          >
+          <div className="relative rounded-xl group overflow-hidden duration-500 hover:shadow-xl">
             <Image
               src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${item.formats.large.url}`}
               alt={item.name}
               width={item.formats.large.width}
               height={item.formats.large.height}
               loading="lazy"
-              className="max-w-56 h-28 xl:h-36 rounded-xl cursor-pointer duration-500 group-hover:scale-110"
+              className={`max-w-56 h-28 xl:h-36 rounded-xl cursor-pointer duration-500 group-hover:scale-110 ${
+                index === 5 && "brightness-50"
+              }`}
             />
+            {index == 5 && (
+              <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white text-center text-sm lg:text-md">
+                See All Photos ({imageGroup.length})
+              </div>
+            )}
           </div>
         </div>
       ))}

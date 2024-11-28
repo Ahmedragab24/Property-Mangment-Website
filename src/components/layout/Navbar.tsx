@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../ui/modeToggle";
 import {
@@ -28,18 +28,11 @@ import UserDropdown from "../Auth/user";
 const Navbar = () => {
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
   const [scrolling, setScrolling] = useState(false);
-  const [userData, setUserData] = useState(null);
   const handlerOpenMenuMobile = () => {
     setOpenMenuMobile((prev) => (prev = !prev));
   };
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      setUserData(user ? JSON.parse(user) : null);
-    }
-  }, []);
+  const userData = useAppSelector((state) => state.UserData.user?.user);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +50,22 @@ const Navbar = () => {
     };
   }, []);
 
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (navRef.current && !navRef.current.contains(event.target as Node)) {
+      setOpenMenuMobile(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      window.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
     <nav
       className={`w-full fixed z-50 duration-300 ${
@@ -70,7 +79,7 @@ const Navbar = () => {
     >
       <div className="container  flex items-center justify-between h-16">
         {/* Navbar Start */}
-        <div className="flex items-center space-x-2">
+        <div ref={navRef} className="flex items-center space-x-2">
           <div className="lg:hidden ">
             <a
               className="p-2 rounded cursor-pointer"
@@ -100,59 +109,97 @@ const Navbar = () => {
 
             {/* Dropdown Menu */}
             {openMenuMobile && (
-              <div className="absolute top-12 mt-2 bg-background rounded-md shadow-lg z-10">
-                <div className="flex flex-col items-center py-2 px-4">
-                  <Link href={"/"}>
-                    <Button
-                      variant={"ghost"}
-                      size={"lg"}
-                      className="text-sm"
-                      onClick={() => setOpenMenuMobile(false)}
-                    >
-                      About Us
-                    </Button>
-                  </Link>
-                  <Accordion type="single" collapsible>
-                    <AccordionItem value="item-1" className="border-none w-36">
+              <div className="w-[200px] absolute top-12 mt-2 bg-background rounded-md shadow-lg z-10">
+                <div className="flex flex-col justify-center items-center py-2 px-4">
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="w-full flex justify-center"
+                  >
+                    <AccordionItem value="item-1" className="border-none">
                       <AccordionTrigger className="flex justify-center gap-x-2">
                         About Us
                       </AccordionTrigger>
-                      <AccordionContent className="flex flex-col justify-center items-center">
-                        <Link href={"/landlord"}>
+                      <AccordionContent className="p-4 flex flex-col justify-center items-center border border-primary rounded-lg">
+                        <Link href={"/#about"}>
                           <Button
                             variant={"ghost"}
                             size={"sm"}
                             onClick={() => setOpenMenuMobile(false)}
                           >
-                            Landlords
+                            About Company
                           </Button>
                         </Link>
-                        <Link href={"/property"}>
+
+                        <Link href={"/#user"}>
                           <Button
                             variant={"ghost"}
                             size={"sm"}
                             onClick={() => setOpenMenuMobile(false)}
                           >
-                            property
+                            For Landlords
+                          </Button>
+                        </Link>
+
+                        <Link href={"/#owner"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
+                          >
+                            For Property Owners
+                          </Button>
+                        </Link>
+
+                        <Link href={"/#features"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
+                          >
+                            Features
+                          </Button>
+                        </Link>
+
+                        <Link href={"/#contact"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
+                          >
+                            Contact Us
                           </Button>
                         </Link>
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
-                  <Accordion type="single" collapsible>
-                    <AccordionItem value="item-1" className="border-none w-36">
+
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="w-full flex justify-center"
+                  >
+                    <AccordionItem value="item-2" className="border-none">
                       <AccordionTrigger className="flex justify-center gap-x-2">
-                        About Us
+                        Out Services
                       </AccordionTrigger>
-                      <AccordionContent className="flex flex-col justify-center items-center">
-                        <Link href={"/landlord"}>
-                          <Button variant={"ghost"} size={"sm"}>
-                            Landlords
+                      <AccordionContent className="p-4 flex flex-col justify-center items-center border border-primary rounded-lg">
+                        <Link href={"/property"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
+                          >
+                            Rental Properties
                           </Button>
                         </Link>
-                        <Link href={"/property"}>
-                          <Button variant={"ghost"} size={"sm"}>
-                            property
+                        <Link href={"/landlords"}>
+                          <Button
+                            variant={"ghost"}
+                            size={"sm"}
+                            onClick={() => setOpenMenuMobile(false)}
+                          >
+                            Landlords
                           </Button>
                         </Link>
                       </AccordionContent>
@@ -182,49 +229,76 @@ const Navbar = () => {
                   isBackgroundImg && value ? "text-white" : "text-foreground"
                 }`}
               >
-                <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+                {/* Item 1 */}
+                <NavigationMenuTrigger>About Us</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <Link href="/property" legacyBehavior passHref>
+                  <Link href="/#about" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      property
+                      About company
                     </NavigationMenuLink>
                   </Link>
-                  <Link href="/landlords" legacyBehavior passHref>
+
+                  <Link href="/#user" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      Landlords
+                      For Landlords
+                    </NavigationMenuLink>
+                  </Link>
+
+                  <Link href="/#owner" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      For Property Owners
+                    </NavigationMenuLink>
+                  </Link>
+
+                  <Link href="/#features" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Features
+                    </NavigationMenuLink>
+                  </Link>
+
+                  <Link href="/#contact" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Contact Us
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuContent>
               </NavigationMenuItem>
+
+              {/* Item 2 */}
               <NavigationMenuItem
                 className={`${
                   isBackgroundImg && value ? "text-white" : "text-foreground"
                 }`}
               >
-                <NavigationMenuTrigger>Item Tow</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <Link href="#about" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      About Us
-                    </NavigationMenuLink>
-                  </Link>
-                  <Link href="/docs" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Documentation
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuContent>
+                <Link href="/property" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Rental properties
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/landlords" legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Landlords
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              {/* Item 3 */}
               <NavigationMenuItem>
                 <AddListingModel
+                  placeHolder="Add your property"
                   variant="ghost"
                   className={`!text-shadow-smooth ${
                     isBackgroundImg && value ? "text-white" : "text-foreground"

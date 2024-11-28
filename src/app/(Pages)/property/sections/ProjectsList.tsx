@@ -6,6 +6,8 @@ import {
   ArrowRight,
   Bath,
   Bed,
+  ChevronLeft,
+  ChevronRight,
   House,
   Loader,
   MapPinHouse,
@@ -23,7 +25,7 @@ import ProjectsSkeleton from "@/components/skeleton/ProjectsSkeleton";
 import FilteringRoom from "../components/FilteringRoom";
 import { RootState } from "@/store/store";
 import { useAppSelector } from "@/store/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SearchProperty } from "../../home/components/SearchProprtys";
 import { DatePicker } from "../components/DatePicker";
 import SelectGests from "../components/SelectGests";
@@ -32,13 +34,17 @@ import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
 type Filtering = "initial" | "room" | "GroupFilter";
 
 const ProjectsList = () => {
-  const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery(
-    ""
-    // { pollingInterval: 5000 }
-  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6;
+  const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery({
+    page: currentPage,
+    pageSize,
+    pollingInterval: 50000,
+  });
   const { room, city, guests } = useAppSelector(
     (state: RootState) => state.filteringProperties
   );
+  const topRef = useRef<HTMLDivElement | null>(null);
   const { data: filteringDataByRoom } = useFilterPropertiesByRoomQuery(room);
   const { data: filteringDataByCityAndGuests } =
     useFilterPropertiesByCityAndGuestsQuery({ city, guests });
@@ -59,6 +65,7 @@ const ProjectsList = () => {
     filteringDataByRoom?.data,
     filteringDataByCityAndGuests?.data,
     filteringDataState,
+    currentPage,
   ]);
 
   //////// Handling /////////
@@ -152,8 +159,21 @@ const ProjectsList = () => {
     window.location.reload();
   };
 
+  // Pagination Buttons
+  const totalPages = Math.ceil((data?.meta?.pagination?.total || 0) / pageSize);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section>
+    <section className="mb-16">
       {/* Group Filtering Buttons */}
       <div className="mb-14">
         <div className="flex justify-center lg:justify-between mb-2 lg:mb-0">
@@ -186,7 +206,10 @@ const ProjectsList = () => {
           </div>
         </div>
 
-        <div className="w-full py-4 px-2 border border-primary flex flex-col lg:flex-row lg:flex-wrap gap-y-4 gap-x-2 justify-around items-center bg-secondary  rounded-lg">
+        <div
+          ref={topRef}
+          className="w-full py-4 px-2 border border-primary flex flex-col lg:flex-row lg:flex-wrap gap-y-4 gap-x-2 justify-around items-center bg-secondary  rounded-lg"
+        >
           <SearchProperty className="w-fit px-6 lg:px-14" />
           <DatePicker placeHolder="Check in" className="w-fit px-6 lg:px-14" />
           <DatePicker placeHolder="Check Out" className="w-fit px-6 lg:px-14" />
@@ -205,7 +228,7 @@ const ProjectsList = () => {
       </div>
 
       {/* Projects Section */}
-      <div className="text-textColor mb-14">
+      <div className="text-textColor">
         {/* Loading */}
         {isLoading && (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
@@ -241,9 +264,32 @@ const ProjectsList = () => {
                 <h1 className="text-md lg:text-xl">Not Data Found</h1>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
-                {RenderingData()}
-              </div>
+              <>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
+                  {RenderingData()}
+                </div>
+                <div className="flex justify-center items-center gap-x-4 mt-8">
+                  <Button
+                    disabled={currentPage === 1}
+                    onClick={handlePreviousPage}
+                    className="bg-secondary text-foreground"
+                  >
+                    <ChevronLeft />
+                    Previous
+                  </Button>
+                  <p className="text-textColor">
+                    Page {currentPage} of {totalPages}
+                  </p>
+                  <Button
+                    disabled={currentPage === totalPages}
+                    onClick={handleNextPage}
+                    className="bg-secondary text-foreground"
+                  >
+                    Next
+                    <ChevronRight />
+                  </Button>
+                </div>
+              </>
             )}
           </>
         )}

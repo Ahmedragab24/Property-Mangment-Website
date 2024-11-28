@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["User", "properties", "property", "filtering"],
+  tagTypes: ["User", "landLord", "properties", "property", "filtering"],
   refetchOnFocus: true,
   refetchOnReconnect: true,
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL_API }),
@@ -29,8 +29,8 @@ export const apiSlice = createApi({
 
     /////////////////////// Get Properties ////////////////////////
     getProperties: builder.query({
-      query: () => ({
-        url: "/api/properties?populate=image",
+      query: ({ page, pageSize }) => ({
+        url: `/api/properties?populate=image&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
       }),
       providesTags: ["properties"],
     }),
@@ -61,6 +61,25 @@ export const apiSlice = createApi({
       },
       providesTags: ["filtering"],
     }),
+
+    ////////////////////// Filtering By City //////////////////////
+    registerLandLords: builder.mutation({
+      query: (landLordData) => ({
+        url: "/api/landlords",
+        method: "POST",
+        body: landLordData,
+      }),
+      invalidatesTags: ["landLord"],
+    }),
+
+    ////////////////////// Booking Property //////////////////////
+    bookingProperty: builder.mutation({
+      query: (data) => ({
+        url: "/api/booking-properties",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -71,4 +90,5 @@ export const {
   useGetOnePropertyQuery,
   useFilterPropertiesByRoomQuery,
   useFilterPropertiesByCityAndGuestsQuery,
+  useBookingPropertyMutation,
 } = apiSlice;
