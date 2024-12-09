@@ -80,6 +80,40 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+
+    ////////////////////// LandLords //////////////////////
+    landLords: builder.mutation({
+      query: (data) => ({
+        url: "/api/landlords",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    ////////////////////// Create Property //////////////////////
+    createProperty: builder.mutation({
+      query: (data) => ({
+        url: "/api/properties",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    ////////////////////// Upload Image //////////////////////
+    UploadImage: builder.mutation({
+      query: (formData) => ({
+        url: "/api/upload",
+        method: "POST",
+        body: formData,
+      }),
+    }),
+
+    ////////////////////// Find Image //////////////////////
+    FindImage: builder.query({
+      query: (url) => ({
+        url: `/uploads/${url}`,
+      }),
+    }),
   }),
 });
 
@@ -91,4 +125,8 @@ export const {
   useFilterPropertiesByRoomQuery,
   useFilterPropertiesByCityAndGuestsQuery,
   useBookingPropertyMutation,
+  useLandLordsMutation,
+  useCreatePropertyMutation,
+  useUploadImageMutation,
+  useFindImageQuery,
 } = apiSlice;

@@ -72,6 +72,7 @@ const SimilarProperties = () => {
               room,
               bathroom,
             } = property;
+            const image = `${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`;
 
             return (
               <SwiperSlide key={documentId} className="lg:w-1/4 sm:w-1/2 p-2">
@@ -83,7 +84,7 @@ const SimilarProperties = () => {
                           width={750}
                           height={400}
                           className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
+                          src={image}
                           alt="blog"
                           loading="lazy"
                         />
@@ -93,7 +94,7 @@ const SimilarProperties = () => {
                         <div className="bg-secondary py-2 px-4 rounded-br-3xl">
                           <span className="text-primary text-lg mr-2">
                             ${price}
-                          </span>{" "}
+                          </span>
                           / night
                         </div>
                       </div>

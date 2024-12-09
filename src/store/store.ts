@@ -4,6 +4,8 @@ import { apiSlice } from "./apis/apis";
 import favoritesReducer from "./features/FavoritesProperties/favoritesProperties";
 import filteringReducer from "./features/FilteringProperties/filtering";
 import UserDataReducer from "./features/UserData/userData";
+import StepsReducer from "./features/stepsAddLidting/stepsSlice";
+import imageReducer from "./features/UploadingImages/imagesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +13,8 @@ export const store = configureStore({
     favorites: favoritesReducer,
     filteringProperties: filteringReducer,
     UserData: UserDataReducer,
+    steps: StepsReducer,
+    images: imageReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
 

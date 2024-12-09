@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -10,20 +7,27 @@ import {
 import * as LucideIcons from "lucide-react";
 import Image from "next/image";
 import imgLandlords2 from "/src/public/images/landlords2.jpg";
-import AddListingModel from "@/components/model/AddListingModel";
+
 import { RentGuaranteeAccordion } from "@/constants";
+import { Metadata } from "next";
+import AddListingModel from "@/components/model/AddListingModle/AddListingModel";
+
+export const metadata: Metadata = {
+  description:
+    "Stress-Free Rent Guarantee Experience peace of mind with Flex Living's dedicated guaranteed rent service, providing up to 2 years of assured income without any hidden charges.",
+};
 
 const Accordions2 = () => {
   return (
-    <section className="">
+    <section>
       <div className="bg-secondary flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-4 shadow-lg rounded-b-lg overflow-hidden">
-        <div className="h-[450px] lg:h-auto lg:w-1/2">
+        <div className="h-[450px] lg:h-[700px] lg:w-1/2">
           <Image
             src={imgLandlords2}
             alt=""
             width={1400}
             height={700}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-fill object-center"
           />
         </div>
 
@@ -47,7 +51,7 @@ const Accordions2 = () => {
                 <Accordion key={id} type="single" collapsible>
                   <AccordionItem
                     value={id}
-                    className={`duration-500 border-primary hover:bg-background`}
+                    className="border-primary hover:bg-background"
                   >
                     <AccordionTrigger className="w-full text-left text-sm lg:text-md ">
                       <div className="flex gap-x-3">

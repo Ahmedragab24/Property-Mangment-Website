@@ -94,6 +94,8 @@ const ProjectsList = () => {
         bathroom,
       } = property;
 
+      const image = `${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`
+
       return (
         <div key={documentId} className="h-fit">
           <div className="h-auto md:h-[320px] lg:h-[430px] rounded-lg group duration-500 bg-secondary hover:text-foreground hover:shadow-xl">
@@ -103,7 +105,7 @@ const ProjectsList = () => {
                   width={750}
                   height={400}
                   className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                  src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
+                  src={image}
                   alt="blog"
                   loading="lazy"
                 />

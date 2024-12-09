@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -9,6 +8,12 @@ import * as LucideIcons from "lucide-react";
 import Image from "next/image";
 import imgLandlords1 from "/src/public/images/landlords1.jpg";
 import { ManagementAccordion } from "@/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description:
+    "Rental Property Management Software: Rent Your London & Dubai Properties Join us at property and tap into the future of property rentals. As a global leader in subleasing and property management, we offer landlords a unique opportunity to become part of an innovative accommodation network.",
+};
 
 const Accordions1 = () => {
   return (
@@ -38,7 +43,7 @@ const Accordions1 = () => {
                 <Accordion key={id} type="single" collapsible>
                   <AccordionItem
                     value={id}
-                    className="duration-500 border-primary hover:bg-background"
+                    className="border-primary hover:bg-background"
                   >
                     <AccordionTrigger className="w-full text-left text-sm lg:text-md ">
                       <div className="flex gap-x-3">
@@ -60,13 +65,13 @@ const Accordions1 = () => {
           </div>
         </div>
 
-        <div className="h-[450px] lg:h-auto lg:w-1/2">
+        <div className="h-[450px] lg:h-[700px] lg:w-1/2">
           <Image
             src={imgLandlords1}
             alt=""
             width={1400}
             height={700}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-fill object-center"
           />
         </div>
       </div>

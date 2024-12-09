@@ -8,7 +8,7 @@ import LoginImg from "/src/public/images/home-1.jpg";
 import { motion } from "framer-motion";
 import { useLoginUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
-import { LoaderCircle } from "lucide-react";
+import { Loader } from "lucide-react";
 import { IError, IUser, LoginForm } from "@/interfaces";
 import { useAppDispatch } from "@/store/hooks";
 import { addToUserData } from "@/store/features/UserData/userData";
@@ -96,9 +96,7 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
           />
           <div className="flex flex-col">
             <Button type="button" onClick={handleLogin} disabled={isLoading}>
-              {isLoading && (
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-              )}
+              {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
               Login
             </Button>
 

@@ -1,129 +1,124 @@
-"use client";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import {
+  setSingleImage,
+  setImageGroup,
+  clearSingleImage,
+  clearImageGroup,
+} from "@/store/features/UploadingImages/imagesSlice";
+import { useUploadImageMutation } from "@/store/apis/apis";
 
-import { useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Upload, Check, X } from "lucide-react";
-import Image from "next/image";
-import { Input } from "./input";
+const UploadImages = () => {
+  const dispatch = useDispatch();
+  const [uploadImage] = useUploadImageMutation();
 
-const UploadImage = () => {
-  const [image, setImage] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [uploadError, setUploadError] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { singleImage, imageGroup } = useSelector(
+    (state: RootState) => state.images
+  );
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSingleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append("files", file);
+
+      try {
+        const response = await uploadImage(formData).unwrap();
+        const imageUrl = response[0]?.url; // URL النهائي من Strapi
+        if (imageUrl) {
+          dispatch(setSingleImage(imageUrl)); // حفظ الرابط النهائي
+        }
+      } catch (err) {
+        alert("خطأ أثناء رفع الصورة. حاول مرة أخرى.");
+        console.log(err);
+      }
     }
   };
 
-  const handleUpload = async () => {
-    if (!image) return;
+  const handleImageGroupChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (files) {
+      const formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("files", file);
+      });
 
-    setIsUploading(true);
-    setUploadSuccess(false);
-    setUploadError(false);
-
-    // Simulating an upload process
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setUploadSuccess(true);
-    } catch (error) {
-      console.log(error);
-
-      setUploadError(true);
-    } finally {
-      setIsUploading(false);
+      try {
+        const response = await uploadImage(formData).unwrap();
+        const imageUrls = response.map((img: { url: string }) => img.url);
+        if (imageUrls.length > 0) {
+          dispatch(setImageGroup(imageUrls)); // حفظ الروابط النهائية
+        }
+      } catch (err) {
+        alert("خطأ أثناء رفع الصور. حاول مرة أخرى.");
+        console.log(err);
+      }
     }
   };
 
-  const handleButtonClick = () => {
-    if (image) {
-      handleUpload();
-    } else {
-      fileInputRef.current?.click();
-    }
-  };
-
-  const handleReset = () => {
-    setImage(null);
-    setUploadSuccess(false);
-    setUploadError(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+  const handleClear = () => {
+    dispatch(clearSingleImage());
+    dispatch(clearImageGroup());
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <Input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        ref={fileInputRef}
-        className="hidden"
-      />
-      {image && (
-        <div className="relative w-64 h-64">
-          <Image
-            width={200}
-            height={200}
-            src={image}
-            alt="Selected"
-            className="w-full h-full object-cover rounded-lg"
+    <div>
+      <div>
+        <label>
+          صورة واحدة:
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleSingleImageChange}
           />
-          <Button
-            onClick={handleReset}
-            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
-            aria-label="Remove image"
-          >
-            <X size={16} />
-          </Button>
-        </div>
-      )}
-      <Button
-        onClick={handleButtonClick}
-        disabled={isUploading}
-        className={`w-64 ${
-          uploadSuccess
-            ? "bg-green-500 hover:bg-green-600"
-            : uploadError
-            ? "bg-red-500 hover:bg-red-600"
-            : ""
-        }`}
-      >
-        {isUploading ? (
-          <span className="flex items-center">
-            Uploading...
-            <Upload className="ml-2 h-4 w-4 animate-bounce" />
-          </span>
-        ) : image ? (
-          uploadSuccess ? (
-            <span className="flex items-center">
-              Uploaded
-              <Check className="ml-2 h-4 w-4" />
-            </span>
-          ) : uploadError ? (
-            <span className="flex items-center">
-              Error
-              <X className="ml-2 h-4 w-4" />
-            </span>
-          ) : (
-            "Upload Image"
-          )
-        ) : (
-          "Select Image"
+        </label>
+        {singleImage && (
+          <div>
+            <p>صورة واحدة:</p>
+            <img
+              src={`http://localhost:1337${singleImage}`} // استخدام الرابط النهائي
+              alt="Uploaded single"
+              width={100}
+              height={100}
+            />
+          </div>
         )}
-      </Button>
+      </div>
+
+      <div>
+        <label>
+          مجموعة صور:
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageGroupChange}
+          />
+        </label>
+        {imageGroup.length > 0 && (
+          <div className="image-group">
+            <p>مجموعة الصور:</p>
+            {imageGroup.map((url, index) => (
+              <img
+                key={index}
+                src={`http://localhost:1337${url}`} // استخدام الرابط النهائي
+                alt={`Image ${index + 1}`}
+                width={100}
+                height={100}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <button onClick={handleClear}>مسح الصور</button>
     </div>
   );
 };
 
-export default UploadImage;
+export default UploadImages;

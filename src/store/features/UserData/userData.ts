@@ -1,15 +1,20 @@
-import { IUser } from "@/interfaces";
+import { ILandlord, IUser } from "@/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 interface UserState {
   user: IUser | null;
+  landlord: ILandlord | null;
 }
 
 const initialState: UserState = {
   user:
     typeof window !== "undefined" && Cookies.get("user")
       ? JSON.parse(Cookies.get("user") || "{}")
+      : null,
+  landlord:
+    typeof window !== "undefined" && Cookies.get("landlord")
+      ? JSON.parse(Cookies.get("landlord") || "{}")
       : null,
 };
 
@@ -33,8 +38,19 @@ const userSlice = createSlice({
         Cookies.remove("user");
       }
     },
+
+    addToLandlordData: (state, action: PayloadAction<ILandlord>) => {
+      state.landlord = action.payload;
+      if (typeof window !== "undefined") {
+        Cookies.set("landlord", JSON.stringify(state.landlord), {
+          expires: 1,
+          secure: true,
+        });
+      }
+    },
   },
 });
 
-export const { addToUserData, removeUserData } = userSlice.actions;
+export const { addToUserData, removeUserData, addToLandlordData } =
+  userSlice.actions;
 export default userSlice.reducer;

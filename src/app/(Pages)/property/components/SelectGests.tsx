@@ -10,12 +10,16 @@ import { User } from "lucide-react";
 import { useAppDispatch } from "@/store/hooks";
 import { setFilteringGuests } from "@/store/features/FilteringProperties/filtering";
 
-const SelectGests = () => {
+interface Iprops {
+  className?: string;
+}
+
+const SelectGests = ({ className }: Iprops) => {
   const dispatch = useAppDispatch();
 
   return (
     <Select onValueChange={(value) => dispatch(setFilteringGuests(value))}>
-      <SelectTrigger className="w-fit px-14">
+      <SelectTrigger className={`w-fit px-14 ${className}`}>
         <User className="mr-2 h-4 w-4 text-textColor" />
         <SelectValue placeholder="Guests" />
       </SelectTrigger>

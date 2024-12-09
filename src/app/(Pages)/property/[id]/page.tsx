@@ -114,6 +114,8 @@ const Property = () => {
     imageGroup,
   } = property;
 
+  const image = `${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`;
+
   // ========== Handling =========
 
   // Refresh Data
@@ -158,7 +160,7 @@ const Property = () => {
               <div className="xl:flex-1">
                 <div className="max-h-[500px] rounded-xl group overflow-hidden shadow-xl duration-500 relative">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
+                    src={image}
                     alt={description}
                     width={width}
                     height={height}

@@ -12,6 +12,7 @@ import ImageAbout1 from "/src/public/images/about1.png";
 import ImageAbout2 from "/src/public/images/about2.png";
 import ImageAbout3 from "/src/public/images/about3.png";
 import { accordion, SocialLinks } from "@/interfaces";
+import { Wifi, Smartphone, TabletSmartphone } from "lucide-react";
 
 // ===================== Home PAGE ============================
 export const HeroSlider = [
@@ -399,4 +400,10 @@ export const cities = [
     value: "beijing",
     label: "Beijing",
   },
+];
+
+export const amenitiesOptions = [
+  { value: "wifi", label: "Wi-Fi", icon: Wifi },
+  { value: "smartphone", label: "Smartphone", icon: Smartphone },
+  { value: "tablet", label: "Tablet", icon: TabletSmartphone },
 ];

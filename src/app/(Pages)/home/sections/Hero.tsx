@@ -7,11 +7,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, MoveRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
 import * as LucideIcons from "lucide-react";
-import { SearchProperty } from "../components/SearchProprtys";
-import { SearchProprty2 } from "../components/SearchProprtys2";
-import { SearchProprty3 } from "../components/SearchProprtys3";
+
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
@@ -21,6 +19,7 @@ import {
   setIsBackgroundImg,
 } from "@/store/features/heroNav/heroNavSlice";
 import { HeroSlider, HeroSocialLinks } from "@/constants";
+import FilteringButtons from "../components/FilteringButtons";
 
 const MotionFade = dynamic(() => import("@/components/animations/MotionFade"), {
   ssr: false,
@@ -153,17 +152,10 @@ const Hero = () => {
           showProperty ? "flex" : "hidden"
         }`}
       >
-        <h2 className="text-xl lg:text-2xl font-bold">Find Your Property</h2>
-        <div className="flex flex-row flex-wrap justify-center items-center gap-4">
-          <SearchProperty />
-          <SearchProprty2 />
-          <SearchProprty3 />
-          <Link href={"/property"}>
-            <Button variant={"secondary"} className="w-[200px]">
-              Search <Search size={18} className="ml-1" />
-            </Button>
-          </Link>
-        </div>
+        <h2 className="text-xl lg:text-xl text-center font-bold mb-2">
+          Find apartments for rent with ease
+        </h2>
+        <FilteringButtons />
       </MotionFade>
     </section>
   );

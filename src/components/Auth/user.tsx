@@ -1,7 +1,8 @@
+"use client";
+
 import * as React from "react";
 import { FolderHeart, LogOut, Settings, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,18 +27,19 @@ const UserDropdown = () => {
     dispatch(removeUserData());
   };
 
+  if (typeof window === "undefined" || !userData) return null;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
+        <div className="relative h-8 w-8 rounded-full cursor-pointer duration-300 group overflow-hidden">
+          <Avatar className="h-8 w-8 duration-300 group-hover:scale-110">
             <AvatarImage
-              src={avatarImage.src}
+              src={avatarImage.src || "/default-avatar.png"}
               alt={userData?.username || "User"}
             />
             <AvatarFallback>{userData?.username || "User "}</AvatarFallback>
           </Avatar>
-        </Button>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
@@ -52,11 +54,14 @@ const UserDropdown = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href={"/profilePage"}>
+            <DropdownMenuItem className="cursor-pointer">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
+
           <Link href={"/FavoritesPage"}>
             <DropdownMenuItem className="cursor-pointer">
               <FolderHeart className="mr-2 h-4 w-4" />
@@ -64,6 +69,7 @@ const UserDropdown = () => {
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
+
           <DropdownMenuItem className="cursor-pointer">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>

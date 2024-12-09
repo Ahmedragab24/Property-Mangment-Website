@@ -17,6 +17,15 @@ export interface IUser {
     phone?: string;
   };
 }
+export interface ILandlord {
+  data: {
+    documentId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+  };
+}
 
 export interface IError {
   data: {
@@ -42,14 +51,14 @@ type city = [
 ];
 
 export interface IProperty {
-  id: string;
+  id?: string;
   documentId?: string;
   title: string;
   description: string;
   price: number;
   locationName: string;
   locationGoogleMap: string;
-  date: "2024-11-05";
+  date: string;
   room: number;
   kitchen?: number;
   bathroom: number;

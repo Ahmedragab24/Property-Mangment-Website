@@ -10,14 +10,21 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ArrowRight, Bath, Bed, ShieldBan, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const FavoritePage = () => {
   const favorites = useAppSelector((state) => state.favorites.favorites);
   const userData = useAppSelector((state) => state.UserData.user?.user);
+  const [isUserLogin, setIsUserLogin] = useState(false);
   const dispatch = useAppDispatch();
 
-  // Remove Property
+  useEffect(() => {
+    if (userData) {
+      setIsUserLogin(true);
+    }
+  }, [userData]);
 
+  // Remove Property
   const removeProperty = (property: IProperty) => {
     const isFavoriteSome = favorites.some(
       (item: IProperty) => item.documentId === property.documentId
@@ -39,7 +46,7 @@ const FavoritePage = () => {
         <h1 className="w-fit mx-auto px-2 text-3xl text-shadow-primary border-b border-textColor mb-16">
           Favorites Page
         </h1>
-        {userData ? (
+        {isUserLogin ? (
           favorites.length ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
               {favorites.map((property: IProperty) => {

@@ -1,39 +1,64 @@
-import { RootState } from "@/store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface filteringState {
-  room: string;
+  room: number;
   city: string;
-  guests: string;
+  guests: number;
+  bathroom: number;
+  kitchen: number;
+  amenities: {
+    title: string;
+  }[];
 }
 
 const initialState: filteringState = {
-  room: "",
+  room: 2,
   city: "",
-  guests: "",
+  guests: 1,
+  bathroom: 1,
+  kitchen: 1,
+  amenities: [],
 };
 
 export const filteringSlice = createSlice({
   name: "filteringProperties",
   initialState,
   reducers: {
-    setFilteringRoom: (state, action: PayloadAction<string>) => {
+    setFilteringRoom: (state, action: PayloadAction<number>) => {
       state.room = action.payload;
     },
     setFilteringCity: (state, action: PayloadAction<string>) => {
       state.city = action.payload;
     },
-    setFilteringGuests: (state, action: PayloadAction<string>) => {
+    setFilteringGuests: (state, action: PayloadAction<number>) => {
       state.guests = action.payload;
+    },
+    setFilteringBathroom: (state, action: PayloadAction<number>) => {
+      state.bathroom = action.payload;
+    },
+    setFilteringKitchen: (state, action: PayloadAction<number>) => {
+      state.kitchen = action.payload;
+    },
+    setFilteringAmenities: (
+      state,
+      action: PayloadAction<{
+        title: string;
+      }>
+    ) => {
+      state.amenities.push(action.payload);
     },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { setFilteringRoom, setFilteringCity, setFilteringGuests } =
-  filteringSlice.actions;
-// Other code such as selectors can use the imported `RootState` type
-export const filtering = (state: RootState) => state.heroNav.value;
+// Actions and selectors
+export const {
+  setFilteringRoom,
+  setFilteringCity,
+  setFilteringGuests,
+  setFilteringBathroom,
+  setFilteringKitchen,
+  setFilteringAmenities,
+} = filteringSlice.actions;
 
 export default filteringSlice.reducer;
