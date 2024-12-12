@@ -403,7 +403,18 @@ export const cities = [
 ];
 
 export const amenitiesOptions = [
-  { value: "wifi", label: "Wi-Fi", icon: Wifi },
-  { value: "smartphone", label: "Smartphone", icon: Smartphone },
-  { value: "tablet", label: "Tablet", icon: TabletSmartphone },
+  { value: "Washer", label: "Washer", icon: Wifi },
+  { value: "Dishes and silverware", label: "Dishes and silverware", icon: Smartphone },
+  { value: "Refrigerator", label: "Refrigerator", icon: TabletSmartphone },
+  { value: "Long term stays allowed", label: "Long term stays allowed", icon: TabletSmartphone },
+  { value: "luggage dropoff allowed", label: "Luggage dropoff allowed", icon: TabletSmartphone },
+  { value: "microwave", label: "Microwave", icon: TabletSmartphone },
+  { value: "wireless Internet", label: "Wireless Internet", icon: TabletSmartphone },
+  { value: "stove", label: "Stove", icon: TabletSmartphone },
+  { value: "kitchen", label: "Kitchen", icon: TabletSmartphone },
+  { value: "iron", label: "Iron", icon: TabletSmartphone },
+  { value: "heating", label: "Heating", icon: TabletSmartphone },
+  { value: "oven", label: "Oven", icon: TabletSmartphone },
+  { value: "essentials", label: "Essentials", icon: TabletSmartphone },
+  { value: "hair dryer", label: "Hair dryer", icon: TabletSmartphone },
 ];

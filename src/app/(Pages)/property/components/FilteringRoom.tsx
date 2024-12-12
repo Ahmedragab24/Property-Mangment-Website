@@ -22,7 +22,7 @@ const FilteringRoom = ({ filterBtn, type, className }: Iprops) => {
   return (
     <Select
       onValueChange={(value: string) => {
-        dispatch(setFilteringRoom(value));
+        dispatch(setFilteringRoom(Number(value)));
         if (filterBtn) filterBtn();
       }}
     >

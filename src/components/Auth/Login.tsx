@@ -8,11 +8,23 @@ import LoginImg from "/src/public/images/home-1.jpg";
 import { motion } from "framer-motion";
 import { useLoginUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
-import { Loader } from "lucide-react";
-import { IError, IUser, LoginForm } from "@/interfaces";
+import { Loader, LoaderCircle } from "lucide-react";
+import { IError, IUser } from "@/interfaces";
 import { useAppDispatch } from "@/store/hooks";
 import { addToUserData } from "@/store/features/UserData/userData";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { UserLoginSchema } from "@/schemas/FormSchemas";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 interface Iprops {
   changeToRegisterModle: () => void;
@@ -20,31 +32,23 @@ interface Iprops {
 
 const Login = ({ changeToRegisterModle }: Iprops) => {
   const [loginUser, { isLoading, error, isSuccess }] = useLoginUserMutation();
-  const [userData, setUserData] = useState<LoginForm>({
-    identifier: "",
-    password: "",
+  const form = useForm<z.infer<typeof UserLoginSchema>>({
+    resolver: zodResolver(UserLoginSchema),
+    defaultValues: {
+      identifier: "",
+      password: "",
+    },
   });
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useAppDispatch();
   const Router = useRouter();
 
-  // Handler to manage input changes
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
+  // Handler 
+  const onSubmit = async (values: z.infer<typeof UserLoginSchema>) => {
     try {
-      const response: IUser = await loginUser(userData).unwrap();
+      const response: IUser = await loginUser(values).unwrap();
       // Store user in cookies
-      if (typeof window !== "undefined") {
-        dispatch(addToUserData(response));
-      }
+      if (typeof window !== "undefined" )dispatch(addToUserData(response));
 
       toast({
         variant: "success",
@@ -70,32 +74,83 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
 
   return (
     <div className="flex justify-start items-center">
-      <div className="w-full xl:w-1/2 p-6 mt-2">
-        <h2 className="text-foreground text-3xl text-shadow-primary">
+      <div className="w-full xl:w-1/2 p-6 mt-8">
+        <h2 className="text-foreground text-xl lg:text-3xl text-shadow-primary">
           Login now
         </h2>
-        {!isSuccess && error && (
-          <p className="text-red-800 text-xl">{errorMessage}</p>
-        )}
-        <div className="mt-8 space-y-8">
-          <Input
-            name="identifier"
-            type="text"
-            placeholder="Enter Username or Email"
-            className="bg-background h-11 shadow-xl"
-            value={userData.identifier}
-            onChange={handleInputChange}
-          />
-          <Input
-            name="password"
-            type="password"
-            placeholder="password"
-            className="bg-background h-11 shadow-xl"
-            value={userData.password}
-            onChange={handleInputChange}
-          />
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="mt-6 space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="identifier"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Label>Email or UserName</Label>
+                    <Input
+                      type="text"
+                      placeholder="Email or UserName"
+                      className="bg-background h-11 shadow-xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Label>Password</Label>
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      className="bg-background h-11 shadow-xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {error && (
+              <p className="text-red-800 text-sm mt-4">{errorMessage}</p>
+            )}
+
+            <div className="flex flex-col">
+              <Button type="submit" disabled={isLoading}>
+                {isLoading && (
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Sing Up
+              </Button>
+
+              <Button
+                variant={"link"}
+                className="text-sm text-textColor"
+              >
+                Login Now
+              </Button>
+            </div>
+          </form>
+        </Form>
+
+
+          {!isSuccess && error && (
+            <p className="text-red-800 text-sm">{errorMessage}</p>
+          )}
+
           <div className="flex flex-col">
-            <Button type="button" onClick={handleLogin} disabled={isLoading}>
+            <Button type="submit"  disabled={isLoading}>
               {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
               Login
             </Button>
@@ -108,7 +163,6 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
               Or New Register
             </Button>
           </div>
-        </div>
       </div>
       <motion.div
         initial={{ opacity: 0, y: -100 }}

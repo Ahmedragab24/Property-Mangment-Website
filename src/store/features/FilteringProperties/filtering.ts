@@ -1,20 +1,19 @@
+import { city } from "@/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface filteringState {
   room: number;
-  city: string;
+  city: city | undefined;
   guests: number;
   bathroom: number;
   kitchen: number;
-  amenities: {
-    title: string;
-  }[];
+  amenities: string[];
 }
 
 const initialState: filteringState = {
   room: 2,
-  city: "",
+  city: undefined,
   guests: 1,
   bathroom: 1,
   kitchen: 1,
@@ -28,7 +27,7 @@ export const filteringSlice = createSlice({
     setFilteringRoom: (state, action: PayloadAction<number>) => {
       state.room = action.payload;
     },
-    setFilteringCity: (state, action: PayloadAction<string>) => {
+    setFilteringCity: (state, action: PayloadAction<city>) => {
       state.city = action.payload;
     },
     setFilteringGuests: (state, action: PayloadAction<number>) => {
@@ -40,12 +39,7 @@ export const filteringSlice = createSlice({
     setFilteringKitchen: (state, action: PayloadAction<number>) => {
       state.kitchen = action.payload;
     },
-    setFilteringAmenities: (
-      state,
-      action: PayloadAction<{
-        title: string;
-      }>
-    ) => {
+    setFilteringAmenities: (state, action: PayloadAction<string>) => {
       state.amenities.push(action.payload);
     },
   },

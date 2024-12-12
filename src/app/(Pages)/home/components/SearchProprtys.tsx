@@ -21,6 +21,7 @@ import {
 import { cities } from "@/constants";
 import { useAppDispatch } from "@/store/hooks";
 import { setFilteringCity } from "@/store/features/FilteringProperties/filtering";
+import { city } from "@/interfaces";
 
 interface Iprops {
   className?: string;
@@ -66,7 +67,7 @@ export function SearchProperty({ className, variant }: Iprops) {
                   value={cities.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    dispatch(setFilteringCity(currentValue));
+                    dispatch(setFilteringCity(currentValue as unknown as city));
                     setOpen(false);
                   }}
                 >

@@ -5,7 +5,7 @@ import map from "/src/public/images/map.png";
 import dynamic from "next/dynamic";
 
 const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
-  ssr: false,
+  ssr: true,
 });
 
 const Map = () => {

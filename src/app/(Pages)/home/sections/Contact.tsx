@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 };
 
 const MotionLeft = dynamic(() => import("@/components/animations/MotionLeft"), {
-  ssr: false,
+  ssr: true,
 });
 const MotionRight = dynamic(
   () => import("@/components/animations/MotionRight"),
   {
-    ssr: false,
+    ssr: true,
   }
 );
 

@@ -25,7 +25,7 @@ export default function RootLayout({
         <ProviderRedux>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >

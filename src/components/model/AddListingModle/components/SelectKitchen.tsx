@@ -6,24 +6,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { User } from "lucide-react";
+import { Heater } from "lucide-react";
 import { useAppDispatch } from "@/store/hooks";
-import { setFilteringGuests } from "@/store/features/FilteringProperties/filtering";
+import { setFilteringKitchen } from "@/store/features/FilteringProperties/filtering";
 
 interface Iprops {
   className?: string;
 }
 
-const SelectGests = ({ className }: Iprops) => {
+const SelectKitchen = ({ className }: Iprops) => {
   const dispatch = useAppDispatch();
 
   return (
     <Select
-      onValueChange={(value) => dispatch(setFilteringGuests(Number(value)))}
+      onValueChange={(value) => dispatch(setFilteringKitchen(Number(value)))}
     >
       <SelectTrigger className={`w-fit px-14 ${className}`}>
-        <User className="mr-2 h-4 w-4 text-textColor" />
-        <SelectValue placeholder="Guests" />
+        <Heater className="mr-2 h-4 w-4 text-textColor" />
+        <SelectValue placeholder="Kitchen" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="1">1</SelectItem>
@@ -37,4 +37,4 @@ const SelectGests = ({ className }: Iprops) => {
   );
 };
 
-export default SelectGests;
+export default SelectKitchen;

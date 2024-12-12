@@ -106,11 +106,7 @@ const Property = () => {
     bathroom,
     room,
     info,
-    image: {
-      formats: {
-        medium: { width, height, url },
-      },
-    },
+    image: { url },
     imageGroup,
   } = property;
 
@@ -162,8 +158,8 @@ const Property = () => {
                   <Image
                     src={image}
                     alt={description}
-                    width={width}
-                    height={height}
+                    width={1000}
+                    height={500}
                     loading="lazy"
                     className="w-full max-h-[500px] rounded-xl cursor-pointer duration-500 group-hover:scale-110"
                   />

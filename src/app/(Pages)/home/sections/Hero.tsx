@@ -9,27 +9,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
 import * as LucideIcons from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import dynamic from "next/dynamic";
 import {
   setColorNavLink,
   setIsBackgroundImg,
 } from "@/store/features/heroNav/heroNavSlice";
 import { HeroSlider, HeroSocialLinks } from "@/constants";
 import FilteringButtons from "../components/FilteringButtons";
-
-const MotionFade = dynamic(() => import("@/components/animations/MotionFade"), {
-  ssr: false,
-});
-const MotionLeft = dynamic(() => import("@/components/animations/MotionLeft"), {
-  ssr: false,
-});
-const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
-  ssr: false,
-});
+import MotionLeft from "@/components/animations/MotionLeft"
+import MotionDown from "@/components/animations/MotionDown"
+import MotionFade from "@/components/animations/MotionFade"
 
 const Hero = () => {
   const [showProperty, setShowProperty] = useState(false);
@@ -38,22 +29,19 @@ const Hero = () => {
   useEffect(() => {
     dispatch(setIsBackgroundImg(true));
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setShowProperty(true);
-        dispatch(setColorNavLink(false));
-      } else {
-        setShowProperty(false);
-
-        dispatch(setColorNavLink(true));
-      }
+      const scrollY = window.scrollY;
+      const isScrolled = scrollY > 50;
+      setShowProperty(isScrolled);
+      dispatch(setColorNavLink(!isScrolled));
     };
-
+  
     window.addEventListener("scroll", handleScroll);
-
+  
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [dispatch]);
+  
 
   return (
     <section className={`hero relative ${showProperty ? "mb-0" : "mb-20"}`}>

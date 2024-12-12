@@ -39,7 +39,7 @@ const ProjectsList = () => {
   const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery({
     page: currentPage,
     pageSize,
-    pollingInterval: 50000,
+    pollingInterval: 10000,
   });
   const { room, city, guests } = useAppSelector(
     (state: RootState) => state.filteringProperties
@@ -94,8 +94,6 @@ const ProjectsList = () => {
         bathroom,
       } = property;
 
-      const image = `${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`
-
       return (
         <div key={documentId} className="h-fit">
           <div className="h-auto md:h-[320px] lg:h-[430px] rounded-lg group duration-500 bg-secondary hover:text-foreground hover:shadow-xl">
@@ -105,7 +103,7 @@ const ProjectsList = () => {
                   width={750}
                   height={400}
                   className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                  src={image}
+                  src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
                   alt="blog"
                   loading="lazy"
                 />
@@ -191,6 +189,7 @@ const ProjectsList = () => {
               <MapPinHouse size={18} className="lg:me-2" />
               <span className="hidden md:block">Any</span>
             </Button>
+
             <FilteringRoom
               filterBtn={filterBtnRoom}
               type={filteringDataState}

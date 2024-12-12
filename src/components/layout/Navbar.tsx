@@ -20,12 +20,14 @@ import RegistrationModel from "../model/RegistrationModel";
 import UserDropdown from "../Auth/user";
 import NavMobile from "./NavMobile";
 import AddListingModel from "../model/AddListingModle/AddListingModel";
+// import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
   const userData = useAppSelector((state) => state.UserData?.user?.user);
   const [isUserLogin , setIsUserLogin] =useState(false)
+  // const router = useRouter()
   
   useEffect(() => {
     if(userData) setIsUserLogin(true)
@@ -72,7 +74,7 @@ const Navbar = () => {
                 }`}
               >
                 <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
                     Home
                   </NavigationMenuLink>
                 </Link>

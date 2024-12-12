@@ -30,7 +30,7 @@ export const apiSlice = createApi({
     /////////////////////// Get Properties ////////////////////////
     getProperties: builder.query({
       query: ({ page, pageSize }) => ({
-        url: `/api/properties?populate=image&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+        url: `/api/properties?populate=image&pagination[page]=${page}&sort=createdAt:desc&pagination[pageSize]=${pageSize}`,
       }),
       providesTags: ["properties"],
     }),
@@ -93,7 +93,7 @@ export const apiSlice = createApi({
     ////////////////////// Create Property //////////////////////
     createProperty: builder.mutation({
       query: (data) => ({
-        url: "/api/properties",
+        url: "/api/properties?populate=image&populate=imageGroup&populate=landlord",
         method: "POST",
         body: data,
       }),
@@ -108,10 +108,11 @@ export const apiSlice = createApi({
       }),
     }),
 
-    ////////////////////// Find Image //////////////////////
-    FindImage: builder.query({
-      query: (url) => ({
-        url: `/uploads/${url}`,
+    ////////////////////// Delete Image //////////////////////
+    DeleteImage: builder.mutation({
+      query: (id) => ({
+        url: `/api/upload/files/${id}`,
+        method: "delete",
       }),
     }),
   }),
@@ -128,5 +129,5 @@ export const {
   useLandLordsMutation,
   useCreatePropertyMutation,
   useUploadImageMutation,
-  useFindImageQuery,
+  useDeleteImageMutation,
 } = apiSlice;

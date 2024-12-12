@@ -35,7 +35,7 @@ export interface IError {
   };
 }
 
-type city = [
+export type city = [
   | "cairo"
   | "london"
   | "new york"
@@ -64,39 +64,39 @@ export interface IProperty {
   bathroom: number;
   NumPerson: number;
   city: city;
-  info: string[];
+  info?: string[];
   image: {
-    url: string;
-    formats: {
-      small: {
-        width: 500;
-        height: 281;
-        url: string;
+    url?: string;
+    formats?: {
+      small?: {
+        width?: 500;
+        height?: 281;
+        url?: string;
       };
-      medium: {
-        width: 750;
-        height: 422;
-        url: string;
+      medium?: {
+        width?: 750;
+        height?: 422;
+        url?: string;
       };
     };
   };
   imageGroup: [
     {
-      name: string;
-      id: string;
+      name?: string;
+      id?: string;
       url: string;
-      formats: {
-        small: {
+      formats?: {
+        small?: {
           width: 500;
           height: 281;
           url: string;
         };
-        medium: {
+        medium?: {
           width: 750;
           height: 422;
           url: string;
         };
-        large: {
+        large?: {
           width: 1000;
           height: 563;
           url: string;
@@ -107,21 +107,21 @@ export interface IProperty {
 }
 
 export interface IimageGroup {
-  name: string;
-  id: string;
-  url: string;
-  formats: {
-    small: {
+  name?: string;
+  id?: string;
+  url?: string;
+  formats?: {
+    small?: {
       width: 500;
       height: 281;
       url: string;
     };
-    medium: {
+    medium?: {
       width: 750;
       height: 422;
       url: string;
     };
-    large: {
+    large?: {
       width: 1000;
       height: 563;
       url: string;

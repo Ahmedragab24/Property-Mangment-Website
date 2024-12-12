@@ -11,19 +11,19 @@ export const metadata: Metadata = {
 };
 
 const MotionLeft = dynamic(() => import("@/components/animations/MotionLeft"), {
-  ssr: false,
+  ssr: true,
 });
 const MotionRight = dynamic(
   () => import("@/components/animations/MotionRight"),
   {
-    ssr: false,
+    ssr: true,
   }
 );
 const MotionDown = dynamic(() => import("@/components/animations/MotionDown"), {
-  ssr: false,
+  ssr: true,
 });
 const MotionUp = dynamic(() => import("@/components/animations/MotionUp"), {
-  ssr: false,
+  ssr: true,
 });
 
 const motionComponents: Record<string, React.ElementType> = {
