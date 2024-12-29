@@ -4,7 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface filteringState {
   room: number;
-  city: city | undefined;
+  city: city | "";
   guests: number;
   bathroom: number;
   kitchen: number;
@@ -13,7 +13,7 @@ export interface filteringState {
 
 const initialState: filteringState = {
   room: 2,
-  city: undefined,
+  city: "",
   guests: 1,
   bathroom: 1,
   kitchen: 1,

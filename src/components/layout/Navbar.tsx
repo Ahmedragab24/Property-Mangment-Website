@@ -20,17 +20,15 @@ import RegistrationModel from "../model/RegistrationModel";
 import UserDropdown from "../Auth/user";
 import NavMobile from "./NavMobile";
 import AddListingModel from "../model/AddListingModle/AddListingModel";
-// import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
   const userData = useAppSelector((state) => state.UserData?.user?.user);
-  const [isUserLogin , setIsUserLogin] =useState(false)
-  // const router = useRouter()
-  
+  const [isUserLogin, setIsUserLogin] = useState(false);
+
   useEffect(() => {
-    if(userData) setIsUserLogin(true)
+    if (userData) setIsUserLogin(true);
 
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -46,7 +44,6 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [userData]);
-
 
   return (
     <nav
@@ -74,7 +71,9 @@ const Navbar = () => {
                 }`}
               >
                 <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
+                  <NavigationMenuLink
+                    className={`${navigationMenuTriggerStyle()}`}
+                  >
                     Home
                   </NavigationMenuLink>
                 </Link>
@@ -177,7 +176,7 @@ const Navbar = () => {
               isBackgroundImg && value ? "text-white" : "text-foreground"
             }`}
           />
-          { isUserLogin ? (
+          {isUserLogin ? (
             <UserDropdown />
           ) : (
             <RegistrationModel>
@@ -191,7 +190,7 @@ const Navbar = () => {
                 Sign in
               </Button>
             </RegistrationModel>
-          ) }
+          )}
         </div>
       </div>
     </nav>

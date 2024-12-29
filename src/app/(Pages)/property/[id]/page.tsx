@@ -28,7 +28,7 @@ import { DatePicker } from "../components/DatePicker";
 const Property = () => {
   const { id } = useParams();
   const { isLoading, isError, isSuccess, error, data } =
-    useGetOnePropertyQuery(id);
+    useGetOnePropertyQuery(id as string);
   const [MapURl, setMapUrl] = useState("");
   const [isBtnFixed, setIsBtnFixed] = useState(true);
   const [DateDays, setDateDays] = useState<{
@@ -51,7 +51,7 @@ const Property = () => {
 
       setDaysCount(calculatedDays > 0 ? calculatedDays : 0);
 
-      setPrice(data?.data?.price * daysCount);
+      setPrice(data?.price * daysCount);
     }
   }, [DateDays, daysCount, data?.data?.price]);
 
@@ -106,7 +106,7 @@ const Property = () => {
     bathroom,
     room,
     info,
-    image: { url },
+    image:  url ,
     imageGroup,
   } = property;
 
@@ -135,7 +135,7 @@ const Property = () => {
         {/* Error Handler */}
         {!isSuccess && isError && (
           <h1 className="flex justify-center items-center mx-auto text-foreground text-sm sm:text-xl lg:text-5xl my-20">
-            {(error as IError)?.data?.error?.message || (
+            {(error as IError)?.message || (
               <div className="flex flex-col items-center gap-4">
                 <div className="flex justify-center items-center gap-2">
                   <OctagonAlert className="w-9 h-9 md:w-14 md:h-14" />
@@ -320,7 +320,7 @@ const Property = () => {
                   >
                     <div className="bg-secondary lg:py-4 lg:px-8 rounded-full shadow-lg">
                       <BookingProperty
-                        propertyID={property.documentId || ""}
+                        propertyID={property.$id || ""}
                         price={price}
                       >
                         <div className="rounded-full cursor-pointer border border-primary bg-transparent shadow-sm hover:bg-accent duration-300 hover:text-accent-foreground p-2">

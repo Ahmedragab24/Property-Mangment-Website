@@ -8,7 +8,7 @@ import LoginImg from "/src/public/images/home-1.jpg";
 import { motion } from "framer-motion";
 import { useLoginUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
-import { Loader, LoaderCircle } from "lucide-react";
+import { Loader } from "lucide-react";
 import { IError, IUser } from "@/interfaces";
 import { useAppDispatch } from "@/store/hooks";
 import { addToUserData } from "@/store/features/UserData/userData";
@@ -21,10 +21,10 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { UserLoginSchema } from "@/schemas/FormSchemas";
-import { Label } from "@radix-ui/react-dropdown-menu";
 
 interface Iprops {
   changeToRegisterModle: () => void;
@@ -43,12 +43,12 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
   const dispatch = useAppDispatch();
   const Router = useRouter();
 
-  // Handler 
+  // Handler
   const onSubmit = async (values: z.infer<typeof UserLoginSchema>) => {
     try {
       const response: IUser = await loginUser(values).unwrap();
       // Store user in cookies
-      if (typeof window !== "undefined" )dispatch(addToUserData(response));
+      if (typeof window !== "undefined") dispatch(addToUserData(response));
 
       toast({
         variant: "success",
@@ -74,7 +74,7 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
 
   return (
     <div className="flex justify-start items-center">
-      <div className="w-full xl:w-1/2 p-6 mt-8">
+      <div className="w-full xl:w-1/2 p-6 mt-4">
         <h2 className="text-foreground text-xl lg:text-3xl text-shadow-primary">
           Login now
         </h2>
@@ -89,8 +89,8 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
               name="identifier"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Email or UserName</FormLabel>
                   <FormControl>
-                    <Label>Email or UserName</Label>
                     <Input
                       type="text"
                       placeholder="Email or UserName"
@@ -108,8 +108,8 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Label>Password</Label>
                     <Input
                       type="password"
                       placeholder="Password"
@@ -122,47 +122,26 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
               )}
             />
 
-            {error && (
-              <p className="text-red-800 text-sm mt-4">{errorMessage}</p>
+            {!isSuccess && error && (
+              <p className="text-red-800 text-sm">{errorMessage}</p>
             )}
 
             <div className="flex flex-col">
               <Button type="submit" disabled={isLoading}>
-                {isLoading && (
-                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Sing Up
+                {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+                Login
               </Button>
 
               <Button
                 variant={"link"}
                 className="text-sm text-textColor"
+                onClick={() => changeToRegisterModle()}
               >
-                Login Now
+                Or New Register
               </Button>
             </div>
           </form>
         </Form>
-
-
-          {!isSuccess && error && (
-            <p className="text-red-800 text-sm">{errorMessage}</p>
-          )}
-
-          <div className="flex flex-col">
-            <Button type="submit"  disabled={isLoading}>
-              {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-              Login
-            </Button>
-
-            <Button
-              variant={"link"}
-              className="text-sm text-textColor"
-              onClick={() => changeToRegisterModle()}
-            >
-              Or New Register
-            </Button>
-          </div>
       </div>
       <motion.div
         initial={{ opacity: 0, y: -100 }}

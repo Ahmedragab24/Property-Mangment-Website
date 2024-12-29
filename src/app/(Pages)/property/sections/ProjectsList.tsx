@@ -39,34 +39,41 @@ const ProjectsList = () => {
   const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery({
     page: currentPage,
     pageSize,
-    pollingInterval: 10000,
   });
   const { room, city, guests } = useAppSelector(
     (state: RootState) => state.filteringProperties
   );
   const topRef = useRef<HTMLDivElement | null>(null);
-  const { data: filteringDataByRoom } = useFilterPropertiesByRoomQuery(room);
+  const { data: filteringDataByRoom } = useFilterPropertiesByRoomQuery(
+    room as number
+  );
   const { data: filteringDataByCityAndGuests } =
-    useFilterPropertiesByCityAndGuestsQuery({ city, guests });
+    useFilterPropertiesByCityAndGuestsQuery({
+      city,
+      guests,
+    });
   const [filteringDataState, setFilteringDataState] =
     useState<Filtering>("initial");
   const [changeData, setChangeData] = useState<IProperty[]>([]);
 
   useEffect(() => {
     if (filteringDataState === "initial") {
-      setChangeData(data?.data || []);
+      setChangeData(data?.documents || []);
     } else if (filteringDataState === "room") {
-      setChangeData(filteringDataByRoom?.data || []);
+      setChangeData(filteringDataByRoom?.documents || []);
     } else if (filteringDataState === "GroupFilter") {
-      setChangeData(filteringDataByCityAndGuests?.data || []);
+      setChangeData(filteringDataByCityAndGuests?.documents || []);
     }
   }, [
-    data?.data,
-    filteringDataByRoom?.data,
-    filteringDataByCityAndGuests?.data,
+    data?.documents,
+    filteringDataByRoom?.documents,
+    filteringDataByCityAndGuests?.documents,
     filteringDataState,
     currentPage,
   ]);
+
+  console.log(data);
+  console.log(error);
 
   //////// Handling /////////
 
@@ -84,10 +91,10 @@ const ProjectsList = () => {
   const RenderingData = () =>
     changeData.map((property: IProperty) => {
       const {
-        documentId,
+        $id,
         title,
         locationName,
-        image: { url },
+        image: url,
         price,
         date,
         room,
@@ -95,15 +102,15 @@ const ProjectsList = () => {
       } = property;
 
       return (
-        <div key={documentId} className="h-fit">
+        <div key={$id} className="h-fit">
           <div className="h-auto md:h-[320px] lg:h-[430px] rounded-lg group duration-500 bg-secondary hover:text-foreground hover:shadow-xl">
             <div className="relative overflow-hidden rounded-lg">
-              <Link href={`/property/${documentId}`}>
+              <Link href={`/property/${$id}`}>
                 <Image
                   width={750}
                   height={400}
                   className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                  src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
+                  src={url || '/fallback-image.jpg'}
                   alt="blog"
                   loading="lazy"
                 />
@@ -117,7 +124,9 @@ const ProjectsList = () => {
               </div>
 
               <div className="absolute top-0 right-0 py-2 px-4 z-10">
-                <h3 className="text-white text-shadow">{date}</h3>
+                <h3 className="text-white text-shadow">
+                  {date instanceof Date ? date.toLocaleDateString() : date}
+                </h3>
               </div>
             </div>
             <div className="p-6">
@@ -134,7 +143,7 @@ const ProjectsList = () => {
                 {locationName}
               </p>
               <div className="flex items-center flex-wrap">
-                <Link href={`/property/${documentId}`}>
+                <Link href={`/property/${$id}`}>
                   <Button variant={"link"} className="m-0 p-0">
                     Show more
                     <ArrowRight size={15} className="ms-1" />
@@ -160,7 +169,7 @@ const ProjectsList = () => {
   };
 
   // Pagination Buttons
-  const totalPages = Math.ceil((data?.meta?.pagination?.total || 0) / pageSize);
+  const totalPages = Math.ceil((data?.total || 0) / pageSize);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
@@ -211,10 +220,10 @@ const ProjectsList = () => {
           ref={topRef}
           className="w-full py-4 px-2 border border-primary flex flex-col lg:flex-row lg:flex-wrap gap-y-4 gap-x-2 justify-around items-center bg-secondary  rounded-lg"
         >
-          <SearchProperty className="w-fit px-6 lg:px-14" />
-          <DatePicker placeHolder="Check in" className="w-fit px-6 lg:px-14" />
-          <DatePicker placeHolder="Check Out" className="w-fit px-6 lg:px-14" />
-          <SelectGests />
+          <SearchProperty className="w-fit px-6 lg:px-14 !border-none shadow-none" />
+          <DatePicker placeHolder="Check in" className="w-fit px-6 lg:px-14 !border-none shadow-none"/>
+          <DatePicker placeHolder="Check Out" className="w-fit px-6 lg:px-14 !border-none shadow-none"/>
+          <SelectGests className="!border-none shadow-none" />
           <Button onClick={filterBtnCheckNow}>
             {isLoading ? (
               <div className="flex items-center gap-x-2">
@@ -242,7 +251,7 @@ const ProjectsList = () => {
         {/* Error Handler */}
         {!isSuccess && isError && (
           <h1 className="flex justify-center items-center mx-auto text-foreground text-sm sm:text-xl lg:text-5xl my-20">
-            {(error as IError)?.data?.error?.message || (
+            {(error as IError)?.message || (
               <div className="flex flex-col items-center gap-4">
                 <div className="flex justify-center items-center gap-2">
                   <OctagonAlert className="w-9 h-9 md:w-14 md:h-14" />

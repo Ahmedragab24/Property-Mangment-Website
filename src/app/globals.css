@@ -74,6 +74,10 @@
   .text-shadow-primary {
     text-shadow: 0px 0px 8px hsl(var(--primary));
   }
+
+  .activeLink {
+    @apply before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-primary relative inline-block mx-2;
+  }
 }
 
 html {

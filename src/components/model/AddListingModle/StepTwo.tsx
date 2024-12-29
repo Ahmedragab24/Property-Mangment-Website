@@ -18,27 +18,24 @@ import FilteringRoom from "@/app/(Pages)/property/components/FilteringRoom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import SelectGests from "@/app/(Pages)/property/components/SelectGests";
-import { IError } from "@/interfaces";
+import { IError, IProperty } from "@/interfaces";
 
 const StepTwo = () => {
   const [createProperty, { isLoading }] = useCreatePropertyMutation({
     fixedCacheKey: "createPropertyCache",
   });
   const dispatch = useAppDispatch();
-  const { singleImageID, imageGroupIDs } = useAppSelector(
-    (state) => state.images
-  );
+  const { singleImage, imageGroup } = useAppSelector((state) => state.images);
   const { city, guests, room, bathroom, kitchen, amenities } = useAppSelector(
     (state) => state.filteringProperties
   );
-  const userId = useAppSelector(
-    (state) => state.UserData?.landlord?.data?.documentId
-  );
-  const [Data, setData] = useState({
+  const userId = useAppSelector((state) => state.UserData?.landlord?.$id);
+
+  const [Data, setData] = useState<IProperty>({
     title: "",
     description: "",
-    image: singleImageID,
-    imageGroup: imageGroupIDs,
+    image: singleImage,
+    imageGroup: imageGroup,
     city: city,
     room: room || 2,
     bathroom: bathroom || 1,
@@ -49,15 +46,15 @@ const StepTwo = () => {
     locationGoogleMap: "",
     info: amenities || [],
     date: new Date(),
-    landlord: userId,
+    landlords: Number(userId),
   });
   const [massageError, setMassageError] = useState("");
 
   useEffect(() => {
     setData((prev) => ({
       ...prev,
-      image: singleImageID,
-      imageGroup: imageGroupIDs,
+      image: singleImage,
+      imageGroup: imageGroup,
       room: room,
       bathroom: bathroom,
       kitchen: kitchen,
@@ -66,8 +63,8 @@ const StepTwo = () => {
       info: amenities,
     }));
   }, [
-    singleImageID,
-    imageGroupIDs,
+    singleImage,
+    imageGroup,
     room,
     city,
     bathroom,
@@ -83,23 +80,36 @@ const StepTwo = () => {
     setData((prev) => ({
       ...prev,
       [name]: value,
+      [name]: name === "price" ? parseInt(value, 10) || 0 : value,
     }));
   };
 
   // const validateData = () => {
-  //   if (
-  //     !Data.title ||
-  //     !Data.description ||
-  //     !Data.price ||
-  //     !Data.locationName ||
-  //     !Data.locationGoogleMap ||
-  //     !Data.NumPerson ||
-  //     !Data.image ||
-  //     !Data.imageGroup
-  //   ) {
-  //     setMassageError("Please fill all fields correctly.");
+  //   if (!Data.title.trim()) {
+  //     setMassageError("Title is required.");
   //     return false;
   //   }
+  //   if (!Data.description.trim()) {
+  //     setMassageError("Description is required.");
+  //     return false;
+  //   }
+  //   if (!Data.price || Data.price <= 0) {
+  //     setMassageError("Price must be greater than 0.");
+  //     return false;
+  //   }
+  //   if (!Data.locationName.trim()) {
+  //     setMassageError("Location name is required.");
+  //     return false;
+  //   }
+  //   if (!Data.image) {
+  //     setMassageError("Main image is required.");
+  //     return false;
+  //   }
+  //   if (Data.imageGroup.length === 0) {
+  //     setMassageError("At least one additional image is required.");
+  //     return false;
+  //   }
+  //   setMassageError(""); // Clear previous errors
   //   return true;
   // };
 
@@ -107,11 +117,10 @@ const StepTwo = () => {
     // if (!validateData()) return;
 
     try {
-      await createProperty({ data: Data }).unwrap();
+      await createProperty({ ...Data }).unwrap();
       dispatch(setSteps({ stepOne: false, stepTwo: false, stepThree: true }));
     } catch (err) {
-      const errorMsg =
-      (err as IError)?.data?.error?.message || "An error occurred.";
+      const errorMsg = (err as IError)?.message || "An error occurred.";
       setMassageError(errorMsg);
     }
   };
@@ -185,7 +194,7 @@ const StepTwo = () => {
                 name="price"
                 type="number"
                 placeholder="Price"
-                value={Data.price.toString()}
+                value={Number(Data.price)}
                 onChange={handleInputChange}
                 className="bg-secondary w-44 lg:w-36 px-6 h-12"
               />

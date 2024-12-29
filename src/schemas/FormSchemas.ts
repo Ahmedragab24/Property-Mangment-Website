@@ -37,8 +37,8 @@ export const AddListFormSchema = z.object({
       message: "Email must be example@example.com",
     })
     .email({ message: "Invalid email format." }),
-  PhoneNumber: z.string().min(2, {
-    message: "Phone Number must be at least 2 characters.",
+  PhoneNumber: z.string().min(10, {
+    message: "Phone Number must be at least 10 characters.",
   }),
 });
 

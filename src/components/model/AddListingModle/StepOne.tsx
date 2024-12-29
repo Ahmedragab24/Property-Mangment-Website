@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AddListFormSchema } from "@/schemas/FormSchemas";
-import { useLandLordsMutation } from "@/store/apis/apis";
+import { useCreateLandlordMutation } from "@/store/apis/apis";
 import { IError } from "@/interfaces";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import { addToLandlordData } from "@/store/features/UserData/userData";
 
 const StepOne = () => {
   const [landLordData, { isLoading, error, isSuccess }] =
-    useLandLordsMutation();
+    useCreateLandlordMutation();
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useAppDispatch();
 
@@ -41,13 +41,12 @@ const StepOne = () => {
   // 2. Define a submit handler.
   async function onSubmit(data: z.infer<typeof AddListFormSchema>) {
     const formattedData = {
-      data: {
-        FirstName: data.FirstName,
-        LastName: data.LastName,
-        Email: data.Email,
-        PhoneNumber: data.PhoneNumber,
-      },
+      FirstName: data.FirstName,
+      LastName: data.LastName,
+      Email: data.Email,
+      PhoneNumber: data.PhoneNumber,
     };
+
     try {
       const response = await landLordData(formattedData).unwrap();
       const steps = {
@@ -55,11 +54,13 @@ const StepOne = () => {
         stepTwo: true,
         stepThree: false,
       };
+      console.log(response);
+      
       dispatch(addToLandlordData(response));
       dispatch(setSteps(steps));
     } catch (err) {
       const errorMsg =
-        (err as IError)?.data?.error?.message || "An error occurred.";
+        (err as IError)?.message || "An error occurred.";
       setErrorMessage(errorMsg);
     }
   }

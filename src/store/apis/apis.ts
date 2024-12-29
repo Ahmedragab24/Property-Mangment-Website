@@ -1,120 +1,183 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, BaseQueryFn } from "@reduxjs/toolkit/query/react";
+import { account, databases } from "@/utils/appwrite/appwriteClient";
+import { AppwriteException, Query } from "appwrite";
+import { city } from "@/interfaces";
+
+interface UserData {
+  email: string;
+  password: string;
+  name?: string;
+}
+
+interface PropertyFilterArgs {
+  city: city | undefined;
+  guests: number;
+}
+
+interface PaginationArgs {
+  page: number;
+  pageSize: number;
+}
+
+// interface FileUpload {
+//   file: File;
+// }
+
+const appwriteBaseQuery: BaseQueryFn<
+  () => Promise<unknown>,
+  unknown,
+  { message: string }
+> = async (queryFn) => {
+  try {
+    const result = await queryFn();
+    return { data: result };
+  } catch (error: unknown) {
+    if (error instanceof AppwriteException) {
+      return { error: { message: error.message } };
+    }
+    return { error: { message: "An unknown error occurred" } };
+  }
+};
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["User", "landLord", "properties", "property", "filtering"],
-  refetchOnFocus: true,
-  refetchOnReconnect: true,
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL_API }),
+  baseQuery: appwriteBaseQuery,
+  tagTypes: ["User", "LandLord", "Properties", "Property", "Filtering"],
   endpoints: (builder) => ({
-    ////////////////////// Register User ////////////////////////
+    // Register User
     registerUser: builder.mutation({
-      query: (userData) => ({
-        url: "/api/auth/local/register",
-        method: "POST",
-        body: userData,
-      }),
-      invalidatesTags: ["User"],
-    }),
-
-    /////////////////////// Login User ////////////////////////
-    loginUser: builder.mutation({
-      query: (userData) => ({
-        url: "/api/auth/local",
-        method: "POST",
-        body: userData,
-      }),
-      invalidatesTags: ["User"],
-    }),
-
-    /////////////////////// Get Properties ////////////////////////
-    getProperties: builder.query({
-      query: ({ page, pageSize }) => ({
-        url: `/api/properties?populate=image&pagination[page]=${page}&sort=createdAt:desc&pagination[pageSize]=${pageSize}`,
-      }),
-      providesTags: ["properties"],
-    }),
-
-    /////////////////////// Get One Property ////////////////////////
-    getOneProperty: builder.query({
-      query: (id) => ({
-        url: `/api/properties/${id}?populate=image&populate=imageGroup`,
-      }),
-      providesTags: ["property"],
-    }),
-
-    ////////////////////// Filtering By Room //////////////////////
-    filterPropertiesByRoom: builder.query({
-      query: (room) => ({
-        url: `/api/properties?filters[room][$eq]=${room}&populate=image`,
-      }),
-      providesTags: ["filtering"],
-    }),
-
-    ////////////////////// Filtering By City //////////////////////
-    filterPropertiesByCityAndGuests: builder.query({
-      query: (args) => {
-        const { city, guests } = args;
-        return {
-          url: `/api/properties?filters[city][$contains]=${city}&filters[NumPerson][$eq]=${guests}&populate=image`,
-        };
+      query: (userData: UserData) => async () => {
+        return await account.create(
+          "unique()",
+          userData.email,
+          userData.password,
+          userData.name
+        );
       },
-      providesTags: ["filtering"],
+      invalidatesTags: ["User"],
     }),
 
-    ////////////////////// Filtering By City //////////////////////
-    registerLandLords: builder.mutation({
-      query: (landLordData) => ({
-        url: "/api/landlords",
-        method: "POST",
-        body: landLordData,
-      }),
-      invalidatesTags: ["landLord"],
+    // Login User
+    loginUser: builder.mutation({
+      query: (userData: Omit<UserData, "name">) => async () => {
+        return await account.createSession(userData.email, userData.password);
+      },
+      invalidatesTags: ["User"],
     }),
 
-    ////////////////////// Booking Property //////////////////////
-    bookingProperty: builder.mutation({
-      query: (data) => ({
-        url: "/api/booking-properties",
-        method: "POST",
-        body: data,
-      }),
+    // Get Properties
+    getProperties: builder.query({
+      query:
+        ({ page, pageSize }: PaginationArgs) =>
+        async () => {
+          return await databases.listDocuments(
+            process.env.NEXT_PUBLIC_DATABASE_ID!,
+            process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
+            [Query.limit(pageSize), Query.offset((page - 1) * pageSize)]
+          );
+        },
+      providesTags: ["Properties"],
     }),
 
-    ////////////////////// LandLords //////////////////////
-    landLords: builder.mutation({
-      query: (data) => ({
-        url: "/api/landlords",
-        method: "POST",
-        body: data,
-      }),
+    // Get One Property
+    getOneProperty: builder.query({
+      query: (id: string) => async () => {
+        return await databases.getDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
+          id
+        );
+      },
+      providesTags: ["Property"],
     }),
 
-    ////////////////////// Create Property //////////////////////
+    // Filter Properties By Room
+    filterPropertiesByRoom: builder.query({
+      query: (room) => async () => {
+        try {
+          const response = await databases.listDocuments(
+            process.env.NEXT_PUBLIC_DATABASE_ID!,
+            process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
+            [Query.equal("room", room)]
+          );
+          return response;
+        } catch (error) {
+          console.error("Error fetching properties by room:", error);
+          throw error;
+        }
+      },
+      providesTags: ["Filtering"],
+    }),
+
+    // Filter Properties By City And Guests
+    filterPropertiesByCityAndGuests: builder.query({
+      query:
+        ({ city, guests }: PropertyFilterArgs) =>
+        async () => {
+          try {
+            const queries = [];
+            if (city !== undefined) {
+              queries.push(Query.equal("city", city));
+            }
+            queries.push(Query.equal("NumPerson", guests));
+
+            const response = await databases.listDocuments(
+              process.env.NEXT_PUBLIC_DATABASE_ID!,
+              process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
+              queries
+            );
+            return response;
+          } catch (error) {
+            console.error("Error filtering properties:", error);
+            throw error;
+          }
+        },
+      providesTags: ["Filtering"],
+    }),
+
+    // Create Landlord
+    createLandlord: builder.mutation({
+      query: (data: Record<string, unknown>) => async () => {
+        return await databases.createDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_LANDLORD_COLLECTION!,
+          "unique()",
+          data
+        );
+      },
+    }),
+
+    // Create Property
     createProperty: builder.mutation({
-      query: (data) => ({
-        url: "/api/properties?populate=image&populate=imageGroup&populate=landlord",
-        method: "POST",
-        body: data,
-      }),
+      query: (data: Record<string, unknown>) => async () => {
+        return await databases.createDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
+          "unique()",
+          data
+        );
+      },
     }),
 
-    ////////////////////// Upload Image //////////////////////
-    UploadImage: builder.mutation({
-      query: (formData) => ({
-        url: "/api/upload",
-        method: "POST",
-        body: formData,
-      }),
-    }),
+    // Upload Image
+    // uploadImage: builder.mutation({
+    //   query:
+    //     ({ file }: FileUpload) =>
+    //     async () => {
+    //       return await storage.createFile(
+    //         process.env.NEXT_PUBLIC_BUCKET_ID!,
+    //         "unique()",
+    //         file
+    //       );
+    //     },
+    // }),
 
-    ////////////////////// Delete Image //////////////////////
-    DeleteImage: builder.mutation({
-      query: (id) => ({
-        url: `/api/upload/files/${id}`,
-        method: "delete",
-      }),
-    }),
+    // // Delete Image
+    // deleteImage: builder.mutation({
+    //   query: (id: string) => async () => {
+    //     return await storage.deleteFile(process.env.NEXT_PUBLIC_BUCKET_ID!, id);
+    //   },
+    // }),
   }),
 });
 
@@ -125,9 +188,8 @@ export const {
   useGetOnePropertyQuery,
   useFilterPropertiesByRoomQuery,
   useFilterPropertiesByCityAndGuestsQuery,
-  useBookingPropertyMutation,
-  useLandLordsMutation,
   useCreatePropertyMutation,
-  useUploadImageMutation,
-  useDeleteImageMutation,
+  useCreateLandlordMutation,
+  // useUploadImageMutation,
+  // useDeleteImageMutation,
 } = apiSlice;

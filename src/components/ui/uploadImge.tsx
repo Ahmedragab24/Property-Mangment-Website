@@ -2,29 +2,27 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { CloudUpload } from "lucide-react";
 import { Button } from "./button";
-import {
-  useUploadImageMutation,
-  useDeleteImageMutation,
-} from "@/store/apis/apis";
+import { storage } from "@/utils/appwrite/appwriteClient";
 import { useDispatch } from "react-redux";
 import {
+  setSingleImage,
+  setImageGroup,
+  clearSingleImage,
   setSingleImageID,
   setImageGroupIDs,
 } from "@/store/features/UploadingImages/imagesSlice";
+import { useAppSelector } from "@/store/hooks";
 
 interface ImageType {
   type: "single" | "group";
 }
 
 const UploadImages = ({ type }: ImageType) => {
-  const [singleImage, setSingleImage] = useState<string | null>(null);
-  const [imageGroup, setImageGroup] = useState<string[]>([]);
-
-  const [singleImageID, setSingleImageIDState] = useState<number | null>(null);
-  const [imageGroupIDs, setImageGroupIDsState] = useState<number[]>([]);
-
-  const [uploadImage] = useUploadImageMutation();
-  const [deleteImage] = useDeleteImageMutation();
+  const [singleImage, setSingleImageState] = useState<string | null>(null);
+  const [imageGroup, setImageGroupState] = useState<string[]>([]);
+  const { singleImageID, imageGroupIDs } = useAppSelector(
+    (state) => state.images
+  );
   const dispatch = useDispatch();
 
   const handleSingleImageChange = async (
@@ -32,17 +30,23 @@ const UploadImages = ({ type }: ImageType) => {
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const formData = new FormData();
-      formData.append("files", file);
-
       try {
-        const response = await uploadImage(formData).unwrap();
-        if (response && response[0]?.id) {
-          const imageUrl = URL.createObjectURL(file);
-          setSingleImage(imageUrl);
-          setSingleImageIDState(response[0]?.id);
-          dispatch(setSingleImageID(response[0]?.id));
-        }
+        const response = await storage.createFile(
+          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
+          "unique()",
+          file
+        );
+
+        // الحصول على رابط المعاينة
+        const filePreview = storage.getFilePreview(
+          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
+          response.$id
+        );
+
+        // تخزين الرابط في Redux
+        setSingleImageState(filePreview);
+        dispatch(setSingleImage(filePreview));
+        dispatch(setSingleImageID(response.$id));
       } catch (error) {
         console.error("Error uploading single image:", error);
       }
@@ -54,53 +58,69 @@ const UploadImages = ({ type }: ImageType) => {
   ) => {
     const files = event.target.files;
     if (files) {
-      const formData = new FormData();
-      Array.from(files).forEach((file) => formData.append("files", file));
-
       try {
-        const response = await uploadImage(formData).unwrap();
-        if (response && response.length > 0) {
-          const ids = response.map((img: { id: number }) => img.id);
-          const urls = Array.from(files).map((file) =>
-            URL.createObjectURL(file)
+        const filePreviews: string[] = [];
+        const fileIDs: string[] = [];
+
+        for (const file of Array.from(files)) {
+          const response = await storage.createFile(
+            `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
+            "unique()",
+            file
           );
 
-          setImageGroup(urls);
-          setImageGroupIDsState(ids);
-          dispatch(setImageGroupIDs(ids));
+          // الحصول على رابط المعاينة
+          const filePreview = storage.getFilePreview(
+            `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
+            response.$id
+          );
+
+          filePreviews.push(filePreview);
+          fileIDs.push(response.$id);
         }
+
+        // تحديث Redux
+        setImageGroupState((prev) => [...prev, ...filePreviews]);
+        dispatch(setImageGroup(filePreviews));
+        dispatch(setImageGroupIDs(fileIDs));
       } catch (error) {
-        console.error("Error uploading image group:", error);
+        console.error("Error uploading images:", error);
       }
     }
   };
 
-  const handleRemoveImage = async () => {
-    if (singleImageID) {
-      try {
-        await deleteImage(singleImageID).unwrap();
-        setSingleImage(null);
-        setSingleImageIDState(null);
-        dispatch(setSingleImageID(0));
-      } catch (error) {
-        console.error("Error deleting single image:", error);
-      }
-    }
-  };
-
-  const handleRemoveImageGroup = async (index: number) => {
-    const imageID = imageGroupIDs[index];
-    if (imageID) {
-      try {
-        await deleteImage(imageID).unwrap();
-        setImageGroup((prevImages) => prevImages.filter((_, i) => i !== index));
-        setImageGroupIDsState((prevIDs) =>
-          prevIDs.filter((_, i) => i !== index)
+  const handleRemoveSingleImage = async () => {
+    try {
+      if (singleImageID) {
+        await storage.deleteFile(
+          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
+          singleImageID
         );
-        dispatch(setImageGroupIDs(imageGroupIDs.filter((_, i) => i !== index)));
-      } catch (error) {
-        console.error("Error deleting image from group:", error);
       }
+      setSingleImageState(null);
+      dispatch(clearSingleImage());
+    } catch (error) {
+      console.error("Error removing single image:", error);
+    }
+  };
+
+  const handleRemoveGroupImage = async (index: number) => {
+    try {
+      const imageID = imageGroupIDs[index];
+      if (imageID) {
+        await storage.deleteFile(
+          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
+          imageID
+        );
+      }
+      const updatedImages = imageGroup.filter((_, i) => i !== index);
+      const updatedImageIDs = imageGroupIDs.filter((_, i) => i !== index);
+
+      setImageGroupState(updatedImages);
+      dispatch(setImageGroup(updatedImages));
+      dispatch(setImageGroupIDs(updatedImageIDs));
+    } catch (error) {
+      console.error("Error removing group image:", error);
     }
   };
 
@@ -109,14 +129,10 @@ const UploadImages = ({ type }: ImageType) => {
       {/* Single Image */}
       {type === "single" && (
         <div className="w-full h-full">
-          <form
-            className={`${
-              singleImage ? "hidden" : "block"
-            } w-full h-full flex justify-center items-center`}
-          >
+          <form className={`${singleImage ? "hidden" : "block"}`}>
             <label htmlFor="file">
-              <div className="flex flex-col items-center gap-1 cursor-pointer group">
-                <CloudUpload className="w-20 h-20 duration-300 group-hover:text-primary group-hover:scale-100" />
+              <div className="flex flex-col items-center gap-1 cursor-pointer">
+                <CloudUpload className="w-20 h-20" />
                 <span>Browse file</span>
               </div>
               <input
@@ -129,13 +145,13 @@ const UploadImages = ({ type }: ImageType) => {
             </label>
           </form>
           {singleImage && (
-            <div className="relative w-full h-[13.75rem] overflow-hidden rounded-lg shadow-lg">
+            <div className="relative w-full h-[13.75rem] overflow-hidden">
               <Image src={singleImage} alt="Uploaded image" layout="fill" />
               <Button
-                onClick={handleRemoveImage}
-                variant={"destructive"}
-                size={"icon"}
-                className="absolute top-2 right-2 text-[13px] rounded-full px-1 py-1"
+                onClick={handleRemoveSingleImage}
+                variant="destructive"
+                size="icon"
+                className="absolute top-3 right-2"
               >
                 X
               </Button>
@@ -146,15 +162,11 @@ const UploadImages = ({ type }: ImageType) => {
 
       {/* Group Images */}
       {type === "group" && (
-        <div className={`w-full ${imageGroup.length ? "h-auto" : "h-44"}`}>
-          <form
-            className={`${
-              imageGroup.length ? "hidden" : "block"
-            } w-full h-full flex justify-center items-center`}
-          >
+        <div>
+          <form className={`${imageGroup.length ? "hidden" : "block"}`}>
             <label htmlFor="file-group">
-              <div className="flex flex-col items-center gap-1 cursor-pointer group">
-                <CloudUpload className="w-20 h-20 duration-300 group-hover:text-primary group-hover:scale-100" />
+              <div className="flex flex-col items-center gap-1 cursor-pointer">
+                <CloudUpload className="w-20 h-20" />
                 <span>Browse files</span>
               </div>
               <input
@@ -168,24 +180,19 @@ const UploadImages = ({ type }: ImageType) => {
             </label>
           </form>
           {imageGroup.length > 0 && (
-            <div className="w-full h-auto flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-wrap gap-4">
               {imageGroup.map((image, index) => (
-                <div
-                  key={index}
-                  className="relative w-40 h-40 overflow-hidden rounded-lg shadow-lg"
-                >
+                <div key={index} className="relative w-40 h-40 overflow-hidden">
                   <Image
                     src={image}
                     alt={`Uploaded image ${index + 1}`}
                     layout="fill"
-                    objectFit="cover"
-                    className="object-cover"
                   />
                   <Button
-                    onClick={() => handleRemoveImageGroup(index)}
-                    variant={"destructive"}
-                    size={"icon"}
-                    className="absolute top-2 right-2 text-[13px] rounded-full px-1 py-1"
+                    onClick={() => handleRemoveGroupImage(index)}
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-3 right-2 text-[10px] w-7 h-7"
                   >
                     X
                   </Button>

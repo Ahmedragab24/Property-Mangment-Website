@@ -18,115 +18,58 @@ export interface IUser {
   };
 }
 export interface ILandlord {
-  data: {
-    documentId: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone?: string;
-  };
+  $id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
 }
 
 export interface IError {
-  data: {
-    error: {
-      message: string;
-    };
-  };
+  message: string;
 }
 
-export type city = [
-  | "cairo"
-  | "london"
-  | "new york"
-  | "paris"
-  | "tokyo"
-  | "dubai"
-  | "rome"
-  | "sydney"
-  | "moscow"
-  | "singapore"
-  | "berlin"
-  | "beijing"
-];
+export type city =
+  | [
+      | "cairo"
+      | "london"
+      | "new york"
+      | "paris"
+      | "tokyo"
+      | "dubai"
+      | "rome"
+      | "sydney"
+      | "moscow"
+      | "singapore"
+      | "berlin"
+      | "beijing"
+    ]
+  | "";
 
 export interface IProperty {
-  id?: string;
-  documentId?: string;
+  $id?: string;
+  propertyID?: string;
   title: string;
   description: string;
   price: number;
   locationName: string;
   locationGoogleMap: string;
-  date: string;
+  date: Date;
   room: number;
   kitchen?: number;
   bathroom: number;
   NumPerson: number;
   city: city;
   info?: string[];
-  image: {
-    url?: string;
-    formats?: {
-      small?: {
-        width?: 500;
-        height?: 281;
-        url?: string;
-      };
-      medium?: {
-        width?: 750;
-        height?: 422;
-        url?: string;
-      };
-    };
-  };
-  imageGroup: [
-    {
-      name?: string;
-      id?: string;
-      url: string;
-      formats?: {
-        small?: {
-          width: 500;
-          height: 281;
-          url: string;
-        };
-        medium?: {
-          width: 750;
-          height: 422;
-          url: string;
-        };
-        large?: {
-          width: 1000;
-          height: 563;
-          url: string;
-        };
-      };
-    }
-  ];
+  image: string | null;
+  imageGroup: string[];
+  landlords: number;
 }
 
-export interface IimageGroup {
+export interface imageGroup {
   name?: string;
   id?: string;
   url?: string;
-  formats?: {
-    small?: {
-      width: 500;
-      height: 281;
-      url: string;
-    };
-    medium?: {
-      width: 750;
-      height: 422;
-      url: string;
-    };
-    large?: {
-      width: 1000;
-      height: 563;
-      url: string;
-    };
-  };
 }
 
 import * as LucideIcons from "lucide-react";

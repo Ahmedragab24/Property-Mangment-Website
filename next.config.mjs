@@ -9,11 +9,8 @@ const nextConfig = {
         port: "1337",
         pathname: "/**",
       },
-      {
-        protocol: "https",
-        hostname: "strapipropertymangment-production.up.railway.app",
-      },
     ],
+    domains: ['cloud.appwrite.io', 'res.cloudinary.com'],
   },
 };
 

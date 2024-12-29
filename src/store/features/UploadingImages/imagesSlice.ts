@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface ImagesState {
   singleImage: string | null;
   imageGroup: string[];
-  singleImageID: number | null;
-  imageGroupIDs: number[];
+  singleImageID: string | null;
+  imageGroupIDs: string[];
 }
 
 const initialState: ImagesState = {
@@ -24,10 +24,10 @@ const imagesSlice = createSlice({
     setImageGroup(state, action: PayloadAction<string[]>) {
       state.imageGroup = action.payload;
     },
-    setSingleImageID(state, action: PayloadAction<number>) {
+    setSingleImageID(state, action: PayloadAction<string>) {
       state.singleImageID = action.payload;
     },
-    setImageGroupIDs(state, action: PayloadAction<number[]>) {
+    setImageGroupIDs(state, action: PayloadAction<string[]>) {
       state.imageGroupIDs = action.payload;
     },
     clearSingleImage(state) {
