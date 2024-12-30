@@ -1,9 +1,9 @@
-import { ILandlord, IUser } from "@/interfaces";
+import { ILandlord, UserData } from "@/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 interface UserState {
-  user: IUser | null;
+  user: UserData | null;
   landlord: ILandlord | null;
 }
 
@@ -22,7 +22,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addToUserData: (state, action: PayloadAction<IUser>) => {
+    addToUserData: (state, action: PayloadAction<UserData>) => {
       state.user = action.payload;
       if (typeof window !== "undefined") {
         Cookies.set("user", JSON.stringify(state.user), {

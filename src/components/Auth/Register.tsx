@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useRegisterUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
 import { LoaderCircle } from "lucide-react";
-import { IError } from "@/interfaces";
+import { IError, UserData } from "@/interfaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -39,20 +39,20 @@ const Register = ({ changeToLoginModle }: Iprops) => {
   // Handler
   const onSubmit = async (values: z.infer<typeof UserRegisterSchema>) => {
     try {
-      await registerUser(values).unwrap();
+      const respons: UserData = await registerUser(values).unwrap();
       toast({
         variant: "success",
-        title: "Registration Successful",
+        title: `Congratulations, ${respons.name} Registration Successful`,
         description: "User registered successfully!",
       });
       setTimeout(() => {
         changeToLoginModle?.();
       }, 2000);
     } catch (err) {
-      setErrorMessage((err as IError)?.data?.error?.message);
+      setErrorMessage((err as IError)?.message);
       toast({
         variant: "destructive",
-        title: (err as IError)?.data?.error?.message,
+        title: (err as IError)?.message,
         description: "Please try again.",
       });
     }

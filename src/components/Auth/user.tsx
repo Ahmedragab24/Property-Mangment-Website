@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { removeUserData } from "@/store/features/UserData/userData";
 
 const UserDropdown = () => {
-  const userData = useAppSelector((state) => state.UserData.user?.user);
+  const userData = useAppSelector((state) => state.UserData?.user);
   const dispatch = useAppDispatch();
 
   //   Handling
@@ -35,9 +35,9 @@ const UserDropdown = () => {
           <Avatar className="h-8 w-8 duration-300 group-hover:scale-110">
             <AvatarImage
               src={avatarImage.src || "/default-avatar.png"}
-              alt={userData?.username || "User"}
+              alt={userData?.providerUid || "User"}
             />
-            <AvatarFallback>{userData?.username || "User "}</AvatarFallback>
+            <AvatarFallback>{userData?.providerUid || "User "}</AvatarFallback>
           </Avatar>
         </div>
       </DropdownMenuTrigger>
@@ -45,10 +45,10 @@ const UserDropdown = () => {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {userData?.username || "User Name"}
+              {userData?.providerUid || "User Name"}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {userData?.email || "User"}
+              {userData?.countryName || "User"}
             </p>
           </div>
         </DropdownMenuLabel>

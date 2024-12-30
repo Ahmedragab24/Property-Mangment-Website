@@ -61,30 +61,29 @@ const SimilarProperties = () => {
           }}
           className="flex flex-wrap mySwiper"
         >
-          {data?.data.map((property: IProperty) => {
+          {data?.documents.map((property: IProperty) => {
             const {
-              documentId,
+              $id,
               title,
               locationName,
-              image: { url },
+              image,
               price,
               date,
               room,
               bathroom,
             } = property;
-            const image = `${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`;
-
+ 
             return (
-              <SwiperSlide key={documentId} className="lg:w-1/4 sm:w-1/2 p-2">
+              <SwiperSlide key={$id} className="lg:w-1/4 sm:w-1/2 p-2">
                 <div className="h-fit">
                   <div className="h-auto md:h-[320px] lg:h-[430px] rounded-lg group duration-500 bg-secondary hover:text-foreground hover:shadow-xl">
                     <div className="relative overflow-hidden rounded-lg">
-                      <Link href={`/property/${documentId}`}>
+                      <Link href={`/property/${$id}`}>
                         <Image
                           width={750}
                           height={400}
                           className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                          src={image}
+                          src={image || "/images/property/property-1.jpg"}
                           alt="blog"
                           loading="lazy"
                         />
@@ -100,7 +99,7 @@ const SimilarProperties = () => {
                       </div>
 
                       <div className="absolute top-0 right-0 py-2 px-4 z-10">
-                        <h3 className="text-white text-shadow">{date}</h3>
+                        <h3 className="text-white text-shadow">{date?.toString()}</h3>
                       </div>
                     </div>
                     <div className="p-6">
@@ -117,7 +116,7 @@ const SimilarProperties = () => {
                         {locationName}
                       </p>
                       <div className="flex items-center flex-wrap">
-                        <Link href={`/property/${documentId}`}>
+                        <Link href={`/property/${$id}`}>
                           <Button variant={"link"} className="m-0 p-0">
                             Show more
                             <ArrowRight size={15} className="ms-1" />
@@ -151,7 +150,7 @@ const SimilarProperties = () => {
 
       {!isSuccess && isError && (
         <h1 className="flex justify-center items-center mx-auto text-foreground text-sm sm:text-xl lg:text-5xl my-20">
-          {(error as IError)?.data?.error?.message || (
+          {(error as IError)?.message || (
             <div className="flex flex-col items-center gap-4">
               <div className="flex justify-center items-center gap-2">
                 <OctagonAlert className="w-9 h-9 md:w-14 md:h-14" />

@@ -9,13 +9,24 @@ export interface LoginForm {
   password: string;
 }
 
-export interface IUser {
-  user: {
-    id: number;
-    username: string;
-    email: string;
-    phone?: string;
-  };
+export interface UserData {
+  $id?: number;
+  name?: string;
+  email: string;
+  password: string;
+  phone?: string;
+  providerUid?: string;
+  countryName?: string;
+}
+
+export interface PropertyFilterArgs {
+  city: city | undefined;
+  guests: number;
+}
+
+export interface PaginationArgs {
+  page: number;
+  pageSize: number;
 }
 export interface ILandlord {
   $id: string;
@@ -66,11 +77,7 @@ export interface IProperty {
   landlords: number;
 }
 
-export interface imageGroup {
-  name?: string;
-  id?: string;
-  url?: string;
-}
+export type imageGroup = string[];
 
 import * as LucideIcons from "lucide-react";
 type IconName = keyof typeof LucideIcons;
@@ -88,13 +95,11 @@ export interface accordion {
 }
 
 export interface BookingData {
-  data: {
     userName: string;
     email: string;
     phoneNumber: string;
-    property: string | undefined;
+    properties: string | undefined;
     checkIn: Date | null;
     checkOut: Date | null;
     price: number;
-  };
 }

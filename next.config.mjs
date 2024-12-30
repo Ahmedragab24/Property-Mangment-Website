@@ -4,15 +4,16 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "localhost",
         port: "1337",
         pathname: "/**",
       },
     ],
-    domains: ['cloud.appwrite.io', 'res.cloudinary.com'],
+    domains: ['cloud.appwrite.io', 'res.cloudinary.com' ], 
   },
 };
+
 
 export default withSentryConfig(
   nextConfig,

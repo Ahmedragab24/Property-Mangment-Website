@@ -24,7 +24,7 @@ import AddListingModel from "../model/AddListingModle/AddListingModel";
 const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
-  const userData = useAppSelector((state) => state.UserData?.user?.user);
+  const userData = useAppSelector((state) => state.UserData.user);
   const [isUserLogin, setIsUserLogin] = useState(false);
 
   useEffect(() => {

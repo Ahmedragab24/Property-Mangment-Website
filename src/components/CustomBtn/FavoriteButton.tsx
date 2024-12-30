@@ -17,12 +17,12 @@ interface IProps {
 const FavoriteButton = ({ property, IsTitle }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.UserData.user?.user);
+  const userData = useAppSelector((state) => state.UserData.user);
   const favorites = useAppSelector((state) => state.favorites.favorites);
 
   // Favorite Button
   const isFavoriteSome = favorites.some(
-    (item: IProperty) => item.documentId === property.documentId
+    (item: IProperty) => item.$id === property.$id
   );
 
   const handlerFavoriteBtn = () => {

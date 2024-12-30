@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { BookingData, IError } from "@/interfaces";
-import { useBookingPropertyMutation } from "@/store/apis/apis";
+import { useCreateBookingMutation } from "@/store/apis/apis";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -26,8 +26,8 @@ interface Iprops {
 
 const BookingProperty = ({ children, propertyID, price }: Iprops) => {
   const [bookingData, { isLoading, error, isSuccess }] =
-    useBookingPropertyMutation();
-  const userData = useAppSelector((state) => state.UserData.user?.user);
+    useCreateBookingMutation();
+  const userData = useAppSelector((state) => state.UserData?.user);
   const [errorMessage, setErrorMessage] = useState("");
   const [DateDays, setDateDays] = useState<{
     CheckIN: Date | null;
@@ -35,15 +35,13 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
   }>({ CheckIN: null, CheckOut: null });
   const [Price, setPrice] = useState<number>(price);
   const [BookingDataState, setBookingDataState] = useState<BookingData>({
-    data: {
-      userName: "",
-      email: "",
-      phoneNumber: "",
-      property: propertyID,
-      checkIn: null,
-      checkOut: null,
-      price: Price,
-    },
+    userName: "",
+    email: "",
+    phoneNumber: "",
+    properties: propertyID,
+    checkIn: null,
+    checkOut: null,
+    price: Price,
   });
 
   useEffect(() => {
@@ -60,11 +58,9 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setBookingDataState((prevData) => ({
-      data: {
-        ...prevData.data,
-        [name]: value,
-      },
+    setBookingDataState((data) => ({
+      ...data,
+      [name]: value,
     }));
   };
 
@@ -79,8 +75,7 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
           "Your data has been sent successfully. You will be contacted within two hours.",
       });
     } catch (err) {
-      const errorMsg =
-        (err as IError)?.data?.error?.message || "An error occurred.";
+      const errorMsg = (err as IError)?.message || "An error occurred.";
       setErrorMessage(errorMsg);
       toast({
         variant: "destructive",
@@ -110,7 +105,7 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
                 type="text"
                 placeholder="Enter Username"
                 className="bg-background h-11 shadow-xl"
-                value={BookingDataState.data.userName}
+                value={BookingDataState.userName}
                 onChange={handleInputChange}
               />
               <Input
@@ -118,7 +113,7 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
                 type="email"
                 placeholder="Email"
                 className="bg-background h-11 shadow-xl"
-                value={BookingDataState.data.email}
+                value={BookingDataState.email}
                 onChange={handleInputChange}
               />
               <Input
@@ -126,18 +121,16 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
                 type="text"
                 placeholder="Phone Number"
                 className="bg-background h-11 shadow-xl"
-                value={BookingDataState.data.phoneNumber}
+                value={BookingDataState.phoneNumber}
                 onChange={handleInputChange}
               />
               <div className="grid md:grid-cols-2 gap-3">
                 <DatePicker
                   placeHolder="Check In"
                   onChange={(date) => {
-                    setBookingDataState((prevData) => ({
-                      data: {
-                        ...prevData.data,
-                        checkIn: date,
-                      },
+                    setBookingDataState((data) => ({
+                      ...data,
+                      checkIn: date,
                     }));
                     setDateDays((prev) => ({ ...prev, CheckIN: date }));
                   }}
@@ -145,11 +138,9 @@ const BookingProperty = ({ children, propertyID, price }: Iprops) => {
                 <DatePicker
                   placeHolder="Check Out"
                   onChange={(date) => {
-                    setBookingDataState((prevData) => ({
-                      data: {
-                        ...prevData.data,
-                        checkOut: date,
-                      },
+                    setBookingDataState((data) => ({
+                      ...data,
+                      checkOut: date,
                     }));
                     setDateDays((prev) => ({ ...prev, CheckOut: date }));
                   }}

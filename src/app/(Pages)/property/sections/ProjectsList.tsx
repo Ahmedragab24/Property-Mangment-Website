@@ -36,10 +36,13 @@ type Filtering = "initial" | "room" | "GroupFilter";
 const ProjectsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
-  const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery({
-    page: currentPage,
-    pageSize,
-  });
+  const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery(
+    {
+      page: currentPage,
+      pageSize,
+    },
+    { pollingInterval: 5000 }
+  );
   const { room, city, guests } = useAppSelector(
     (state: RootState) => state.filteringProperties
   );
@@ -110,7 +113,7 @@ const ProjectsList = () => {
                   width={750}
                   height={400}
                   className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                  src={url || '/fallback-image.jpg'}
+                  src={url || "/fallback-image.jpg"}
                   alt="blog"
                   loading="lazy"
                 />
@@ -125,7 +128,7 @@ const ProjectsList = () => {
 
               <div className="absolute top-0 right-0 py-2 px-4 z-10">
                 <h3 className="text-white text-shadow">
-                  {date instanceof Date ? date.toLocaleDateString() : date}
+                  {date instanceof Date ? date.toISOString() : date}
                 </h3>
               </div>
             </div>
@@ -221,8 +224,14 @@ const ProjectsList = () => {
           className="w-full py-4 px-2 border border-primary flex flex-col lg:flex-row lg:flex-wrap gap-y-4 gap-x-2 justify-around items-center bg-secondary  rounded-lg"
         >
           <SearchProperty className="w-fit px-6 lg:px-14 !border-none shadow-none" />
-          <DatePicker placeHolder="Check in" className="w-fit px-6 lg:px-14 !border-none shadow-none"/>
-          <DatePicker placeHolder="Check Out" className="w-fit px-6 lg:px-14 !border-none shadow-none"/>
+          <DatePicker
+            placeHolder="Check in"
+            className="w-fit px-6 lg:px-14 !border-none shadow-none"
+          />
+          <DatePicker
+            placeHolder="Check Out"
+            className="w-fit px-6 lg:px-14 !border-none shadow-none"
+          />
           <SelectGests className="!border-none shadow-none" />
           <Button onClick={filterBtnCheckNow}>
             {isLoading ? (

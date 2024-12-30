@@ -9,10 +9,9 @@ import { motion } from "framer-motion";
 import { useLoginUserMutation } from "@/store/apis/apis";
 import { toast } from "@/hooks/use-toast";
 import { Loader } from "lucide-react";
-import { IError, IUser } from "@/interfaces";
+import { IError, UserData } from "@/interfaces";
 import { useAppDispatch } from "@/store/hooks";
 import { addToUserData } from "@/store/features/UserData/userData";
-import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,9 +27,10 @@ import { UserLoginSchema } from "@/schemas/FormSchemas";
 
 interface Iprops {
   changeToRegisterModle: () => void;
+  closeModel: () => void;
 }
 
-const Login = ({ changeToRegisterModle }: Iprops) => {
+const Login = ({ changeToRegisterModle , closeModel }: Iprops) => {
   const [loginUser, { isLoading, error, isSuccess }] = useLoginUserMutation();
   const form = useForm<z.infer<typeof UserLoginSchema>>({
     resolver: zodResolver(UserLoginSchema),
@@ -41,12 +41,13 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useAppDispatch();
-  const Router = useRouter();
 
   // Handler
   const onSubmit = async (values: z.infer<typeof UserLoginSchema>) => {
     try {
-      const response: IUser = await loginUser(values).unwrap();
+      const response: UserData = await loginUser(values).unwrap();
+      console.log(response);
+      
       // Store user in cookies
       if (typeof window !== "undefined") dispatch(addToUserData(response));
 
@@ -57,24 +58,24 @@ const Login = ({ changeToRegisterModle }: Iprops) => {
       });
 
       setTimeout(() => {
-        Router.refresh();
+        closeModel();
       }, 2000);
     } catch (err) {
       setErrorMessage(
-        (err as IError)?.data?.error?.message || "An error occurred."
+        (err as IError)?.message || "An error occurred."
       );
       toast({
         variant: "destructive",
-        title: (err as IError)?.data?.error?.message,
+        title: (err as IError)?.message,
         description:
-          (err as IError)?.data?.error?.message || "Please try again.",
+          (err as IError)?.message || "Please try again.",
       });
     }
   };
 
   return (
     <div className="flex justify-start items-center">
-      <div className="w-full xl:w-1/2 p-6 mt-4">
+      <div className="w-full xl:w-1/2 p-6">
         <h2 className="text-foreground text-xl lg:text-3xl text-shadow-primary">
           Login now
         </h2>

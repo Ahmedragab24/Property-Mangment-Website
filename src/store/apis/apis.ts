@@ -1,27 +1,8 @@
 import { createApi, BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { account, databases } from "@/utils/appwrite/appwriteClient";
 import { AppwriteException, Query } from "appwrite";
-import { city } from "@/interfaces";
+import { BookingData, LoginForm, PaginationArgs, PropertyFilterArgs, UserData } from "@/interfaces";
 
-interface UserData {
-  email: string;
-  password: string;
-  name?: string;
-}
-
-interface PropertyFilterArgs {
-  city: city | undefined;
-  guests: number;
-}
-
-interface PaginationArgs {
-  page: number;
-  pageSize: number;
-}
-
-// interface FileUpload {
-//   file: File;
-// }
 
 const appwriteBaseQuery: BaseQueryFn<
   () => Promise<unknown>,
@@ -59,8 +40,8 @@ export const apiSlice = createApi({
 
     // Login User
     loginUser: builder.mutation({
-      query: (userData: Omit<UserData, "name">) => async () => {
-        return await account.createSession(userData.email, userData.password);
+      query: (userData : LoginForm) => async () => {
+        return await account.createEmailPasswordSession(userData.identifier , userData.password);
       },
       invalidatesTags: ["User"],
     }),
@@ -159,25 +140,17 @@ export const apiSlice = createApi({
       },
     }),
 
-    // Upload Image
-    // uploadImage: builder.mutation({
-    //   query:
-    //     ({ file }: FileUpload) =>
-    //     async () => {
-    //       return await storage.createFile(
-    //         process.env.NEXT_PUBLIC_BUCKET_ID!,
-    //         "unique()",
-    //         file
-    //       );
-    //     },
-    // }),
-
-    // // Delete Image
-    // deleteImage: builder.mutation({
-    //   query: (id: string) => async () => {
-    //     return await storage.deleteFile(process.env.NEXT_PUBLIC_BUCKET_ID!, id);
-    //   },
-    // }),
+    // Create Booking
+    createBooking: builder.mutation({
+      query: (data: BookingData) => async () => {
+        return await databases.createDocument(
+          process.env.NEXT_PUBLIC_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_BOOKING_COLLECTION!,
+          "unique()",
+          data
+        );
+      },
+    }),
   }),
 });
 
@@ -190,6 +163,5 @@ export const {
   useFilterPropertiesByCityAndGuestsQuery,
   useCreatePropertyMutation,
   useCreateLandlordMutation,
-  // useUploadImageMutation,
-  // useDeleteImageMutation,
+  useCreateBookingMutation
 } = apiSlice;

@@ -26,8 +26,13 @@ const RegistrationModel = ({ children }: IProps) => {
   const [typeModel, setTypeModel] = useState<TypeModle>("login");
   const [checkLogin, setcheckLogin] = useState(true);
   const [checkRegister, setcheckRegister] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Handling
+  const closeModel = () => {
+    setIsOpen(false);
+  };
+
   const changeToRegisterModle = () => {
     setTypeModel("register");
     setcheckLogin(false);
@@ -42,7 +47,7 @@ const RegistrationModel = ({ children }: IProps) => {
 
   if (typeModel === "login") {
     return (
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="p-14 sm:max-w-[60%] xl:py-16 xl:px-20">
           <DialogTitle>
@@ -70,7 +75,7 @@ const RegistrationModel = ({ children }: IProps) => {
               </Button>
             </div>
 
-            <Login changeToRegisterModle={changeToRegisterModle} />
+            <Login changeToRegisterModle={changeToRegisterModle}  closeModel={closeModel}/>
           </MotionUp>
         </DialogContent>
       </Dialog>
@@ -79,7 +84,7 @@ const RegistrationModel = ({ children }: IProps) => {
   // Registrations
   else if (typeModel === "register") {
     return (
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         {children ? (
           <DialogTrigger asChild>{children}</DialogTrigger>
         ) : (

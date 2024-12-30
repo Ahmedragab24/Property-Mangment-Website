@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 const FavoritePage = () => {
   const favorites = useAppSelector((state) => state.favorites.favorites);
-  const userData = useAppSelector((state) => state.UserData.user?.user);
+  const userData = useAppSelector((state) => state.UserData.user);
   const [isUserLogin, setIsUserLogin] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -27,7 +27,7 @@ const FavoritePage = () => {
   // Remove Property
   const removeProperty = (property: IProperty) => {
     const isFavoriteSome = favorites.some(
-      (item: IProperty) => item.documentId === property.documentId
+      (item: IProperty) => item.$id === property.$id
     );
     if (isFavoriteSome) {
       dispatch(removeFromFavorites(property));
@@ -51,25 +51,25 @@ const FavoritePage = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-11">
               {favorites.map((property: IProperty) => {
                 const {
-                  documentId,
+                  $id,
                   title,
                   locationName,
-                  image: { url },
+                  image,
                   price,
                   date,
                   room,
                   bathroom,
                 } = property;
                 return (
-                  <div key={documentId} className="h-fit">
+                  <div key={$id} className="h-fit">
                     <div className="h-auto md:h-[320px] lg:h-[430px] rounded-lg group duration-500 bg-secondary hover:text-foreground hover:shadow-xl">
                       <div className="relative overflow-hidden rounded-lg">
-                        <Link href={`/property/${documentId}`}>
+                        <Link href={`/property/${$id}`}>
                           <Image
                             width={750}
                             height={400}
                             className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                            src={`${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`}
+                            src={image!}
                             alt="blog"
                             loading="lazy"
                           />
@@ -85,7 +85,11 @@ const FavoritePage = () => {
                         </div>
 
                         <div className="absolute top-0 right-0 py-2 px-4 z-10">
-                          <h3 className="text-white text-shadow">{date}</h3>
+                          <h3 className="text-white text-shadow">
+                            {date instanceof Date
+                              ? date.toLocaleDateString()
+                              : date}
+                          </h3>
                         </div>
                       </div>
                       <div className="p-6">
@@ -107,7 +111,7 @@ const FavoritePage = () => {
                           {locationName}
                         </p>
                         <div className="flex items-center flex-wrap">
-                          <Link href={`/property/${documentId}`}>
+                          <Link href={`/property/${$id}`}>
                             <Button variant={"link"} className="m-0 p-0">
                               Show more
                               <ArrowRight size={15} className="ms-1" />
@@ -141,7 +145,7 @@ const FavoritePage = () => {
             </h1>
 
             <RegistrationModel>
-              <Button>Sign is</Button>
+              <Button>Sign in</Button>
             </RegistrationModel>
           </div>
         )}

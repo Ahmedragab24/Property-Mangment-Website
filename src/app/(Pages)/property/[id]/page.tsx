@@ -27,8 +27,9 @@ import { DatePicker } from "../components/DatePicker";
 
 const Property = () => {
   const { id } = useParams();
-  const { isLoading, isError, isSuccess, error, data } =
-    useGetOnePropertyQuery(id as string);
+  const { isLoading, isError, isSuccess, error, data } = useGetOnePropertyQuery(
+    id as string
+  );
   const [MapURl, setMapUrl] = useState("");
   const [isBtnFixed, setIsBtnFixed] = useState(true);
   const [DateDays, setDateDays] = useState<{
@@ -53,11 +54,11 @@ const Property = () => {
 
       setPrice(data?.price * daysCount);
     }
-  }, [DateDays, daysCount, data?.data?.price]);
+  }, [DateDays, daysCount, data?.price]);
 
   useEffect(() => {
     const regex = /src="([^"]+)"/;
-    const matchLocation = data?.data?.locationGoogleMap?.match(regex);
+    const matchLocation = data?.locationGoogleMap?.match(regex);
 
     if (matchLocation) {
       const mapUrl = matchLocation[1];
@@ -65,7 +66,7 @@ const Property = () => {
     } else {
       console.log("No src found");
     }
-  }, [data?.data?.locationGoogleMap]);
+  }, [data?.locationGoogleMap]);
 
   useEffect(() => {
     const BtnFixed = () => {
@@ -83,7 +84,7 @@ const Property = () => {
     };
   }, []);
 
-  const property: IProperty = data?.data;
+  const property: IProperty = data;
   if (!property) {
     return (
       <div className="container h-screen flex justify-center items-center">
@@ -106,11 +107,9 @@ const Property = () => {
     bathroom,
     room,
     info,
-    image:  url ,
+    image,
     imageGroup,
   } = property;
-
-  const image = `${process.env.NEXT_PUBLIC_BASE_URL_API}${url}`;
 
   // ========== Handling =========
 
@@ -155,19 +154,21 @@ const Property = () => {
             <div className="flex flex-col xl:flex-row justify-between gap-4 mb-16">
               <div className="xl:flex-1">
                 <div className="max-h-[500px] rounded-xl group overflow-hidden shadow-xl duration-500 relative">
-                  <Image
-                    src={image}
-                    alt={description}
-                    width={1000}
-                    height={500}
-                    loading="lazy"
-                    className="w-full max-h-[500px] rounded-xl cursor-pointer duration-500 group-hover:scale-110"
-                  />
+                  {image && (
+                    <Image
+                      src={image || ""}
+                      alt={description}
+                      width={1000}
+                      height={500}
+                      loading="lazy"
+                      className="w-full max-h-[500px] rounded-xl cursor-pointer duration-500 group-hover:scale-110"
+                    />
+                  )}
+
                   <div className="absolute top-0 left-0 py-2 px-4 lg:py-4 lg:px-6 text-md lg:text-xl font-bold bg-secondary rounded-br-3xl">
                     <span className="text-primary">${price}</span> / Night
                   </div>
                 </div>
-
                 <FavoriteButton property={property} IsTitle />
               </div>
 
