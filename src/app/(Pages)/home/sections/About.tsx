@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Redo } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import ImagesAbout from "../components/ImagesAbout";
 import { Metadata } from "next";
 
@@ -23,8 +23,8 @@ const AboutSection = () => {
       <div className="container relative w-full flex flex-col md:flex-row justify-center md:justify-between  items-center md:items-start xl:items-center  gap-20">
         <MotionLeft className="w-full md:w-1/2 flex flex-col gap-4">
           <div className="flex flex-col gap-y-4">
-            <p className="text-xl uppercase text-shadow-primary">About Us</p>
-            <h2 className="text-xl lg:text-4xl font-bold">
+            <p className="section-title">About Us</p>
+            <h2 className="text-xl lg:text-2xl font-bold">
               Real Estate CONT. L.L.C
             </h2>
 
@@ -37,10 +37,10 @@ const AboutSection = () => {
             </p>
           </div>
 
-          <div>
+          <div className="flex items-center justify-center gap-x-1">
             <div className="flex items-center justify-center gap-x-1">
               <h3 className="text-lg">Call Us Now</h3>
-              <Redo size={20} className="rotate-90 mt-3 text-primary" />
+              <MoveRight size={20} className="text-primary" />
             </div>
             <Link href="tel:+971508577859">
               <Button variant={"link"}>+971508577859</Button>

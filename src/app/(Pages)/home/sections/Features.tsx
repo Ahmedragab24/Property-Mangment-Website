@@ -35,9 +35,13 @@ const motionComponents: Record<string, React.ElementType> = {
 
 const Features = () => {
   return (
-    <section className="overflow-hidden" id="features">
-      <div className="container relative px-5 py-24 mx-auto">
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 items-center ">
+    <section className="overflow-hidden py-24" id="features">
+      <h1 className="section-title">
+        Features
+      </h1>
+
+      <div className="container relative  mx-auto">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 items-center justify-center">
           {FeaturesItems.map(
             ({ motion, icon, title, description, subDescription }, indx) => {
               const Icon = LucideIcons[
@@ -46,8 +50,8 @@ const Features = () => {
               const MotionComponent = motionComponents[motion];
               return (
                 MotionComponent && (
-                  <MotionComponent key={indx} className="py-4 px-3 ">
-                    <div className="bg-secondary border border-primary p-6 rounded-lg duration-300 group hover:bg-primary/70">
+                  <MotionComponent key={indx} className="py-4 px-3">
+                    <div className="bg-secondary md:h-48 border border-primary p-6 rounded-lg duration-300 group hover:bg-primary/70">
                       <div className="flex items-center gap-3">
                         <div className="w-fit h-fit p-2 inline-flex items-center justify-center rounded-full bg-card duration-500 group-hover:bg-secondary border border-primary text-primary mb-4">
                           {Icon && (

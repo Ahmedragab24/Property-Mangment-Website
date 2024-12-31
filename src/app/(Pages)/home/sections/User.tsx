@@ -53,14 +53,14 @@ const User = () => {
                   </div>
                 </MotionLeft>
 
-                <MotionRight className="flex flex-col justify-center items-center text-center lg:text-left md:items-start gap-1">
-                  <h3 className="text-xl text-shadow-primary uppercase mb-4">
-                    # For Landlords
+                <MotionRight className="flex flex-col justify-center items-center text-center lg:text-left md:items-start gap-4">
+                  <h3 className="section-title !text-left !mx-0 ">
+                    For Landlords
                   </h3>
-                  <h1 className="text-2xl md:text-4xl max-w-[80%] font-black mb-4 lg:mb-6 leading-[109%]">
+                  <h1 className="text-2xl md:text-2xl max-w-[80%] font-black  leading-[109%]">
                     {title}
                   </h1>
-                  <p className="text-sm text-textColor max-w-[80%] mb-4 lg:mb-10 lg:pr-8">
+                  <p className="text-sm text-textColor max-w-[80%] lg:pr-8">
                     {description}
                   </p>
                   <div className="flex flex-col  md:flex-row justify-start items-center gap-4">

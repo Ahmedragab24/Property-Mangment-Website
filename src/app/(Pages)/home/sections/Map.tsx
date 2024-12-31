@@ -22,18 +22,12 @@ const Map = () => {
           />
         </MotionDown>
 
-        <Point className="top-32 sm:top-20 md:top-10 left-1/2" city="Egypt" />
-        <Point
-          className="top-[39%] left-[45%] sm:top-[35%] sm:left-[49%] md:top-[32%] md:left-[47%]"
-          city="Egypt"
-        />
-        <Point
-          className="top-[38%] left-[50%] sm:left-[52%] md:top-[30%] md:left-[51%]"
-          city="Riyadh"
-        />
-        <Point className="top-[29%] left-[60%]" city="Egypt" />
-        <Point className="top-[18%] left-[30%]" city="USA" />
-        <Point className="top-[55%] left-[32%]" city="Janeiro" />
+        <Point className="absolute top-[33%] left-[48%]" city={["cairo"]} />
+        <Point className="absolute top-[18%] left-[44%]" city={["london"]} />
+        <Point className="absolute top-[35%] left-[56%]" city={["dubai"]} />
+        <Point className="absolute top-[19%] left-[50%]" city={["paris"]} />
+        <Point className="absolute top-[25%] left-[28%]" city={["new york"]} />
+        <Point className="absolute top-[30%] left-[60%]" city={["tokyo"]} />
       </div>
     </section>
   );

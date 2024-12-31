@@ -103,3 +103,5 @@ export interface BookingData {
     checkOut: Date | null;
     price: number;
 }
+
+export type Filtering = "initial" | "room" | "city" | "GroupFilter";

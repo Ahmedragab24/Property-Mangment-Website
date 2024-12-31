@@ -1,8 +1,14 @@
 import { createApi, BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { account, databases } from "@/utils/appwrite/appwriteClient";
 import { AppwriteException, Query } from "appwrite";
-import { BookingData, LoginForm, PaginationArgs, PropertyFilterArgs, UserData } from "@/interfaces";
-
+import {
+  BookingData,
+  city,
+  LoginForm,
+  PaginationArgs,
+  PropertyFilterArgs,
+  UserData,
+} from "@/interfaces";
 
 const appwriteBaseQuery: BaseQueryFn<
   () => Promise<unknown>,
@@ -40,8 +46,11 @@ export const apiSlice = createApi({
 
     // Login User
     loginUser: builder.mutation({
-      query: (userData : LoginForm) => async () => {
-        return await account.createEmailPasswordSession(userData.identifier , userData.password);
+      query: (userData: LoginForm) => async () => {
+        return await account.createEmailPasswordSession(
+          userData.identifier,
+          userData.password
+        );
       },
       invalidatesTags: ["User"],
     }),
@@ -116,6 +125,28 @@ export const apiSlice = createApi({
       providesTags: ["Filtering"],
     }),
 
+    // Filter Properties By City And Guests
+    filterPropertiesByCity: builder.query({
+      query: (city: city) => async () => {
+        try {
+          const queries = [];
+          if (city !== undefined) {
+            queries.push(Query.equal("city", city));
+          }
+          const response = await databases.listDocuments(
+            process.env.NEXT_PUBLIC_DATABASE_ID!,
+            process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
+            queries
+          );
+          return response;
+        } catch (error) {
+          console.error("Error filtering properties:", error);
+          throw error;
+        }
+      },
+      providesTags: ["Filtering"],
+    }),
+
     // Create Landlord
     createLandlord: builder.mutation({
       query: (data: Record<string, unknown>) => async () => {
@@ -160,8 +191,9 @@ export const {
   useGetPropertiesQuery,
   useGetOnePropertyQuery,
   useFilterPropertiesByRoomQuery,
+  useFilterPropertiesByCityQuery,
   useFilterPropertiesByCityAndGuestsQuery,
   useCreatePropertyMutation,
   useCreateLandlordMutation,
-  useCreateBookingMutation
+  useCreateBookingMutation,
 } = apiSlice;

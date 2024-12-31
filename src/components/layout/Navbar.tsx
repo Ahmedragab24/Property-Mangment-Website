@@ -24,11 +24,15 @@ import AddListingModel from "../model/AddListingModle/AddListingModel";
 const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const { isBackgroundImg, value } = useAppSelector((state) => state.heroNav);
-  const userData = useAppSelector((state) => state.UserData.user);
+  const userData = useAppSelector((state) => state.UserData?.user?.$id);
   const [isUserLogin, setIsUserLogin] = useState(false);
 
   useEffect(() => {
-    if (userData) setIsUserLogin(true);
+    if (userData) {
+      setIsUserLogin(true);
+    } else {
+      setIsUserLogin(false);
+    }
 
     const handleScroll = () => {
       if (window.scrollY > 50) {

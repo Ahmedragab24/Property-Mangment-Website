@@ -62,6 +62,9 @@
 }
 
 @layer utilities {
+  .section-title {
+    @apply relative w-fit text-center mx-auto text-3xl text-shadow-primary mb-4 after:content-[''] after:absolute after:bottom-[-5px] after:left-1/2 after:w-[50%] after:h-[3px] after:bg-primary after:transform after:-translate-x-1/2 after:rounded-md uppercase;
+  }
   .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }

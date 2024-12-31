@@ -4,10 +4,14 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { MapPin } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAppDispatch } from "@/store/hooks";
+import { setFilteringCity, setFilteringType } from "@/store/features/FilteringProperties/filtering";
+import { city } from "@/interfaces";
+import { useRouter } from "next/navigation";
 
 interface Iprops {
   className: string;
-  city: string;
+  city: city;
 }
 
 const MotionLeft = dynamic(() => import("@/components/animations/MotionLeft"), {
@@ -15,8 +19,18 @@ const MotionLeft = dynamic(() => import("@/components/animations/MotionLeft"), {
 });
 
 const Point = ({ className, city }: Iprops) => {
+  const dispatch = useAppDispatch();
+  const Route = useRouter();
+
+  // Handler Point
+  const HandlerPoint = () => {
+    dispatch(setFilteringCity(city as city));
+    dispatch(setFilteringType("city"));
+    Route.push("/property");
+  };
+
   return (
-    <div className={`absolute cursor-pointer duration-500 group ${className}`}>
+    <div className={`absolute cursor-pointer duration-500 group ${className}`} onClick={HandlerPoint}>
       <MotionLeft className="flex justify-center items-center">
         <MapPin className="text-primary text-shadow" size={30} />
         <motion.div

@@ -8,32 +8,34 @@ import {
   Bed,
   ChevronLeft,
   ChevronRight,
-  House,
   Loader,
   MapPinHouse,
   OctagonAlert,
-  SlidersHorizontal,
+  // SlidersHorizontal,
 } from "lucide-react";
 import {
   useFilterPropertiesByCityAndGuestsQuery,
+  useFilterPropertiesByCityQuery,
   useFilterPropertiesByRoomQuery,
   useGetPropertiesQuery,
 } from "@/store/apis/apis";
-import { IError, IProperty } from "@/interfaces";
+import { city, Filtering, IError, IProperty } from "@/interfaces";
 import Link from "next/link";
 import ProjectsSkeleton from "@/components/skeleton/ProjectsSkeleton";
 import FilteringRoom from "../components/FilteringRoom";
 import { RootState } from "@/store/store";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useRef, useState } from "react";
 import { SearchProperty } from "../../home/components/SearchProprtys";
 import { DatePicker } from "../components/DatePicker";
 import SelectGests from "../components/SelectGests";
 import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
-
-type Filtering = "initial" | "room" | "GroupFilter";
+import FilteringCity from "../components/FilteringCity";
+import { setFilteringType } from "@/store/features/FilteringProperties/filtering";
+import { FilteringDate } from "@/hooks/FilteringDate";
 
 const ProjectsList = () => {
+  const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
   const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery(
@@ -50,13 +52,20 @@ const ProjectsList = () => {
   const { data: filteringDataByRoom } = useFilterPropertiesByRoomQuery(
     room as number
   );
+  const { data: filteringDataByCity } = useFilterPropertiesByCityQuery(
+    city as city
+  );
   const { data: filteringDataByCityAndGuests } =
     useFilterPropertiesByCityAndGuestsQuery({
       city,
       guests,
     });
+
+  const typeFiltering = useAppSelector(
+    (state) => state.filteringProperties.type
+  );
   const [filteringDataState, setFilteringDataState] =
-    useState<Filtering>("initial");
+    useState<Filtering>(typeFiltering);
   const [changeData, setChangeData] = useState<IProperty[]>([]);
 
   useEffect(() => {
@@ -64,25 +73,29 @@ const ProjectsList = () => {
       setChangeData(data?.documents || []);
     } else if (filteringDataState === "room") {
       setChangeData(filteringDataByRoom?.documents || []);
+    } else if (filteringDataState === "city") {
+      setChangeData(filteringDataByCity?.documents || []);
     } else if (filteringDataState === "GroupFilter") {
       setChangeData(filteringDataByCityAndGuests?.documents || []);
     }
   }, [
     data?.documents,
     filteringDataByRoom?.documents,
+    filteringDataByCity?.documents,
     filteringDataByCityAndGuests?.documents,
     filteringDataState,
     currentPage,
   ]);
-
-  console.log(data);
-  console.log(error);
 
   //////// Handling /////////
 
   // Filter Button Room
   const filterBtnRoom = () => {
     setFilteringDataState("room");
+  };
+
+  const filterBtnCity = () => {
+    setFilteringDataState("city");
   };
 
   // Filter Group Button Check now
@@ -97,6 +110,7 @@ const ProjectsList = () => {
         $id,
         title,
         locationName,
+        city,
         image: url,
         price,
         date,
@@ -112,7 +126,7 @@ const ProjectsList = () => {
                 <Image
                   width={750}
                   height={400}
-                  className="lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
+                  className="h-56 lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
                   src={url || "/fallback-image.jpg"}
                   alt="blog"
                   loading="lazy"
@@ -128,7 +142,7 @@ const ProjectsList = () => {
 
               <div className="absolute top-0 right-0 py-2 px-4 z-10">
                 <h3 className="text-white text-shadow">
-                  {date instanceof Date ? date.toISOString() : date}
+                {FilteringDate(date)}
                 </h3>
               </div>
             </div>
@@ -143,7 +157,7 @@ const ProjectsList = () => {
                 <FavoriteButton property={property} IsTitle={false} />
               </div>
               <p className="leading-relaxed text-sm mb-3 line-clamp-1">
-                {locationName}
+                {city}, {locationName}
               </p>
               <div className="flex items-center flex-wrap">
                 <Link href={`/property/${$id}`}>
@@ -188,7 +202,7 @@ const ProjectsList = () => {
     <section className="mb-16">
       {/* Group Filtering Buttons */}
       <div className="mb-14">
-        <div className="flex justify-center lg:justify-between mb-2 lg:mb-0">
+        <div className="flex justify-center items-center lg:justify-between mb-2 lg:mb-0">
           <div className="flex gap-1 md:gap-2 mb-1">
             <Button
               className={`${
@@ -196,7 +210,10 @@ const ProjectsList = () => {
                   ? "bg-secondary"
                   : "bg-transparent"
               } text-foreground hover:bg-secondary`}
-              onClick={() => setFilteringDataState("initial")}
+              onClick={() => {
+                setFilteringDataState("initial");
+                dispatch(setFilteringType("initial"));
+              }}
             >
               <MapPinHouse size={18} className="lg:me-2" />
               <span className="hidden md:block">Any</span>
@@ -206,17 +223,17 @@ const ProjectsList = () => {
               filterBtn={filterBtnRoom}
               type={filteringDataState}
             />
-            <Button variant={"ghost"}>
-              <House size={18} className="lg:me-2" />
-              <span className="hidden md:block">Entire Home</span>
-            </Button>
+
+            <FilteringCity
+              filterBtn={filterBtnCity}
+              type={filteringDataState}
+            />
           </div>
-          <div>
-            <div className="cursor-pointer bg-transparent hover:bg-transparent text-foreground flex">
+
+            {/* <div className="cursor-pointer bg-transparent hover:bg-transparent text-foreground flex">
               <SlidersHorizontal size={18} className="lg:me-2" />
               <span className="hidden md:block">Filter</span>
-            </div>
-          </div>
+            </div> */}
         </div>
 
         <div

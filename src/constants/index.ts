@@ -402,6 +402,15 @@ export const cities = [
   },
 ];
 
+export const rooms = [
+  { value: "1", label: "1 Room" },
+  { value: "2", label: "2 Rooms" },
+  { value: "3", label: "3 Rooms" },
+  { value: "4", label: "4 Rooms" },
+  { value: "5", label: "5 Rooms" },
+  { value: "6", label: "6 Rooms" },
+]
+
 export const amenitiesOptions = [
   { value: "Washer", label: "Washer", icon: Wifi },
   { value: "Dishes and silverware", label: "Dishes and silverware", icon: Smartphone },

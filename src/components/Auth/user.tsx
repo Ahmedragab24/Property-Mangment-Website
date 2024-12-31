@@ -17,14 +17,23 @@ import avatarImage from "/src/public/images/avatarUser.webp";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { removeUserData } from "@/store/features/UserData/userData";
+import { account } from "@/utils/appwrite/appwriteClient";
 
 const UserDropdown = () => {
   const userData = useAppSelector((state) => state.UserData?.user);
   const dispatch = useAppDispatch();
 
   //   Handling
-  const handlerLogOut = () => {
+  const handlerLogOut = async () => {
     dispatch(removeUserData());
+
+    // Delete session from Appwrite
+    try {
+      await account.deleteSession("current");
+      console.log("تم تسجيل الخروج بنجاح");
+    } catch (error) {
+      console.error("خطأ أثناء تسجيل الخروج:", error);
+    }
   };
 
   if (typeof window === "undefined" || !userData) return null;

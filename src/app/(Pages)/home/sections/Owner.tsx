@@ -63,7 +63,7 @@ const Owner = () => {
       <div className="container">
         <div className="mb-20">
           <div className="flex flex-col items-center text-center gap-y-4">
-            <h1 className="text-3xl uppercase text-shadow-primary">
+            <h1 className="section-title">
               For Property Owners
             </h1>
             <h2 className="lg:w-[70%] text-sm text-textColor">
@@ -72,7 +72,6 @@ const Owner = () => {
               repairs and maintenance, Hububb ensures your time is spent
               building your property business, not working within it.
             </h2>
-            <Button>Add a Listing</Button>
           </div>
 
           <motion.div

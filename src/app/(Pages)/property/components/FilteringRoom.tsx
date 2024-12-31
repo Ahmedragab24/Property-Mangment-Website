@@ -6,9 +6,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { setFilteringRoom } from "@/store/features/FilteringProperties/filtering";
+import { setFilteringRoom, setFilteringType } from "@/store/features/FilteringProperties/filtering";
 import { useAppDispatch } from "@/store/hooks";
 import { DoorClosed } from "lucide-react";
+import { rooms } from "@/constants";
 
 interface Iprops {
   filterBtn?: () => void;
@@ -44,11 +45,11 @@ const FilteringRoom = ({ filterBtn, type, className }: Iprops) => {
         )}
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="1">1</SelectItem>
-        <SelectItem value="2">2</SelectItem>
-        <SelectItem value="3">3</SelectItem>
-        <SelectItem value="4">4</SelectItem>
-        <SelectItem value="5">5</SelectItem>
+        {rooms.map(({ label, value }, index) => (
+          <SelectItem key={index} value={value} onClick={() => dispatch(setFilteringType("room"))}>
+            {label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
