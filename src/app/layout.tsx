@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "PropEase",
   description:
     "PropEase, the world's leading real estate rental company, acts as an intermediary between landlord and tenant, saving time and effort for both.",
-  icons: "/favicon.png",
+  icons: "/favicon.ico",
 };
 
 export default function RootLayout({

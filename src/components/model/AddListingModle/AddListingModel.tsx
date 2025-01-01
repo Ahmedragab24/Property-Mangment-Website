@@ -42,8 +42,11 @@ const AddListingModel = ({ className, variant, placeHolder }: IProps) => {
     // Close the dialog when all steps are false
     if (!stepOne && !stepTwo && !stepThree) {
       setIsOpen(false);
+      setTimeout(() => {
+        dispatch(setSteps({ stepOne: true, stepTwo: false, stepThree: false }));
+      }, 2000);
     }
-  }, [stepOne, stepTwo, stepThree]);
+  }, [stepOne, stepTwo, stepThree, dispatch]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

@@ -120,6 +120,7 @@ const StepThree = () => {
     try {
       await createProperty({ ...Data }).unwrap();
       dispatch(setSteps({ stepOne: false, stepTwo: false, stepThree: false }));
+
       toast({
         variant: "success",
         description: "Congratulation has successfully added your property.",

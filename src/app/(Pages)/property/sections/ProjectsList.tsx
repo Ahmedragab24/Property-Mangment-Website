@@ -36,7 +36,7 @@ import { FilteringDate } from "@/hooks/FilteringDate";
 const ProjectsList = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 6;
+  const pageSize = 9;
   const { isLoading, isSuccess, isError, error, data } = useGetPropertiesQuery(
     {
       page: currentPage,

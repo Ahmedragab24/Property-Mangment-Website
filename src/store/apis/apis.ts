@@ -35,7 +35,7 @@ export const apiSlice = createApi({
     registerUser: builder.mutation({
       query: (userData: UserData) => async () => {
         return await account.create(
-          "unique()",
+          ID.unique(),
           userData.email,
           userData.password,
           userData.name
@@ -159,7 +159,7 @@ export const apiSlice = createApi({
         return await databases.createDocument(
           process.env.NEXT_PUBLIC_DATABASE_ID!,
           process.env.NEXT_PUBLIC_LANDLORD_COLLECTION!,
-          "unique()",
+          ID.unique(),
           data
         );
       },
@@ -171,7 +171,7 @@ export const apiSlice = createApi({
         return await databases.createDocument(
           process.env.NEXT_PUBLIC_DATABASE_ID!,
           process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
-          "ID.unique()",
+          ID.unique(),
           data
         );
       },
