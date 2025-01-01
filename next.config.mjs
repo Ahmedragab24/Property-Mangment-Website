@@ -10,10 +10,9 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-    domains: ['cloud.appwrite.io', 'res.cloudinary.com' ], 
+    domains: ["cloud.appwrite.io", "res.cloudinary.com"],
   },
 };
-
 
 export default withSentryConfig(
   nextConfig,

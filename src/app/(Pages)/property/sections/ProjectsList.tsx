@@ -11,7 +11,6 @@ import {
   Loader,
   MapPinHouse,
   OctagonAlert,
-  // SlidersHorizontal,
 } from "lucide-react";
 import {
   useFilterPropertiesByCityAndGuestsQuery,
@@ -142,7 +141,7 @@ const ProjectsList = () => {
 
               <div className="absolute top-0 right-0 py-2 px-4 z-10">
                 <h3 className="text-foreground text-shadow-smooth bg-background/40 px-3 py-1 rounded-full">
-                {FilteringDate(date)}
+                  {FilteringDate(date)}
                 </h3>
               </div>
             </div>
@@ -230,7 +229,7 @@ const ProjectsList = () => {
             />
           </div>
 
-            {/* <div className="cursor-pointer bg-transparent hover:bg-transparent text-foreground flex">
+          {/* <div className="cursor-pointer bg-transparent hover:bg-transparent text-foreground flex">
               <SlidersHorizontal size={18} className="lg:me-2" />
               <span className="hidden md:block">Filter</span>
             </div> */}
