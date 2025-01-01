@@ -1,6 +1,6 @@
 import { createApi, BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import { account, databases } from "@/utils/appwrite/appwriteClient";
-import { AppwriteException, Query } from "appwrite";
+import { AppwriteException, ID, Query } from "appwrite";
 import {
   BookingData,
   city,
@@ -137,7 +137,7 @@ export const apiSlice = createApi({
           const queries = [];
           if (city !== undefined) {
             queries.push(Query.equal("city", city));
-            Query.orderDesc("date")
+            Query.orderDesc("date");
           }
           const response = await databases.listDocuments(
             process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -171,7 +171,7 @@ export const apiSlice = createApi({
         return await databases.createDocument(
           process.env.NEXT_PUBLIC_DATABASE_ID!,
           process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
-          "unique()",
+          "ID.unique()",
           data
         );
       },
@@ -183,7 +183,7 @@ export const apiSlice = createApi({
         return await databases.createDocument(
           process.env.NEXT_PUBLIC_DATABASE_ID!,
           process.env.NEXT_PUBLIC_BOOKING_COLLECTION!,
-          "unique()",
+          ID.unique(),
           data
         );
       },

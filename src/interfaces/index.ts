@@ -98,7 +98,7 @@ export interface BookingData {
   userName: string;
   email: string;
   phoneNumber: string;
-  properties: string | undefined;
+  properties: string;
   checkIn: Date | null;
   checkOut: Date | null;
   price: number;
