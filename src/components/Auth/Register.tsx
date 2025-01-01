@@ -94,7 +94,7 @@ const Register = ({ changeToLoginModle }: Iprops) => {
                     <Input
                       type="text"
                       placeholder="UserName"
-                      className="bg-background h-11 shadow-xl"
+                      className="bg-background h-11 shadow-md"
                       {...field}
                     />
                   </FormControl>
@@ -112,7 +112,7 @@ const Register = ({ changeToLoginModle }: Iprops) => {
                     <Input
                       type="email"
                       placeholder="Email"
-                      className="bg-background h-11 shadow-xl"
+                      className="bg-background h-11 shadow-md"
                       {...field}
                     />
                   </FormControl>
@@ -130,7 +130,7 @@ const Register = ({ changeToLoginModle }: Iprops) => {
                     <Input
                       type="password"
                       placeholder="Password"
-                      className="bg-background h-11 shadow-xl"
+                      className="bg-background h-11 shadow-md"
                       {...field}
                     />
                   </FormControl>

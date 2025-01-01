@@ -83,12 +83,12 @@ const Hero = () => {
               >
                 <Button
                   variant={"link"}
-                  className="text-white font-semibold text-shadow"
+                  className="!text-white font-semibold text-shadow"
                 >
                   {link}
                   <MoveRight
                     size={18}
-                    className="duration-300 ml-2  group-hover:translate-x-2"
+                    className="duration-300 ml-2 group-hover:translate-x-2"
                   />
                 </Button>
               </Link>

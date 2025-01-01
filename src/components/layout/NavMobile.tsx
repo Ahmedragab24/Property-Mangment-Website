@@ -10,6 +10,8 @@ import {
 import { useAppSelector } from "@/store/hooks";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import AddListingModel from "../model/AddListingModle/AddListingModel";
+import { MapPinHouse } from "lucide-react";
 
 const NavMobile = () => {
   const [scrolling, setScrolling] = useState(false);
@@ -84,12 +86,12 @@ const NavMobile = () => {
 
         {/* Dropdown Menu */}
         {openMenuMobile && (
-          <div className="w-[250px] absolute top-12 mt-2 bg-background rounded-md shadow-lg z-10">
-            <div className="flex flex-col justify-center items-center py-2 px-4">
+          <div className="w-[200px] absolute top-12 mt-2 bg-background rounded-md shadow-lg z-10">
+            <div className="flex flex-col items-center justify-center gap-2 px-4 py-2">
               <Accordion
                 type="single"
                 collapsible
-                className="w-full flex justify-center"
+                className="flex justify-center w-full"
               >
                 <AccordionItem
                   value="item-1"
@@ -98,7 +100,7 @@ const NavMobile = () => {
                   <AccordionTrigger className="flex justify-center gap-x-2">
                     About Us
                   </AccordionTrigger>
-                  <AccordionContent className="p-4 flex flex-col justify-center items-center bg-secondary shadow-lg rounded-lg">
+                  <AccordionContent className="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg bg-secondary">
                     <Link href={"/#about"}>
                       <Button
                         variant={"ghost"}
@@ -155,7 +157,7 @@ const NavMobile = () => {
               <Accordion
                 type="single"
                 collapsible
-                className="w-full flex justify-center"
+                className="flex justify-center w-full"
               >
                 <AccordionItem
                   value="item-2"
@@ -164,7 +166,7 @@ const NavMobile = () => {
                   <AccordionTrigger className="flex justify-center gap-x-2">
                     Out Services
                   </AccordionTrigger>
-                  <AccordionContent className="p-4 flex flex-col justify-center items-center bg-secondary shadow-lg rounded-lg">
+                  <AccordionContent className="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg bg-secondary">
                     <Link href={"/property"}>
                       <Button
                         variant={"ghost"}
@@ -186,6 +188,13 @@ const NavMobile = () => {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
+
+              <AddListingModel
+                placeHolder="Add your property"
+                className={`!text-shadow-smooth ${
+                  isBackgroundImg && value ? "text-white" : "text-foreground"
+                }`}
+              />
             </div>
           </div>
         )}
@@ -193,11 +202,12 @@ const NavMobile = () => {
 
       <Link
         href="/"
-        className={`text-xl font-bold text-foreground duration-500 ${
+        className={`text-xl font-bold text-foreground duration-500 text-shadow-primary flex items-center gap-2 ${
           isBackgroundImg && value ? "text-white" : "text-foreground"
         }`}
       >
-        Real Estate
+        PropEase
+        <MapPinHouse size={20} />
       </Link>
     </div>
   );

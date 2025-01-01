@@ -30,10 +30,10 @@ export interface PaginationArgs {
 }
 export interface ILandlord {
   $id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  PhoneNumber?: string;
 }
 
 export interface IError {
@@ -95,13 +95,13 @@ export interface accordion {
 }
 
 export interface BookingData {
-    userName: string;
-    email: string;
-    phoneNumber: string;
-    properties: string | undefined;
-    checkIn: Date | null;
-    checkOut: Date | null;
-    price: number;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  properties: string | undefined;
+  checkIn: Date | null;
+  checkOut: Date | null;
+  price: number;
 }
 
 export type Filtering = "initial" | "room" | "city" | "GroupFilter";

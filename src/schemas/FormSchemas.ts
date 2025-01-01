@@ -86,3 +86,4 @@ export const PropertyDataSchema = z.object({
     message: "Username must be at least 2 characters.",
   }),
 });
+

@@ -95,7 +95,7 @@ const Login = ({ changeToRegisterModle , closeModel }: Iprops) => {
                     <Input
                       type="text"
                       placeholder="Email or UserName"
-                      className="bg-background h-11 shadow-xl"
+                      className="bg-background h-11 shadow-md"
                       {...field}
                     />
                   </FormControl>
@@ -114,7 +114,7 @@ const Login = ({ changeToRegisterModle , closeModel }: Iprops) => {
                     <Input
                       type="password"
                       placeholder="Password"
-                      className="bg-background h-11 shadow-xl"
+                      className="bg-background h-11 shadow-md"
                       {...field}
                     />
                   </FormControl>

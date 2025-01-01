@@ -125,13 +125,13 @@ const UploadImages = ({ type }: ImageType) => {
   };
 
   return (
-    <div className="w-full h-full">
+    <>
       {/* Single Image */}
       {type === "single" && (
-        <div className="w-full h-full">
-          <form className={`${singleImage ? "hidden" : "block"}`}>
+        <div className="w-full max-h-full ">
+          <form className={`${singleImage ? "hidden" : "block"} py-20`}>
             <label htmlFor="file">
-              <div className="flex flex-col items-center gap-1 cursor-pointer">
+              <div className="flex flex-col items-center justify-center gap-1 cursor-pointer duration-300 hover:text-primary hover:scale-105">
                 <CloudUpload className="w-20 h-20" />
                 <span>Browse file</span>
               </div>
@@ -145,8 +145,14 @@ const UploadImages = ({ type }: ImageType) => {
             </label>
           </form>
           {singleImage && (
-            <div className="relative w-full h-[13.75rem] overflow-hidden">
-              <Image src={singleImage} alt="Uploaded image" layout="fill" />
+            <div className="h-full relative overflow-hidden p-4 ">
+              <Image
+                src={singleImage}
+                alt="Uploaded image"
+                width={500}
+                height={400}
+                className="w-full max-h-[230px]"
+              />
               <Button
                 onClick={handleRemoveSingleImage}
                 variant="destructive"
@@ -165,7 +171,7 @@ const UploadImages = ({ type }: ImageType) => {
         <div>
           <form className={`${imageGroup.length ? "hidden" : "block"}`}>
             <label htmlFor="file-group">
-              <div className="flex flex-col items-center gap-1 cursor-pointer">
+              <div className="flex flex-col items-center gap-1 cursor-pointer duration-300 hover:text-primary hover:scale-105">
                 <CloudUpload className="w-20 h-20" />
                 <span>Browse files</span>
               </div>
@@ -202,7 +208,7 @@ const UploadImages = ({ type }: ImageType) => {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

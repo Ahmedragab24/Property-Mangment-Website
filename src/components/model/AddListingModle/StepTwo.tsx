@@ -1,258 +1,139 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Loader } from "lucide-react";
-import { useCreatePropertyMutation } from "@/store/apis/apis";
-import { DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setSteps } from "@/store/features/stepsAddLidting/stepsSlice";
-import { Textarea } from "@/components/ui/textarea";
-import ImageUploader from "@/components/ui/uploadImge";
-import { SearchProperty } from "@/app/(Pages)/home/components/SearchProprtys";
-import SelectBathroom from "./components/SelectBathroom";
-import SelectKitchen from "./components/SelectKitchen";
-import SelectAmenities from "./components/SelectAmenities";
-import FilteringRoom from "@/app/(Pages)/property/components/FilteringRoom";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import SelectGests from "@/app/(Pages)/property/components/SelectGests";
-import { IError, IProperty } from "@/interfaces";
+import { setSteps } from "@/store/features/stepsAddLidting/stepsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { ScrollText } from "lucide-react";
+import { useState } from "react";
 
 const StepTwo = () => {
-  const [createProperty, { isLoading }] = useCreatePropertyMutation({
-    fixedCacheKey: "createPropertyCache",
-  });
+  const { landlord } = useAppSelector((state) => state.UserData);
   const dispatch = useAppDispatch();
-  const { singleImage, imageGroup } = useAppSelector((state) => state.images);
-  const { city, guests, room, bathroom, kitchen, amenities } = useAppSelector(
-    (state) => state.filteringProperties
-  );
-  const userId = useAppSelector((state) => state.UserData?.landlord?.$id);
-
-  const [Data, setData] = useState<IProperty>({
-    title: "",
-    description: "",
-    image: singleImage,
-    imageGroup: imageGroup,
-    city: city,
-    room: room || 2,
-    bathroom: bathroom || 1,
-    kitchen: kitchen || 1,
-    NumPerson: guests || 2,
-    price: 0,
-    locationName: "",
-    locationGoogleMap: "",
-    info: amenities || [],
-    date: new Date(),
-    landlords: Number(userId),
+  const [IsCheckbox, setIsCheckbox] = useState({
+    terms: false,
+    commission: false,
+    company: false,
   });
-  const [massageError, setMassageError] = useState("");
+  const [isAgree, setIsAgree] = useState(false);
 
-  useEffect(() => {
-    setData((prev) => ({
-      ...prev,
-      image: singleImage,
-      imageGroup: imageGroup,
-      room: room,
-      bathroom: bathroom,
-      kitchen: kitchen,
-      NumPerson: guests,
-      city: city,
-      info: amenities,
-    }));
-  }, [
-    singleImage,
-    imageGroup,
-    room,
-    city,
-    bathroom,
-    kitchen,
-    guests,
-    amenities,
-  ]);
+  // Update the state when a checkbox is checked or unchecked
+  const handleCheckboxChange = (key: "terms" | "commission" | "company") => {
+    setIsCheckbox((prevState) => {
+      const updatedState = {
+        ...prevState,
+        [key]: !prevState[key], // Toggle the checkbox value
+      };
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setData((prev) => ({
-      ...prev,
-      [name]: value,
-      [name]: name === "price" ? parseInt(value, 10) || 0 : value,
-    }));
+      // Check if all checkboxes are checked
+      const allChecked = Object.values(updatedState).every((value) => value);
+      setIsAgree(allChecked); // Set isAgree state based on all checkboxes
+
+      return updatedState;
+    });
   };
 
-  // const validateData = () => {
-  //   if (!Data.title.trim()) {
-  //     setMassageError("Title is required.");
-  //     return false;
-  //   }
-  //   if (!Data.description.trim()) {
-  //     setMassageError("Description is required.");
-  //     return false;
-  //   }
-  //   if (!Data.price || Data.price <= 0) {
-  //     setMassageError("Price must be greater than 0.");
-  //     return false;
-  //   }
-  //   if (!Data.locationName.trim()) {
-  //     setMassageError("Location name is required.");
-  //     return false;
-  //   }
-  //   if (!Data.image) {
-  //     setMassageError("Main image is required.");
-  //     return false;
-  //   }
-  //   if (Data.imageGroup.length === 0) {
-  //     setMassageError("At least one additional image is required.");
-  //     return false;
-  //   }
-  //   setMassageError(""); // Clear previous errors
-  //   return true;
-  // };
-
-  const handleSubmit = async () => {
-    // if (!validateData()) return;
-
-    try {
-      await createProperty({ ...Data }).unwrap();
+  const HandelSubmit = () => {
+    if (isAgree) {
       dispatch(setSteps({ stepOne: false, stepTwo: false, stepThree: true }));
-    } catch (err) {
-      const errorMsg = (err as IError)?.message || "An error occurred.";
-      setMassageError(errorMsg);
+    } else {
+      alert("Please agree to the terms and conditions");
     }
   };
 
   return (
     <ScrollArea className="h-[500px] lg:h-[400px]">
-      <div className="flex flex-col gap-6 px-3 lg:px-6">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-y-4 lg:gap-10">
-          <span className="text-primary text-3xl">Step 2</span>
-          <DialogTitle>Tell Us About Your Property</DialogTitle>
-        </div>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col items-center justify-between gap-y-10 gap-x-4 md:flex-row">
+          <div className="flex flex-col gap-8 md:max-w-[50%]">
+            <span className="text-3xl text-primary">Step 2</span>
+            <p className="text-sm text-textColor">
+              This is a general declaration to preserve any differences or
+              violations to guarantee your rights in renting the property and to
+              guarantee your money and also to guarantee the rights of the
+              company.
+            </p>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={IsCheckbox.terms}
+                  onCheckedChange={() => handleCheckboxChange("terms")}
+                  id="terms"
+                />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Accept terms and conditions
+                </label>
+              </div>
 
-        <div className="grid lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Write the main title</Label>
-              <Input
-                name="title"
-                placeholder="Title"
-                value={Data.title}
-                onChange={handleInputChange}
-                className="h-12 !w-auto"
-              />
-            </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={IsCheckbox.commission}
+                  onCheckedChange={() => handleCheckboxChange("commission")}
+                  id="commission"
+                />
+                <label
+                  htmlFor="commission"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Accept that the commission charged on the total price is 10%
+                </label>
+              </div>
 
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">
-                Write what you want to describe about the apartment.
-              </Label>
-              <Textarea
-                name="description"
-                placeholder="Description"
-                value={Data.description}
-                onChange={handleInputChange}
-                className="h-28"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Enter the facility address</Label>
-              <Input
-                name="locationName"
-                placeholder="Location Name"
-                value={Data.locationName}
-                onChange={handleInputChange}
-                className="h-12"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">
-                Enter the map on Google, not the link, but by copying the HTML
-                content.
-              </Label>
-              <Textarea
-                name="locationGoogleMap"
-                placeholder='<iframe src="https://www.google.com/maps/embed..." />'
-                value={Data.locationGoogleMap}
-                onChange={handleInputChange}
-                className="h-28"
-              />
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={IsCheckbox.company}
+                  onCheckedChange={() => handleCheckboxChange("company")}
+                  id="company"
+                />
+                <label
+                  htmlFor="company"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I agree that the company will handle all matters and mediate
+                  with the client.
+                </label>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-y-6 gap-x-3">
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Price per night</Label>
-              <Input
-                name="price"
-                type="number"
-                placeholder="Price"
-                value={Number(Data.price)}
-                onChange={handleInputChange}
-                className="bg-secondary w-44 lg:w-36 px-6 h-12"
-              />
-            </div>
+          <div className="flex flex-col justify-center gap-4 p-10 rounded-lg bg-secondary md:w-[50%] text-center">
+            <h1 className="text-xl md:text-2xl text-primary">
+              Real state company
+            </h1>
+            <p className="-mt-4">Acknowledgement</p>
+            <h1 className="text-2xl text-primary">
+              {landlord?.FirstName} {landlord?.LastName}
+            </h1>
+            <hr />
+            <p className="mb-4 text-sm text-textColor">
+              I agree to all terms and policies and agree to the commission
+              imposed by the company, which is 10% of the total price. This
+              company is an intermediary between me, the property owner, and the
+              tenant.
+            </p>
 
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">In which city?</Label>
-              <SearchProperty className="w-full lg:!w-fit px-20 lg:px-10 py-6 flex justify-center" />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Number of rooms</Label>
-              <FilteringRoom className="px-20 lg:px-10 py-6 bg-secondary hover:!bg-primary/40" />
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-y-6 gap-x-3">
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Number of bathroom</Label>
-              <SelectBathroom className="px-20 lg:px-10 py-6" />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Number of Kitchen</Label>
-              <SelectKitchen className="px-20 lg:px-10 py-6" />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <Label className="text-sm">Number of people</Label>
-              <SelectGests className="px-20 lg:px-10 py-6" />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Label className="text-sm">Amenities available</Label>
-            <SelectAmenities />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Label className="text-sm">Main image</Label>
-            <div className="bg-secondary w-full h-full p-6 rounded-md">
-              <ImageUploader type="single" />
+            <div className="flex items-center justify-between">
+              <div className="text-sm">
+                <h4>Ahmed Rashed</h4>
+                <p>CEO</p>
+              </div>
+              <ScrollText size={35} className="text-primary" />
+              <div className="text-sm">
+                <h4>Hazem Ali</h4>
+                <p>General Manager</p>
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="flex flex-col gap-1">
-          <Label className="text-sm">All images to be added</Label>
-          <div className="bg-secondary w-full p-6 rounded-md">
-            <ImageUploader type="group" />
-          </div>
+        <div className="flex justify-end w-full">
+          <Button onClick={HandelSubmit} disabled={!isAgree}>
+            Next step
+          </Button>
         </div>
-
-        {massageError && <p className="text-xl text-red-500">{massageError}</p>}
-
-        <Button onClick={handleSubmit} disabled={isLoading} className="w-fit">
-          {isLoading && <Loader className="animate-spin mr-2" />} Submit
-        </Button>
       </div>
     </ScrollArea>
   );

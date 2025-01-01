@@ -54,13 +54,11 @@ const StepOne = () => {
         stepTwo: true,
         stepThree: false,
       };
-      console.log(response);
-      
+
       dispatch(addToLandlordData(response));
       dispatch(setSteps(steps));
     } catch (err) {
-      const errorMsg =
-        (err as IError)?.message || "An error occurred.";
+      const errorMsg = (err as IError)?.message || "An error occurred.";
       setErrorMessage(errorMsg);
     }
   }

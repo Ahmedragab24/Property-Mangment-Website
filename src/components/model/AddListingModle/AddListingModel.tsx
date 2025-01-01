@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -28,8 +28,9 @@ const AddListingModel = ({ className, variant, placeHolder }: IProps) => {
     (state) => state.steps
   );
   const dispatch = useAppDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Handler
+  // Handler for Back button
   const HandlerBack = () => {
     if (stepTwo)
       dispatch(setSteps({ stepOne: true, stepTwo: false, stepThree: false }));
@@ -37,8 +38,15 @@ const AddListingModel = ({ className, variant, placeHolder }: IProps) => {
       dispatch(setSteps({ stepOne: false, stepTwo: true, stepThree: false }));
   };
 
+  useEffect(() => {
+    // Close the dialog when all steps are false
+    if (!stepOne && !stepTwo && !stepThree) {
+      setIsOpen(false);
+    }
+  }, [stepOne, stepTwo, stepThree]);
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant={variant} className={className}>
           {placeHolder ? placeHolder : "Add a Listing"}
@@ -46,7 +54,7 @@ const AddListingModel = ({ className, variant, placeHolder }: IProps) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[80%] p-7 xl:p-11">
         <DialogHeader>
-          <div className="w-full flex justify-between xl:justify-center items-center xl:gap-x-44 mt-2 xl:mt-5 mb-4 xl:mb-10">
+          <div className="flex items-center justify-between w-full mt-2 mb-4 xl:justify-center xl:gap-x-44 xl:mt-5 xl:mb-10">
             <div className="flex gap-2">
               <span
                 className={`w-[40px] md:w-[100px] xl:w-[200px] h-1 p-1 rounded-2xl cursor-pointer ${

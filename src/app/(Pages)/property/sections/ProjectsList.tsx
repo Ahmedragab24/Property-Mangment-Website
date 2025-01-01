@@ -141,7 +141,7 @@ const ProjectsList = () => {
               </div>
 
               <div className="absolute top-0 right-0 py-2 px-4 z-10">
-                <h3 className="text-white text-shadow">
+                <h3 className="text-foreground text-shadow-smooth bg-background/40 px-3 py-1 rounded-full">
                 {FilteringDate(date)}
                 </h3>
               </div>
@@ -250,7 +250,7 @@ const ProjectsList = () => {
             className="w-fit px-6 lg:px-14 !border-none shadow-none"
           />
           <SelectGests className="!border-none shadow-none" />
-          <Button onClick={filterBtnCheckNow}>
+          <Button onClick={filterBtnCheckNow} className="text-foreground">
             {isLoading ? (
               <div className="flex items-center gap-x-2">
                 <Loader className="animate-spin" />

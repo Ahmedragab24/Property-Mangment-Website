@@ -7,13 +7,15 @@ interface UserState {
   landlord: ILandlord | null;
 }
 
+const isClient = typeof window !== "undefined";
+
 const initialState: UserState = {
   user:
-    typeof window !== "undefined" && Cookies.get("user")
+    isClient && Cookies.get("user")
       ? JSON.parse(Cookies.get("user") || "{}")
       : null,
   landlord:
-    typeof window !== "undefined" && Cookies.get("landlord")
+    isClient && Cookies.get("landlord")
       ? JSON.parse(Cookies.get("landlord") || "{}")
       : null,
 };
@@ -24,27 +26,29 @@ const userSlice = createSlice({
   reducers: {
     addToUserData: (state, action: PayloadAction<UserData>) => {
       state.user = action.payload;
-      if (typeof window !== "undefined") {
+      if (isClient) {
+        const isSecure = window.location.protocol === "https:";
         Cookies.set("user", JSON.stringify(state.user), {
           expires: 4,
-          secure: true,
+          secure: isSecure,
         });
       }
     },
 
     removeUserData: (state) => {
       state.user = null;
-      if (typeof window !== "undefined") {
+      if (isClient) {
         Cookies.remove("user");
       }
     },
 
     addToLandlordData: (state, action: PayloadAction<ILandlord>) => {
       state.landlord = action.payload;
-      if (typeof window !== "undefined") {
+      if (isClient) {
+        const isSecure = window.location.protocol === "https:";
         Cookies.set("landlord", JSON.stringify(state.landlord), {
           expires: 1,
-          secure: true,
+          secure: isSecure,
         });
       }
     },

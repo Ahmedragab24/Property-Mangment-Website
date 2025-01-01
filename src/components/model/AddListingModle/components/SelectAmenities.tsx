@@ -17,7 +17,6 @@ const SelectAmenities = ({ className }: Iprops) => {
   const handleToggleChange = (value: string[]) => {
     setSelectedAmenities(value);
 
-    // تحديث Redux بالقيم المضافة حديثاً
     const addedValues = value.filter(
       (item) => !selectedAmenities.includes(item)
     );
@@ -39,13 +38,13 @@ const SelectAmenities = ({ className }: Iprops) => {
           type="multiple"
           value={selectedAmenities}
           onValueChange={handleToggleChange}
-          className="flex flex-wrap gap-3"
+          className="flex flex-wrap gap-3 justify-center items-center"
         >
           {amenitiesOptions.map((item) => (
             <ToggleGroup.Item
               key={item.value}
               value={item.value}
-              className={`flex items-center gap-2 text-sm px-3 py-2 border border-primary rounded-lg cursor-pointer 
+              className={`flex items-center gap-1 text-sm px-3 py-2 border border-primary rounded-lg cursor-pointer 
                 ${
                   selectedAmenities.includes(item.value)
                     ? "bg-primary"

@@ -63,7 +63,11 @@ export const apiSlice = createApi({
           return await databases.listDocuments(
             process.env.NEXT_PUBLIC_DATABASE_ID!,
             process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
-            [Query.limit(pageSize), Query.offset((page - 1) * pageSize)]
+            [
+              Query.limit(pageSize),
+              Query.offset((page - 1) * pageSize),
+              Query.orderDesc("date"),
+            ]
           );
         },
       providesTags: ["Properties"],
@@ -88,7 +92,7 @@ export const apiSlice = createApi({
           const response = await databases.listDocuments(
             process.env.NEXT_PUBLIC_DATABASE_ID!,
             process.env.NEXT_PUBLIC_PROPERTY_COLLECTION!,
-            [Query.equal("room", room)]
+            [Query.equal("room", room), Query.orderDesc("date")]
           );
           return response;
         } catch (error) {
@@ -110,6 +114,7 @@ export const apiSlice = createApi({
               queries.push(Query.equal("city", city));
             }
             queries.push(Query.equal("NumPerson", guests));
+            Query.orderDesc("date");
 
             const response = await databases.listDocuments(
               process.env.NEXT_PUBLIC_DATABASE_ID!,
@@ -132,6 +137,7 @@ export const apiSlice = createApi({
           const queries = [];
           if (city !== undefined) {
             queries.push(Query.equal("city", city));
+            Query.orderDesc("date")
           }
           const response = await databases.listDocuments(
             process.env.NEXT_PUBLIC_DATABASE_ID!,
