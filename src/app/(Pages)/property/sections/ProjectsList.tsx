@@ -29,9 +29,9 @@ import { SearchProperty } from "../../home/components/SearchProprtys";
 import { DatePicker } from "../components/DatePicker";
 import SelectGests from "../components/SelectGests";
 import FavoriteButton from "@/components/CustomBtn/FavoriteButton";
-import FilteringCity from "@/app/(Pages)/property/components/FilteringCity";
+import FilteringCity from "src/app/(Pages)/property/components/FilteringCity";
 import { setFilteringType } from "@/store/features/FilteringProperties/filtering";
-import { FilteringDate } from "@/hooks/FilteringDate";
+import { FilteringDate } from "src/hooks/FilteringDate";
 
 const ProjectsList = () => {
   const dispatch = useAppDispatch();

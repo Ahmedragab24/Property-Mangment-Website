@@ -48,67 +48,69 @@ Welcome to **PropEase**, a platform designed to seamlessly connect property owne
 
 ### Frontend Frameworks & Libraries
 
-- **[Next.js](https://nextjs.org/)**  
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="30">  
+- Next.js
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/nextjs/nextjs.png" width="30">
   Framework for server-side rendering and building high-performance React applications.
 
-- **[TypeScript](https://www.typescriptlang.org/)**  
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="30">  
+- TypeScript
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/typescript/typescript.png" width="30">
   A typed superset of JavaScript to catch errors early and build robust applications.
 
-- **[Tailwind CSS](https://tailwindcss.com/)**  
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" width="30">  
+- Tailwind CSS
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/tailwindcss/tailwindcss.png" width="30">
   A utility-first CSS framework for rapid and custom UI development.
 
-- **[ShadCN](https://shadcn.dev/)**  
-  <img src="https://raw.githubusercontent.com/shadcn/ui/main/public/logo.svg" width="30">  
+- ShadCN
+  <img src="https://shadcn.dev/logo.svg" width="30">
   A modern UI library for creating beautiful and accessible interfaces.
 
-- **[Swiper](https://swiperjs.com/)**  
-  <img src="https://swiperjs.com/images/swiper-social-share.png" width="30">  
+- Swiper
+  <img src="https://swiperjs.com/images/swiper-social-share.png" width="30">
   A powerful slider library for interactive carousels and slides.
 
-- **[Framer Motion](https://www.framer.com/motion/)**  
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framer/framer-original.svg" width="30">  
+- Framer Motion
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/framer-motion/framer-motion.png" width="30">
   A library for animations and interactions in React.
 
-### State Management
-
-- **[Redux Toolkit](https://redux-toolkit.js.org/)**  
-  <img src="https://redux-toolkit.js.org/img/logo.svg" width="30">  
+- State Management
+  Redux Toolkit
+  <img src="https://redux-toolkit.js.org/img/logo.svg" width="30">
   A modern state management tool for efficient global state handling.
 
-- **[Redux Toolkit Query](https://redux-toolkit.js.org/rtk-query/overview)**  
+- Redux Toolkit Query
   For fetching, caching, and synchronizing server data with the UI.
 
-### Backend Integration
+Backend Integration
 
-- **[Appwrite](https://appwrite.io/)**  
-  <img src="https://appwrite.io/images/favicon.png" width="30">  
+- Appwrite
+  <img src="https://appwrite.io/images/favicon.png" width="30">
   A backend-as-a-service for managing authentication, databases, and storage.
 
-### Form Handling
-
-- **[React Hook Form](https://react-hook-form.com/)**  
-  <img src="https://avatars.githubusercontent.com/u/53986236?s=200&v=4" width="30">  
+- Form Handling
+  React Hook Form
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/react-hook-form/react-hook-form.png" width="30">
   A performant and flexible library for form management.
 
-- **[Zod](https://zod.dev/)**  
-  <img src="https://github.com/colinhacks/zod/raw/master/logo.svg" width="30">  
+- Zod
+  <img src="https://github.com/colinhacks/zod/raw/master/logo.svg" width="30">
   A TypeScript-first schema validation library.
 
-### Miscellaneous
+Miscellaneous
 
-- **[JS-Cookie](https://github.com/js-cookie/js-cookie)**  
+- JS-Cookie
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/cookies/cookies.png" width="30">
   For managing cookies on the client side.
 
-- **[Lucide-React](https://lucide.dev/)**  
+- Lucide-React
+  <img src="https://lucide.dev/logo.svg" width="30">
   A comprehensive icon library for modern UIs.
 
-- **[UUID](https://github.com/uuidjs/uuid)**  
+- UUID
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/uuid/uuid.png" width="30">
   For generating unique identifiers.
 
-- **[Sentry](https://sentry.io/)**  
+- Sentry
+  <img src="https://raw.githubusercontent.com/github/explore/main/topics/sentry/sentry.png" width="30">
   Real-time error monitoring and performance tracking.
 
 ---
@@ -137,7 +139,7 @@ Welcome to **PropEase**, a platform designed to seamlessly connect property owne
 4. Create an `.env` file and configure the following:
    ```env
    NEXT_PUBLIC_ENDPOINT="https://cloud.appwrite.io/v1"
-   NEXT_PUBLIC_ENDPOINT=your_appwrite_endpoint
+   NEXT_PUBLIC_API_KEY=your_appwrite_api_key
    NEXT_PUBLIC_ProjectID=your_appwrite_project_id
    NEXT_PUBLIC_DATABASE_ID=your_database_id
    NEXT_PUBLIC_PROPERTY_COLLECTION=your_property_collection_id
@@ -164,12 +166,17 @@ Welcome to **PropEase**, a platform designed to seamlessly connect property owne
 ```
 PropEase
 ├── public        # Static assets
-├── src           # Main source code
+├── src
+│   ├── app        # Main source code
 │   ├── components # Reusable components
 │   ├── pages      # Application pages
 │   ├── hooks      # Custom React hooks
 │   ├── utils      # Helper functions
-│   ├── features   # Redux features
+│   ├── store      # Redux features
+│   ├── interfaces # Interfaces
+│   ├── constants  # Constants
+│   ├── schemas    # Appwrite schemas
+
 ├── styles        # Global and module CSS
 ├── README.md     # Project documentation
 ```
@@ -191,6 +198,6 @@ Contributions are welcome! If you'd like to contribute, please:
 
 For questions or support, feel free to reach out:
 
-- **LinkedIn**: [Ahmed Elmadany](https://www.linkedin.com/in/ahmed-ragab-elmadany-558a31209/)
+- **LinkedIn**: [Ahmed Elmadany](https://www.linkedin.com/in/ahmed-elmadany-558a31209/)
 - **Email**: ahmedkavo17@gmail.com
 - **GitHub**: [Ahmedragab24](https://github.com/Ahmedragab24)
