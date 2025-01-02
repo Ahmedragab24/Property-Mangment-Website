@@ -9,17 +9,13 @@
     "forceConsistentCasingInFileNames": true,
     "target": "ES6",
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-      "paths": {
+    "baseUrl": "./",
+    "paths": {
       "@/*": ["src/*"],
       "@/components/*": ["src/components/*"],
       "@/hooks/*": ["src/hooks/*"],
@@ -27,8 +23,12 @@
       "@/utils/*": ["src/utils/*"],
       "@/app/*": ["src/app/*"],
       "@/constants": ["src/constants"]
-      },
-    "baseUrl": "."
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
