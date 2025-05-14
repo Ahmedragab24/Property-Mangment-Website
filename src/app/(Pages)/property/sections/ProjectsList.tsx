@@ -103,6 +103,9 @@ const ProjectsList = () => {
   };
 
   //  Rendering Data
+
+  console.log(changeData);
+
   const RenderingData = () =>
     changeData.map((property: IProperty) => {
       const {
@@ -110,7 +113,7 @@ const ProjectsList = () => {
         title,
         locationName,
         city,
-        image: url,
+        image,
         price,
         date,
         room,
@@ -126,7 +129,7 @@ const ProjectsList = () => {
                   width={750}
                   height={400}
                   className="h-56 lg:h-64 md:h-36 object-cover object-center cursor-pointer duration-500 group-hover:scale-110"
-                  src={url || "/fallback-image.jpg"}
+                  src={image || "/fallback-image.jpg"}
                   alt="blog"
                   loading="lazy"
                 />

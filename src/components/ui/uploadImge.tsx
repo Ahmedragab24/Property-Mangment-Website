@@ -1,8 +1,9 @@
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 import { CloudUpload } from "lucide-react";
 import { Button } from "./button";
-import { storage } from "@/utils/appwrite/appwriteClient";
 import { useDispatch } from "react-redux";
 import {
   setSingleImage,
@@ -25,31 +26,40 @@ const UploadImages = ({ type }: ImageType) => {
   );
   const dispatch = useDispatch();
 
+  console.log(singleImageID, imageGroupIDs);
+
+  // Cloudinary configuration
+  const CLOUDINARY_URL = process.env.NEXT_PUBLIC_CLOUDINARY_URL!;
+  const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!;
+
+  const uploadToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const res = await fetch(CLOUDINARY_URL, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Cloudinary upload failed");
+
+    return res.json();
+  };
+
   const handleSingleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
-    if (file) {
-      try {
-        const response = await storage.createFile(
-          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
-          "unique()",
-          file
-        );
+    if (!file) return;
 
-        // الحصول على رابط المعاينة
-        const filePreview = storage.getFilePreview(
-          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
-          response.$id
-        );
-
-        // تخزين الرابط في Redux
-        setSingleImageState(filePreview);
-        dispatch(setSingleImage(filePreview));
-        dispatch(setSingleImageID(response.$id));
-      } catch (error) {
-        console.error("Error uploading single image:", error);
-      }
+    try {
+      const data = await uploadToCloudinary(file);
+      setSingleImageState(data.secure_url);
+      dispatch(setSingleImage(data.secure_url));
+      dispatch(setSingleImageID(data.public_id));
+    } catch (error) {
+      console.error("Error uploading single image:", error);
     }
   };
 
@@ -57,78 +67,45 @@ const UploadImages = ({ type }: ImageType) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const files = event.target.files;
-    if (files) {
+    if (!files) return;
+
+    const filePreviews: string[] = [];
+    const fileIDs: string[] = [];
+
+    for (const file of Array.from(files)) {
       try {
-        const filePreviews: string[] = [];
-        const fileIDs: string[] = [];
-
-        for (const file of Array.from(files)) {
-          const response = await storage.createFile(
-            `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
-            "unique()",
-            file
-          );
-
-          // الحصول على رابط المعاينة
-          const filePreview = storage.getFilePreview(
-            `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
-            response.$id
-          );
-
-          filePreviews.push(filePreview);
-          fileIDs.push(response.$id);
-        }
-
-        // تحديث Redux
-        setImageGroupState((prev) => [...prev, ...filePreviews]);
-        dispatch(setImageGroup(filePreviews));
-        dispatch(setImageGroupIDs(fileIDs));
+        const data = await uploadToCloudinary(file);
+        filePreviews.push(data.secure_url);
+        fileIDs.push(data.public_id);
       } catch (error) {
-        console.error("Error uploading images:", error);
+        console.error("Error uploading image in group:", error);
       }
     }
+
+    setImageGroupState((prev) => [...prev, ...filePreviews]);
+    dispatch(setImageGroup(filePreviews));
+    dispatch(setImageGroupIDs(fileIDs));
   };
 
-  const handleRemoveSingleImage = async () => {
-    try {
-      if (singleImageID) {
-        await storage.deleteFile(
-          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
-          singleImageID
-        );
-      }
-      setSingleImageState(null);
-      dispatch(clearSingleImage());
-    } catch (error) {
-      console.error("Error removing single image:", error);
-    }
+  const handleRemoveSingleImage = () => {
+    setSingleImageState(null);
+    dispatch(clearSingleImage());
   };
 
-  const handleRemoveGroupImage = async (index: number) => {
-    try {
-      const imageID = imageGroupIDs[index];
-      if (imageID) {
-        await storage.deleteFile(
-          `${process.env.NEXT_PUBLIC_BUCKET_ID}`,
-          imageID
-        );
-      }
-      const updatedImages = imageGroup.filter((_, i) => i !== index);
-      const updatedImageIDs = imageGroupIDs.filter((_, i) => i !== index);
+  const handleRemoveGroupImage = (index: number) => {
+    const updatedImages = imageGroup.filter((_, i) => i !== index);
+    const updatedImageIDs = imageGroupIDs.filter((_, i) => i !== index);
 
-      setImageGroupState(updatedImages);
-      dispatch(setImageGroup(updatedImages));
-      dispatch(setImageGroupIDs(updatedImageIDs));
-    } catch (error) {
-      console.error("Error removing group image:", error);
-    }
+    setImageGroupState(updatedImages);
+    dispatch(setImageGroup(updatedImages));
+    dispatch(setImageGroupIDs(updatedImageIDs));
   };
 
   return (
     <>
       {/* Single Image */}
       {type === "single" && (
-        <div className="w-full max-h-full ">
+        <div className="w-full max-h-full">
           <form className={`${singleImage ? "hidden" : "block"} py-20`}>
             <label htmlFor="file">
               <div className="flex flex-col items-center justify-center gap-1 cursor-pointer duration-300 hover:text-primary hover:scale-105">
@@ -145,7 +122,7 @@ const UploadImages = ({ type }: ImageType) => {
             </label>
           </form>
           {singleImage && (
-            <div className="h-full relative overflow-hidden p-4 ">
+            <div className="h-full relative overflow-hidden p-4">
               <Image
                 src={singleImage}
                 alt="Uploaded image"

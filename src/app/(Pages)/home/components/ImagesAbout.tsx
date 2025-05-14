@@ -49,7 +49,7 @@ const ImagesAbout = () => {
           height={385}
           alt="about"
           loading="lazy"
-          className="w-[220px] lg:w-fit  border-[.55rem] border-secondary"
+          className="w-[220px] lg:w-[280px] border-[.55rem] border-secondary"
           data-parallax-item
           data-parallax-speed="1.75"
         />

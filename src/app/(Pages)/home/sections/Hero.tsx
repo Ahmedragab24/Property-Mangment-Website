@@ -18,9 +18,9 @@ import {
 } from "@/store/features/heroNav/heroNavSlice";
 import { HeroSlider, HeroSocialLinks } from "@/constants";
 import FilteringButtons from "../components/FilteringButtons";
-import MotionLeft from "@/components/animations/MotionLeft"
-import MotionDown from "@/components/animations/MotionDown"
-import MotionFade from "@/components/animations/MotionFade"
+import MotionLeft from "@/components/animations/MotionLeft";
+import MotionDown from "@/components/animations/MotionDown";
+import MotionFade from "@/components/animations/MotionFade";
 
 const Hero = () => {
   const [showProperty, setShowProperty] = useState(false);
@@ -34,14 +34,13 @@ const Hero = () => {
       setShowProperty(isScrolled);
       dispatch(setColorNavLink(!isScrolled));
     };
-  
+
     window.addEventListener("scroll", handleScroll);
-  
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [dispatch]);
-  
 
   return (
     <section className={`hero relative ${showProperty ? "mb-0" : "mb-20"}`}>
